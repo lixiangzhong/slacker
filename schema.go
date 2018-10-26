@@ -36,6 +36,7 @@ func Tables(dbname string) (tables []Table) {
 			log.Error(err)
 			continue
 		}
+		table.ShowCreateTable()
 		tables = append(tables, table)
 	}
 	return

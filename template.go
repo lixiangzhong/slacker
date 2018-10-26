@@ -1,6 +1,7 @@
 package slacker
 
 import (
+	"dns.com/log"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
 	"path"
@@ -15,8 +16,9 @@ type TemplateData struct {
 }
 
 type Table struct {
-	Name    string
-	Columns []Column
+	Name           string
+	CreateTableSQL string
+	Columns        []Column
 }
 
 //首字母
@@ -81,6 +83,23 @@ func (t Table) SwitchCase() string {
 
 func (t Table) ImportLibrary(dir string) string {
 	return path.Join(ProjectPath(), dir)
+}
+
+func (t *Table) ShowCreateTable() {
+	err := db.QueryRow("show create table "+t.Name).Scan(&t.Name, &t.CreateTableSQL)
+	if err != nil {
+		log.Error(err)
+		return
+	}
+	t.CreateTableSQL = strings.Replace(t.CreateTableSQL, "CREATE TABLE", "CREATE TABLE IF NOT EXISTS", 1)
+	fields := strings.Fields(t.CreateTableSQL)
+	for i, v := range fields {
+		if strings.Contains(v, "AUTO_INCREMENT=") {
+			fields[i] = ""
+			break
+		}
+	}
+	t.CreateTableSQL = strings.Join(fields, " ")
 }
 
 type Column struct {

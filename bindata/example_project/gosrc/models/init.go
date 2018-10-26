@@ -10,6 +10,7 @@ import (
 	"net"
 	"strings"
 	"time"
+	"{{.ProjectPath}}/gosrc/bindata"
 )
 
 const (
@@ -38,6 +39,8 @@ func initdb() {
 	db, err = sqlx.Connect("mysql", cfg.FormatDSN())
 	if err != nil {
 		log.Error(err)
+	}else{
+		CreateTable()
 	}
 	if ini.Bool("mysql", "unsafe") {
 		db = db.Unsafe()
@@ -85,4 +88,20 @@ func initValidator() {
 		}
 		return utils.Domain.Valid(s)
 	})
+}
+
+
+func CreateTable()  {
+	var tables=[]string{
+		{{range $i,$v:=.Tables}}"{{$v.Name}}.sql",{{end}}
+	}
+ for _, table := range tables {
+	 sql:=string(bindata.MustAsset(table))
+	 if strings.TrimSpace(sql)!=""{
+		 _,err:=db.Exec(sql)
+		 if err != nil {
+			 log.Error(err)
+		 }
+	 }
+ }
 }

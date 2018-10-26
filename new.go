@@ -2,6 +2,7 @@ package slacker
 
 import (
 	"fmt"
+	gobindata "github.com/go-bindata/go-bindata"
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/lixiangzhong/slacker/bindata"
@@ -52,13 +53,26 @@ func New() cli.Command {
 			if err := bindata.Restore(tpldata); err != nil {
 				return cli.NewExitError(err, 1)
 			}
+			cfg := gobindata.NewConfig()
+			cfg.Package = "bindata"
 			for _, table := range tables {
 				table.ExecTemplate("m")
 				table.ExecTemplate("v")
 				table.ExecTemplate("c")
 				table.ExecTemplate("js")
-				// table.ExecTemplate("sql")
+				table.ExecTemplate("sql")
+
+				cfg.Input = append(cfg.Input, gobindata.InputConfig{
+					Path: fmt.Sprintf("%v.sql", table.Name),
+				})
 			}
+			if err := os.Chdir("gosrc/bindata"); err != nil {
+				return cli.NewExitError(err, 1)
+			}
+			if err := gobindata.Translate(cfg); err != nil {
+				return cli.NewExitError(err, 1)
+			}
+
 			fmt.Printf("\nProject %v Successfully Created !!!\n\n", projectname)
 			fmt.Println("Install npm dependency packages:")
 			fmt.Println("\tcd", projectname)
