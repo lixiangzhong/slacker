@@ -6,15 +6,11 @@
                 <span>管理</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item index="/admin/ip">
-                    IP
+                {{range $i,$v:=.Tables}}
+                <el-menu-item index="/admin/{{$v.LowerName}}">
+                    {{$v.CamelCaseName}}
                 </el-menu-item>
-                <el-menu-item index="/admin/ns">
-                    NS组
-                </el-menu-item>
-                <el-menu-item index="/admin/position">
-                    机房
-                </el-menu-item>
+                {{end}}
             </el-menu-item-group>
         </el-submenu>
     </el-menu>

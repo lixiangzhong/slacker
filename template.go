@@ -3,6 +3,7 @@ package slacker
 import (
 	"fmt"
 	"github.com/go-sql-driver/mysql"
+	"path"
 	"strings"
 )
 
@@ -76,6 +77,10 @@ func (t Table) SwitchCase() string {
 		fields = append(fields, fmt.Sprintf(`"%v"`, col.ColumnName))
 	}
 	return strings.Join(fields, ",")
+}
+
+func (t Table) ImportLibrary(dir string) string {
+	return path.Join(ProjectPath(), dir)
 }
 
 type Column struct {

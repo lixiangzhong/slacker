@@ -19,19 +19,11 @@ export default new Router({
     path: "/admin",
     name: "Admin",
     component: Layout,
-    redirect: '/admin/ip',
-    children: [{
-      path: 'ip',
+    {{range $i,$v:=.Tables}}{{if eq $i 0}}redirect: '/admin/{{$v.LowerName}}',{{end}}{{end}}
+    children: [{{range $i,$v:=.Tables}}{{if gt $i 0}},{{end}}{
+      path: '{{$v.LowerName}}',
       component: () =>
-        import ('@/views/IP'),
-    }, {
-      path: 'ns',
-      component: () =>
-        import ('@/views/Ns'),
-    }, {
-      path: 'position',
-      component: () =>
-        import ('@/views/Position'),
-    }]
+        import ('@/views/{{$v.CamelCaseName}}'),
+    }{{end}}]
   }]
 })
