@@ -13,6 +13,5 @@ func main() {
 		slacker.New(),
 		slacker.Add(),
 	}
-
 	app.Run(os.Args)
 }
