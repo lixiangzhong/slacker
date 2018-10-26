@@ -42,34 +42,43 @@ func Tables(dbname string) (tables []Table) {
 	return
 }
 
-func (t Table) ExecTemplate(mvc string) {
-	var dir string
+func (t Table) ExecTemplate(mvc string, dir string) {
 	var filename string
 	var tpl = new(template.Template)
 	var b []byte
 	var formatter func([]byte) ([]byte, error)
 	switch mvc {
 	case "m", "models":
-		dir = "gosrc/models"
+		if dir == MVCDefaultDir {
+			dir = "gosrc/models"
+		}
 		filename = fmt.Sprintf("%v.go", t.Name)
 		b = mvctemplate.MustAsset("models.tpl")
 		formatter = gofmt
 	case "c", "controller":
-		dir = "gosrc/controllers"
+		if dir == MVCDefaultDir {
+			dir = "gosrc/controllers"
+		}
 		filename = fmt.Sprintf("%v.go", t.Name)
 		b = mvctemplate.MustAsset("controllers.tpl")
 		formatter = gofmt
 	case "v", "vue", "view":
-		dir = "src/views"
+		if dir == MVCDefaultDir {
+			dir = "src/views"
+		}
 		filename = fmt.Sprintf("%v.vue", t.CamelCaseName())
 		b = mvctemplate.MustAsset("vue.tpl")
 		formatter = vuedelims
 	case "js":
-		dir = "src/api"
+		if dir == MVCDefaultDir {
+			dir = "src/api"
+		}
 		filename = fmt.Sprintf("%v.js", t.Name)
 		b = mvctemplate.MustAsset("js.tpl")
 	case "sql":
-		dir = "gosrc/bindata"
+		if dir == MVCDefaultDir {
+			dir = "gosrc/bindata"
+		}
 		filename = fmt.Sprintf("%v.sql", t.Name)
 		b = mvctemplate.MustAsset("sql.tpl")
 	}

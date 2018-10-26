@@ -11,6 +11,7 @@ func main() {
 
 	app.Commands = []cli.Command{
 		slacker.New(),
+		slacker.Add(),
 	}
 
 	app.Run(os.Args)

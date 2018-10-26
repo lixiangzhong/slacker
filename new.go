@@ -20,10 +20,10 @@ func New() cli.Command {
 		Name:  "new",
 		Usage: "create new project",
 		Flags: []cli.Flag{
-			DBAddrFlags,
-			DBUserFlags,
-			DBPasswdFlags,
-			DBNameFlags,
+			DBAddrFlag,
+			DBUserFlag,
+			DBPasswdFlag,
+			DBNameFlag,
 		},
 		Action: func(c *cli.Context) error {
 			projectname := c.Args().First()
@@ -56,11 +56,11 @@ func New() cli.Command {
 			cfg := gobindata.NewConfig()
 			cfg.Package = "bindata"
 			for _, table := range tables {
-				table.ExecTemplate("m")
-				table.ExecTemplate("v")
-				table.ExecTemplate("c")
-				table.ExecTemplate("js")
-				table.ExecTemplate("sql")
+				table.ExecTemplate("m", MVCDefaultDir)
+				table.ExecTemplate("v", MVCDefaultDir)
+				table.ExecTemplate("c", MVCDefaultDir)
+				table.ExecTemplate("js", MVCDefaultDir)
+				table.ExecTemplate("sql", MVCDefaultDir)
 
 				cfg.Input = append(cfg.Input, gobindata.InputConfig{
 					Path: fmt.Sprintf("%v.sql", table.Name),
