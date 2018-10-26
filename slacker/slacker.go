@@ -8,7 +8,7 @@ import (
 
 func main() {
 	app := cli.NewApp()
-
+	app.Usage = "一键生成后台管理项目"
 	app.Commands = []cli.Command{
 		slacker.New(),
 		slacker.Add(),

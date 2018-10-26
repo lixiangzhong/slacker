@@ -7,6 +7,31 @@ go install
 ```
 
 ------
+ 
+
+```sh
+slacker #运行
+```
+```sh
+NAME:
+   slacker - 一键生成后台管理项目
+
+USAGE:
+   slacker [global options] command [command options] [arguments...]
+
+VERSION:
+   0.0.0
+
+COMMANDS:
+     new      create new project
+     add      add table
+     help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h     show help
+   --version, -v  print the version
+
+```
 
 ## 新建项目
 ```sh
