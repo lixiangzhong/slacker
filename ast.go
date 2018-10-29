@@ -66,7 +66,10 @@ func addTable(table string) astutil.ApplyFunc {
 				if !ok {
 					continue
 				}
-				gd := ds.Decl.(*ast.GenDecl)
+				gd, ok := ds.Decl.(*ast.GenDecl)
+				if !ok {
+					continue
+				}
 				for _, spec := range gd.Specs {
 					vspec, ok := spec.(*ast.ValueSpec)
 					if !ok {
