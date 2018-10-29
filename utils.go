@@ -53,7 +53,7 @@ func ReBindata(dir string, suffix string) {
 	if dir == MVCDefaultDir {
 		dir = "gosrc/bindata/"
 	}
-	fmt.Println("Re go-bindata...")
+	fmt.Printf("go-bindata *.%v\n", suffix)
 	cfg := gobindata.NewConfig()
 	cfg.Output = filepath.Join(dir, "bindata.go")
 	cfg.Package = "bindata"
