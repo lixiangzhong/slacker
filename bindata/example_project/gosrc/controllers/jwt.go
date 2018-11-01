@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"{{.ProjectPath}}/gosrc/app"
-	"dns.com/ini"
+	"github.com/lixiangzhong/config"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -29,8 +29,10 @@ func GetToken(c *gin.Context) {
 		c.JSON(http.StatusOK, JSON.InValidCaptcha())
 		return
 	}
-	username := ini.DefaultString("auth", "admin", "admin")
-	password := ini.DefaultString("auth", "password", "admin")
+	config.SetDefault("auth.admin", "admin")
+	config.SetDefault("auth.password","admin")
+	username := config.String("auth.admin")
+	password := config.String("auth.password")
 	if username != t.Username {
 		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
 		return

@@ -2,13 +2,13 @@ package app
 
 import (
 	"crypto/md5"
-	"dns.com/ini"
 	"encoding/hex"
 	"flag"
 	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	"github.com/lixiangzhong/config"
 	"github.com/lixiangzhong/log"
 	"github.com/lixiangzhong/rotatefile"
 	"net"
@@ -46,13 +46,15 @@ func initFlag() {
 }
 
 func initCfg() {
-	ini.Load(configFileName)
-	JWTExpireIn = ini.Int64("jwt", "expirein")
+	config.MustLoad(configFileName)
+	JWTExpireIn = config.Int64("jwt.expirein")
 	JWTSecret += hostSecret()
+	config.SetDefault("meta.logo", "{{.ProjectName}}")
+	config.SetDefault("meta.title", "{{.ProjectName}}")
 }
 
 func initEngine() {
-	if ini.Bool("gin", "debug") {
+	if config.Bool("gin.debug") {
 		Engine = gin.Default()
 	} else {
 		gin.SetMode(gin.ReleaseMode)
@@ -60,10 +62,10 @@ func initEngine() {
 		Engine.Use(gin.Recovery())
 		Engine.Use(Logger())
 	}
-	if ini.Bool("gin", "gzip") {
+	if config.Bool("gin.gzip") {
 		Engine.Use(gzip.Gzip(gzip.DefaultCompression))
 	}
-	if ini.Bool("cors", "enable") {
+	if config.Bool("cors.enable") {
 		Engine.Use(cors.New(cors.Config{
 			AllowOriginFunc:  func(origin string) bool { return true },
 			AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
@@ -84,8 +86,8 @@ func initEngine() {
 }
 
 func Run() {
-	port := ini.String("gin", "port")
-	if !ini.Bool("gin", "debug") {
+	port := config.String("gin.port")
+	if !config.Bool("gin.debug") {
 		log.Println("listen", port)
 	}
 	Engine.Run(port)

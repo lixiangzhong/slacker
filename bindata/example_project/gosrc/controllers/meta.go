@@ -1,14 +1,14 @@
 package controllers
 
 import (
-	"dns.com/ini"
+	"github.com/lixiangzhong/config"
 	"{{.ProjectPath}}/gosrc/app"
 	"github.com/gin-gonic/gin"
 )
 
 func Meta(c *gin.Context) {
-	logo := ini.DefaultString("meta", "logo", "{{.ProjectName}}")
-	title := ini.DefaultString("meta", "title", "{{.ProjectName}}")
+	logo := config.String("meta.log")
+	title := config.String("meta.title")
 	c.JSON(200, JSON.OK(gin.H{
 		"logo":       logo,
 		"title":      title,

@@ -1,7 +1,7 @@
 package models
 
 import (
-	"dns.com/ini"
+	"github.com/lixiangzhong/config"
 	"github.com/lixiangzhong/log"
 	"dns.com/utils"
 	valid "github.com/asaskevich/govalidator"
@@ -28,21 +28,13 @@ func init() {
 
 func initdb() {
 	var err error
-	var cfg = mysql.NewConfig()
-	cfg.Addr = ini.String("mysql", "host")
-	cfg.User = ini.String("mysql", "user")
-	cfg.Passwd = ini.String("mysql", "password")
-	cfg.DBName = ini.String("mysql", "db")
-	cfg.ParseTime = true
-	cfg.Loc = time.Local
-	cfg.Net = "tcp"
-	db, err = sqlx.Connect("mysql", cfg.FormatDSN())
+	db, err = sqlx.Connect("mysql", config.MySQLConfig("mysql").FormatDSN())
 	if err != nil {
 		log.Error(err)
 	}else{
 		CreateTable()
 	}
-	if ini.Bool("mysql", "unsafe") {
+	if config.Bool("mysql.unsafe") {
 		db = db.Unsafe()
 	}
 	go func() {
