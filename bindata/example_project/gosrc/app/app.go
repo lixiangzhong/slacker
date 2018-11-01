@@ -3,13 +3,14 @@ package app
 import (
 	"crypto/md5"
 	"dns.com/ini"
-	"dns.com/log"
 	"encoding/hex"
 	"flag"
 	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	"github.com/lixiangzhong/log"
+	"github.com/lixiangzhong/rotatefile"
 	"net"
 	"os"
 	"time"
@@ -85,17 +86,16 @@ func initEngine() {
 func Run() {
 	port := ini.String("gin", "port")
 	if !ini.Bool("gin", "debug") {
-		log.Info("listen", port)
+		log.Println("listen", port)
 	}
 	Engine.Run(port)
 }
 
 func Logger() gin.HandlerFunc {
-	log.Config.FileName = "access.log"
-	log.Config.Daily = true
-	log.Config.Rotate = true
-	log.Config.MaxDays = 3
-	log.Config.Apply()
+	log.Set(func(info, err, debug log.LoggerSetter) {
+		info.SetOutput(rotatefile.New("access.log", 3, true))
+		err.SetOutput(rotatefile.New("error.log", 7, true))
+	})
 	return func(c *gin.Context) {
 		start := time.Now()
 		path := c.Request.URL.Path

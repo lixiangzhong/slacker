@@ -2,7 +2,7 @@ package models
 
 import (
 	"dns.com/ini"
-	"dns.com/log"
+	"github.com/lixiangzhong/log"
 	"dns.com/utils"
 	valid "github.com/asaskevich/govalidator"
 	"github.com/go-sql-driver/mysql"

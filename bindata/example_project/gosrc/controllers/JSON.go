@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"dns.com/log"
 	"fmt"
+	"github.com/lixiangzhong/log"
 )
 
 var JSON ResponseJSON
