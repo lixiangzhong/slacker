@@ -1,5 +1,6 @@
 # 安装
 ```sh
+mkdir $GOPATH/github.com/lixiangzhong -p
 cd $GOPATH/github.com/lixiangzhong
 git clone git@d.dns.com:lixz/slacker.git
 cd $GOPATH/github.com/lixiangzhong/slacker/slacker
@@ -20,7 +21,7 @@ USAGE:
    slacker [global options] command [command options] [arguments...]
 
 VERSION:
-   0.0.0
+   1.0.0
 
 COMMANDS:
      new      create new project
