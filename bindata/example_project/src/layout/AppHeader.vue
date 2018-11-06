@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu mode="horizontal" router background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-      <el-menu-item index="/" style="text-align:center;width:200px">
+      <el-menu-item index="/" style="text-align:center">
         <b class="logo">
           {vue meta.logo vue}
         </b>
