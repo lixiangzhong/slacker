@@ -7,6 +7,8 @@
         </b>
       </el-menu-item>
       <el-menu-item class="pull-right" index="/logout">
+        <b>{{username}}</b>
+        &nbsp; &nbsp; &nbsp;
         <b>退出登录</b>
       </el-menu-item>
     </el-menu>
@@ -34,6 +36,11 @@
             document.title = this.meta.title;
           })
           .catch(err => {});
+      }
+    },
+    computed: {
+      username() {
+        return this.$store.state.username;
       }
     },
     created() {

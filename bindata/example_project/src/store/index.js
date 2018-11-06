@@ -8,11 +8,15 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     token: cookie.getToken(),
+    username: cookie.Get("username"),
   },
   mutations: {
     SetToken(state, token) {
       state.token = token
     },
+    SetUsername(state, name) {
+      state.username = name
+    }
   },
   actions: {
     // 登录
@@ -23,7 +27,9 @@ const store = new Vuex.Store({
         loginapi.getToken(userInfo).then(response => {
           const data = response.data
           cookie.setToken(data.token)
+          cookie.Set("username", userInfo.username)
           commit('SetToken', data.token)
+          commit('SetUsername', userInfo.username)
           resolve()
         }).catch(error => {
           reject(error)
@@ -36,7 +42,9 @@ const store = new Vuex.Store({
     }) {
       return new Promise(resolve => {
         commit('SetToken', '')
+        commit('SetUsername', '')
         cookie.removeToken()
+        cookie.Del("username")
         resolve()
       })
     }
