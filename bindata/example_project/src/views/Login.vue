@@ -1,6 +1,9 @@
 <template>
   <div class="wrap">
+    <div class="center">
 
+      <p class="header">{vue meta.logo vue}</p>
+    </div>
     <el-card class="center">
       <div slot="header">
         <span>登录</span>
@@ -46,6 +49,9 @@
           captcha_id: "",
           captcha_value: ""
         },
+        meta: {
+          logo: ""
+        },
         captcha_data: ""
       };
     },
@@ -78,6 +84,7 @@
           .Get()
           .then(rsp => {
             document.title = rsp.data.title;
+            this.meta = rsp.data;
           })
           .catch(err => {});
       }
@@ -99,13 +106,19 @@
 
   .center {
     position: relative;
-    top: -250px;
+    top: -280px;
     width: 400px;
     margin: 0px auto;
   }
 
   .captcha:hover {
     cursor: pointer;
+  }
+
+  .header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
   }
 </style>
 
