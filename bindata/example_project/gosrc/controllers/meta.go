@@ -7,7 +7,7 @@ import (
 )
 
 func Meta(c *gin.Context) {
-	logo := config.String("meta.log")
+	logo := config.String("meta.logo")
 	title := config.String("meta.title")
 	c.JSON(200, JSON.OK(gin.H{
 		"logo":       logo,
