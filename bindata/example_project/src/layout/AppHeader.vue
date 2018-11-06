@@ -7,7 +7,7 @@
         </b>
       </el-menu-item>
       <el-menu-item class="pull-right" index="/logout">
-        <b>{{username}}</b>
+        <b>{vue username vue}</b>
         &nbsp; &nbsp; &nbsp;
         <b>退出登录</b>
       </el-menu-item>
