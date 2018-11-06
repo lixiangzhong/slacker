@@ -1,7 +1,7 @@
 gin:
   port: :6060
   debug: true
-  gzip: false
+  gzip: true
 
 jwt:
   expirein: 86400 
