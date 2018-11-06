@@ -12,7 +12,7 @@ cors:
 mysql:
   host: {{.MysqlConfig.Addr}}
   user: {{.MysqlConfig.User}}
-  password: {{.MysqlConfig.Passwd}}
+  password: "{{.MysqlConfig.Passwd}}"
   db: {{.MysqlConfig.DBName}}
 
 meta:

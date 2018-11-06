@@ -33,7 +33,7 @@ func init() {
 }
 
 func initFlag() {
-	flag.StringVar(&configFileName, "c", "config.ini", "指定配置文件")
+	flag.StringVar(&configFileName, "c", "config.yaml", "指定配置文件")
 	var printverion bool
 	flag.BoolVar(&printverion, "v", false, "查看版本号")
 	flag.Parse()
