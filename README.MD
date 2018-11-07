@@ -1,9 +1,9 @@
 # 安装
 ```sh
-mkdir $GOPATH/github.com/lixiangzhong -p
-cd $GOPATH/github.com/lixiangzhong
+mkdir $GOPATH/src/github.com/lixiangzhong -p
+cd $GOPATH/src/github.com/lixiangzhong
 git clone git@d.dns.com:lixz/slacker.git
-cd $GOPATH/github.com/lixiangzhong/slacker/slacker
+cd $GOPATH/src/github.com/lixiangzhong/slacker/slacker
 go install
 ```
 
