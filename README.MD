@@ -48,7 +48,7 @@ slacker new <appname>
 ### 示例
 
 ```sh
-slacker new app1
+slacker new app1 -addr=127.0.0.1:3306 -user=root -passwd=123456  -db=tablename
 ```
 ------
 
