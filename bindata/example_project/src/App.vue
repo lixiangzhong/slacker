@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -35,7 +35,7 @@
   }
 
   .pagination {
-    padding-top: 20px;
+    padding-top: 20px !important;
   }
 
   .card-button {
@@ -58,8 +58,8 @@
   }
 
   /* .el-card__header > div > form.el-form.el-form--inline {
-        display: inline;
-      } */
+          display: inline;
+        } */
 
   form.el-form.el-form--inline {
     display: inline;
