@@ -649,7 +649,7 @@ func gosrcModelsInitGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/models/init.go", size: 1664, mode: os.FileMode(420), modTime: time.Unix(1541052792, 0)}
+	info := bindataFileInfo{name: "gosrc/models/init.go", size: 1664, mode: os.FileMode(420), modTime: time.Unix(1541561351, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

@@ -14,6 +14,7 @@
       <el-button @click="importfile.visible=true" round type="primary" class="card-button"><i class="el-icon-upload2"></i>导入表格</el-button>
       <el-button @click="Export" type="primary" round class="card-button"><i class="el-icon-download"></i>导出表格</el-button>
       <el-button @click="create.visible = true" type="primary" round class="card-button" icon="el-icon-plus">添加</el-button>
+      <div style="clear:both"></div>
     </div>
     <el-table :data="table.data" style="width: 100%" @selection-change="SelectionChange" v-loading="table.loading">
       <el-table-column type="selection" width="55">
