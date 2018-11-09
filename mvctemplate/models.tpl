@@ -42,72 +42,23 @@ func ({{.Initials}} {{.CamelCaseName}}) List(offset,limit uint64) ([]{{.CamelCas
     return data,total,err
 }
 
-func ({{.Initials}} {{.CamelCaseName}})Delete()error{
-	{{range $i,$col:=.Columns}}
-		{{if eq $col.Type "int64"}}
-			{{if Contains $col.ColumnName "time"}}
-				{{$.Initials}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-			{{if Contains $col.ColumnName "update"}}
-				{{$.Initials}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-		{{end}}
-			{{if eq $col.Type "time.Time"}}
-			{{$.Initials}}.{{$col.CamelCaseName}}=time.Now()
-		{{end}}
-	{{end}}
-
-	{{if Contains .SwitchCase "utime"}}
-		{{if Contains $.SwitchCase "state"}}
-  _,err := db.Exec("update {{$.Name}} set state=?,utime=? where {{$.PrimaryKeyColumn.ColumnName}}=?",StateDel,time.Now().Unix(),{{$.Initials}}.{{$.PrimaryKeyColumn.CamelCaseName}})
-		{{else}}
-		//_,err := db.Exec("delete from {{$.Name}} where {{.PrimaryKeyColumn.ColumnName}}=?",{{$.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}})
-		  _,err := db.Exec("update {{$.Name}} set utime=? where {{$.PrimaryKeyColumn.ColumnName}}=?",time.Now().Unix(),{{$.Initials}}.{{$.PrimaryKeyColumn.CamelCaseName}})
-		{{end}}
-	{{else}}
-	    _,err := db.Exec("delete from {{$.Name}} where {{.PrimaryKeyColumn.ColumnName}}=?",{{$.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}})
-	{{end}}
-    return err
-}
+{{.MethodDelete}}
 
 func ({{.Initials}} {{.CamelCaseName}}) Update() error {
-	{{range $i,$col:=.Columns}}
-		{{if eq $col.Type "int64"}}
-			{{if Contains $col.ColumnName "time"}}
-				{{$.Initials}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-			{{if Contains $col.ColumnName "update"}}
-				{{$.Initials}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-		{{end}}
-			{{if eq $col.Type "time.Time"}}
-			{{$.Initials}}.{{$col.CamelCaseName}}=time.Now()
-		{{end}}
-	{{end}}
+	 {{.Initials | .AutomaticUpdateExpression}}
+
     _,err := db.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",{{.Initials}})
     return err
 }
 
 func ({{.Initials}} {{.CamelCaseName}}) Patch( update map[string]interface{}) error {
-	{{range $i,$col:=.Columns}}
-		{{if eq $col.Type "int64"}}
-			{{if Contains $col.ColumnName "time"}}
-				update["{{$col.ColumnName}}"]=time.Now().Unix()
-			{{end}}
-			{{if Contains $col.ColumnName "update"}}
-				update["{{$col.ColumnName}}"]=time.Now().Unix()
-			{{end}}
-		{{end}} 
+  {{.AutomaticUpdateMapExpression}}
 
-		{{if eq $col.Type "time.Time"}}
-			update["{{$col.ColumnName}}"]=time.Now()
-		{{end}}
-	{{end}} 
 	var named []string
 	for k := range update {
 		switch k {
 	   case {{.SwitchCase}}:
-			named = append(named, fmt.Sprintf("%s=:%s", k, k))
+			named = append(named, fmt.Sprintf("`%s`=:%s", k, k))
 		}
 	}
 	if len(named) == 0 {
@@ -120,32 +71,10 @@ func ({{.Initials}} {{.CamelCaseName}}) Patch( update map[string]interface{}) er
 }
 
 
-func ({{.Initials}} {{.CamelCaseName}}) Take() ({{.CamelCaseName}},error) {
-	{{if Contains .SwitchCase "state"}}
-	 err:=db.Get(&{{.Initials}},"select * from {{.Name}} where {{.PrimaryKeyColumn.ColumnName}}=? and state!=? limit 1",{{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}},StateDel)
-	{{else}}
-    err:=db.Get(&{{.Initials}},"select * from {{.Name}} where {{.PrimaryKeyColumn.ColumnName}}=? limit 1",{{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}})
-	{{end}}
-    return {{.Initials}},err
-}
-
+	{{.MethodTake}}
+ 
 func ({{.Initials}} {{.CamelCaseName}}) Create()({{.CamelCaseName}}, error ){
-	{{range $i,$col:=.Columns}}
-		{{if eq $col.Type "int64"}}
-			{{if Contains $col.ColumnName "time"}}
-				{{$.Initials}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-			{{if Contains $col.ColumnName "update"}}
-				{{$.Initials}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-		{{end}}
-		{{if eq $col.ColumnName "state"}}
-			{{$.Initials}}.{{$col.CamelCaseName}}=StateOK
-		{{end}}
-		{{if eq $col.Type "time.Time"}}
-			{{$.Initials}}.{{$col.CamelCaseName}}=time.Now()
-		{{end}}
-	{{end}} 
+ 	{{.Initials | .AutomaticUpdateExpression}}
     result,err := db.NamedExec("insert into {{.Name}} set {{.NamedSQL}}",{{.Initials}})
 	if err!=nil{
 		return {{.Initials}},err
@@ -160,19 +89,7 @@ func ({{.Initials}} {{.CamelCaseName}}) BatchUpdate(ids []int64) error {
 		tx.Rollback()
 		return err
 	}
-	{{range $i,$col:=.Columns}}
-		{{if eq $col.Type "int64"}}
-			{{if Contains $col.ColumnName "time"}}
-				{{$.Initials}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-			{{if Contains $col.ColumnName "update"}}
-				{{$.Initials}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-		{{end}} 
-		{{if eq $col.Type "time.Time"}}
-			{{$.Initials}}.{{$col.CamelCaseName}}=time.Now()
-		{{end}}
-	{{end}} 
+	{{ .Initials | .AutomaticUpdateExpression}}
 	for _, id := range ids { 
 		{{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}}=id
 		_, err := tx.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",{{.Initials}})
@@ -189,19 +106,7 @@ func ({{.Initials}} {{.CamelCaseName}}) BatchUpdate(ids []int64) error {
 }
 
 func (_ {{.CamelCaseName}}) BatchPatch(ids []int64, update map[string]interface{}) error {
-	{{range $i,$col:=.Columns}}
-		{{if eq $col.Type "int64"}}
-			{{if Contains $col.ColumnName "time"}}
-				update["{{$col.ColumnName}}"]=time.Now().Unix()
-			{{end}}
-			{{if Contains $col.ColumnName "update"}}
-				update["{{$col.ColumnName}}"]=time.Now().Unix()
-			{{end}}
-		{{end}}
-		{{if eq $col.Type "time.Time"}}
-			update["{{$col.ColumnName}}"]=time.Now().Unix()
-		{{end}}
-	{{end}} 
+	{{.AutomaticUpdateMapExpression}}
 	var named []string
 	for k := range update {
 		switch k {
@@ -249,19 +154,7 @@ func (_ {{.CamelCaseName}}) BatchCreate({{.LowerName}}s []{{.CamelCaseName}}) er
 	} 
 	defer stmt.Close()
 	for _, {{.LowerName}} := range {{.LowerName}}s { 
-	{{range $i,$col:=$.Columns}}
-		{{if eq $col.Type "int64"}}
-			{{if Contains $col.ColumnName "time"}}
-				{{$.LowerName}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-			{{if Contains $col.ColumnName "update"}}
-				{{$.LowerName}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-		{{end}}
-		{{if eq $col.Type "time.Time"}}
-			{{$.LowerName}}.{{$col.CamelCaseName}}=time.Now()
-		{{end}}
-	{{end}} 
+ 	{{.LowerName | .AutomaticUpdateExpression}}
 		_, err := stmt.Exec({{.LowerName}})
 		if err != nil {
 			tx.Rollback()
@@ -327,19 +220,7 @@ func (_ {{.CamelCaseName}}) Import({{.LowerName}}s []{{.CamelCaseName}}) error {
 
 
 	for _, {{.LowerName}} := range {{.LowerName}}s { 
-	{{range $i,$col:=$.Columns}}
-		{{if eq $col.Type "int64"}}
-			{{if Contains $col.ColumnName "time"}}
-				{{$.LowerName}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-			{{if Contains $col.ColumnName "update"}}
-				{{$.LowerName}}.{{$col.CamelCaseName}}=time.Now().Unix()
-			{{end}}
-		{{end}} 
-		{{if eq $col.Type "time.Time"}}
-				{{$.LowerName}}.{{$col.CamelCaseName}}=time.Now()
-		{{end}}
-	{{end}} 
+ 	{{.LowerName | .AutomaticUpdateExpression}}
 		_, err := stmt.Exec({{.LowerName}})
 		if err != nil {
 			tx.Rollback()

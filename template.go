@@ -23,7 +23,7 @@ type Table struct {
 
 //首字母
 func (t Table) Initials() string {
-	return string(t.Name[0])
+	return strings.ToLower(string(t.Name[0]))
 }
 
 func (t Table) CamelCaseName() string {
@@ -41,6 +41,15 @@ func (t Table) PrimaryKeyColumn() Column {
 		}
 	}
 	return Column{ColumnName: "id"}
+}
+
+func (t Table) StateColumn() Column {
+	for _, col := range t.Columns {
+		if StringInSlice(col.ColumnName, StateFields) {
+			return col
+		}
+	}
+	return Column{ColumnName: "state"}
 }
 
 func (t Table) SQLColumns() string {
@@ -68,7 +77,7 @@ func (t Table) NamedSQL() string {
 		if col.ColumnName == "id" || col.IsPrimaryKey() {
 			continue
 		}
-		fields = append(fields, fmt.Sprintf("%v=:%v", col.ColumnName, col.ColumnName))
+		fields = append(fields, fmt.Sprintf("%v=:%v", Quote(col.ColumnName), col.ColumnName))
 	}
 	return strings.Join(fields, ",")
 }
@@ -102,6 +111,117 @@ func (t *Table) ShowCreateTable() {
 	t.CreateTableSQL = strings.Join(fields, " ")
 }
 
+func (t Table) AutomaticUpdateExpression(obj string) string {
+	var exp string
+	for _, col := range t.Columns {
+		if StringInSlice(col.ColumnName, AutoAssignUpdateFields) {
+			switch {
+			case col.Type() == "time.Time":
+				exp += fmt.Sprintf("%v.%v = %v\n", obj, col.CamelCaseName(), "timeNow")
+			case strings.Contains(col.Type(), "int"):
+				exp += fmt.Sprintf("%v.%v = %v\n", obj, col.CamelCaseName(), "timeNow.Unix()")
+			}
+		}
+	}
+	if exp != "" {
+		exp = "var timeNow = time.Now()\n" + exp
+	}
+	return exp
+}
+
+func (t Table) AutomaticUpdateMapExpression() string {
+	var exp string
+	for _, col := range t.Columns {
+		if StringInSlice(col.ColumnName, AutoAssignUpdateFields) {
+			switch {
+			case col.Type() == "time.Time":
+				exp += fmt.Sprintf(`update["%v"] = %v`, col.ColumnName, "timeNow\n")
+			case strings.Contains(col.Type(), "int"):
+				exp += fmt.Sprintf(`update["%v"] = %v`, col.ColumnName, "timeNow.Unix()\n")
+			}
+		}
+	}
+	if exp != "" {
+		exp = "var timeNow = time.Now()\n" + exp
+	}
+	return exp
+}
+
+func (t Table) HasStateColumn() bool {
+	for _, col := range t.Columns {
+		if StringInSlice(col.ColumnName, StateFields) {
+			return true
+		}
+	}
+	return false
+}
+
+func (t Table) MethodTake() string {
+	var s = fmt.Sprintf("func (%v %v) Take() (%v,error) {\n",
+		t.Initials(), t.CamelCaseName(), t.CamelCaseName(),
+	)
+	if t.HasStateColumn() {
+		s += fmt.Sprintf(`err:=db.Get(&%v,"select * from %v where %v=? and %v!=? limit 1",%v.%v,StateDel)`,
+			t.Initials(), t.Name, t.PrimaryKeyColumn().ColumnName, t.StateColumn().ColumnName, t.Initials(), t.PrimaryKeyColumn().CamelCaseName(),
+		)
+	} else {
+		s += fmt.Sprintf(`err:=db.Get(&%v,"select * from %v where %v=? limit 1",%v.%v)`,
+			t.Initials(), t.Name, t.PrimaryKeyColumn().ColumnName, t.Initials(), t.PrimaryKeyColumn().CamelCaseName(),
+		)
+	}
+	s += fmt.Sprintf("\n return %v,err", t.Initials())
+	s += "}"
+	return s
+}
+
+func (t Table) MethodDelete() string {
+	var s = fmt.Sprintf("func (%v %v) Delete() error {\n",
+		t.Initials(), t.CamelCaseName(),
+	)
+	var updatedfields []string
+	for _, col := range t.Columns {
+		if StringInSlice(col.ColumnName, AutoAssignUpdateFields) {
+			updatedfields = append(updatedfields, col.ColumnName)
+		}
+	}
+
+	switch {
+	case t.HasStateColumn() && updatedfields == nil,
+		!t.HasStateColumn():
+		s += fmt.Sprintf(` _,err := db.Exec("delete from %v where %v=?",%v.%v)`,
+			t.Name, t.PrimaryKeyColumn().ColumnName, t.Initials(), t.PrimaryKeyColumn().CamelCaseName(),
+		)
+	case t.HasStateColumn() && updatedfields != nil:
+		s += "var timeNow = time.Now()\n"
+		var namedfields = make([]string, 0)
+		for _, field := range updatedfields {
+			namedfields = append(namedfields, fmt.Sprintf("`%v`=:%v", field, field))
+
+			for _, col := range t.Columns {
+				if col.ColumnName == field {
+					switch col.Type() {
+					case "time.Time":
+						s += fmt.Sprintf("%v.%v=timeNow\n", t.Initials(), CamelCase(field))
+					case "int64":
+						s += fmt.Sprintf("%v.%v=timeNow.Unix()\n", t.Initials(), CamelCase(field))
+					}
+				}
+			}
+		}
+		s += fmt.Sprintf("%v.%v=StateDel\n", t.Initials(), t.StateColumn().CamelCaseName())
+		s += fmt.Sprintf(` _,err := db.NamedExec("update %v set %v=:%v,`+strings.Join(namedfields, ",")+` where %v=:%v",%v)`,
+			t.Name,
+			Quote(t.StateColumn().ColumnName), t.StateColumn().ColumnName,
+			Quote(t.PrimaryKeyColumn().ColumnName), t.PrimaryKeyColumn().ColumnName,
+			t.Initials(),
+		)
+	}
+
+	s += fmt.Sprintf("\n return err")
+	s += "}"
+	return s
+}
+
 type Column struct {
 	ColumnName    string `json:"column_name" db:"column_name"`
 	DataType      string `json:"data_type" db:"data_type"`
@@ -129,7 +249,7 @@ func (c Column) Type() string {
 	c.ColumnName = strings.ToLower(c.ColumnName)
 	switch {
 	case strings.Contains(c.DataType, "int"):
-		if strings.Contains(c.ColumnName, "time") || strings.Contains(c.ColumnName, "update") {
+		if StringInSlice(c.ColumnName, AutoAssignFields) {
 			return "int64"
 		}
 		if strings.Contains(c.ColumnName, "ip") {
@@ -152,4 +272,41 @@ func (c Column) Type() string {
 
 func (c Column) IsPrimaryKey() bool {
 	return c.ColumnKey == "PRI"
+}
+
+var (
+	AutoAssignFields []string
+
+	AutoAssignCreateFields = []string{
+		"ctime", "Ctime",
+		"created", "Created",
+		"create_time", "created_time",
+		"created_at", "create_at", "createdAt", "createAt",
+		"addtime", "AddTime",
+	}
+
+	AutoAssignUpdateFields = []string{
+		"utime", "Utime",
+		"updated", "Updated",
+		"update_time", "updated_time",
+		"updated_at", "update_at", "updatedAt", "updateAt",
+	}
+
+	AutoAssignDeleteFields = []string{
+		"dtime", "Dtime",
+		"deleted", "Deleted",
+		"delete_time", "deleted_time",
+		"deletetime", "DeleteTime",
+		"deleted_at", "delete_at", "deletedAt", "deleteAt",
+	}
+
+	StateFields = []string{
+		"state", "status",
+	}
+)
+
+func init() {
+	AutoAssignFields = append(AutoAssignFields, AutoAssignCreateFields...)
+	AutoAssignFields = append(AutoAssignFields, AutoAssignUpdateFields...)
+	AutoAssignFields = append(AutoAssignFields, AutoAssignDeleteFields...)
 }

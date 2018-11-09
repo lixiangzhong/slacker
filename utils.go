@@ -83,3 +83,16 @@ func hasSuffixFiles(dir, suffix string) []string {
 	})
 	return files
 }
+
+func StringInSlice(s string, slice []string) bool {
+	for _, v := range slice {
+		if s == v {
+			return true
+		}
+	}
+	return false
+}
+
+func Quote(s string) string {
+	return "`" + s + "`"
+}
