@@ -74,7 +74,7 @@ func ({{.Initials}} {{.CamelCaseName}}) Patch( update map[string]interface{}) er
 	{{.MethodTake}}
  
 func ({{.Initials}} {{.CamelCaseName}}) Create()({{.CamelCaseName}}, error ){
- 	{{.Initials | .AutomaticUpdateExpression}}
+ 	{{.Initials | .AutomaticCreateUpdateExpression}}
     result,err := db.NamedExec("insert into {{.Name}} set {{.NamedSQL}}",{{.Initials}})
 	if err!=nil{
 		return {{.Initials}},err
@@ -154,7 +154,7 @@ func (_ {{.CamelCaseName}}) BatchCreate({{.LowerName}}s []{{.CamelCaseName}}) er
 	} 
 	defer stmt.Close()
 	for _, {{.LowerName}} := range {{.LowerName}}s { 
- 	{{.LowerName | .AutomaticUpdateExpression}}
+ 	{{.LowerName | .AutomaticCreateUpdateExpression}}
 		_, err := stmt.Exec({{.LowerName}})
 		if err != nil {
 			tx.Rollback()
@@ -220,7 +220,7 @@ func (_ {{.CamelCaseName}}) Import({{.LowerName}}s []{{.CamelCaseName}}) error {
 
 
 	for _, {{.LowerName}} := range {{.LowerName}}s { 
- 	{{.LowerName | .AutomaticUpdateExpression}}
+ 	{{.LowerName | .AutomaticCreateUpdateExpression}}
 		_, err := stmt.Exec({{.LowerName}})
 		if err != nil {
 			tx.Rollback()

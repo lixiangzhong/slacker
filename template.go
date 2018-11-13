@@ -111,6 +111,25 @@ func (t *Table) ShowCreateTable() {
 	t.CreateTableSQL = strings.Join(fields, " ")
 }
 
+func (t Table) AutomaticCreateUpdateExpression(obj string) string {
+	var exp string
+	fields := append(AutoAssignCreateFields, AutoAssignUpdateFields...)
+	for _, col := range t.Columns {
+		if StringInSlice(col.ColumnName, fields) {
+			switch {
+			case col.Type() == "time.Time":
+				exp += fmt.Sprintf("%v.%v = %v\n", obj, col.CamelCaseName(), "timeNow")
+			case strings.Contains(col.Type(), "int"):
+				exp += fmt.Sprintf("%v.%v = %v\n", obj, col.CamelCaseName(), "timeNow.Unix()")
+			}
+		}
+	}
+	if exp != "" {
+		exp = "var timeNow = time.Now()\n" + exp
+	}
+	return exp
+}
+
 func (t Table) AutomaticUpdateExpression(obj string) string {
 	var exp string
 	for _, col := range t.Columns {
