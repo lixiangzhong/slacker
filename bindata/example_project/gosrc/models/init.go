@@ -27,10 +27,24 @@ func init() {
 }
 
 func initdb() {
-	var err error
+	mysqlconfig:=config.MySQLConfig("mysql")
+	dbname:=mysqlconfig.DBName
+	mysqlconfig.DBName=""
+	mysql,err:=	sqlx.Connect("mysql",mysqlconfig.FormatDSN())
+	if err != nil {
+		log.Error(err)
+		return 
+	}
+	defer mysql.Close()
+	_,err=	mysql.Exec("CREATE DATABASE IF NOT EXISTS "+dbname+" default charset utf8 COLLATE utf8_general_ci")
+	if err != nil {
+		log.Error(err)
+			return 
+	}
 	db, err = sqlx.Connect("mysql", config.MySQLConfig("mysql").FormatDSN())
 	if err != nil {
 		log.Error(err)
+		return 
 	}else{
 		CreateTable()
 	}
