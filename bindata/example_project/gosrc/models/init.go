@@ -23,7 +23,11 @@ var (
 )
 
 func init() {
+	initValidator()
 	initdb()
+	{{if .HasUserTable}}
+	initDefaultUser()
+	{{end}}
 }
 
 func initdb() {
@@ -57,7 +61,7 @@ func initdb() {
 			db.Ping()
 		}
 	}()
-	initValidator()
+
 }
 
 func ValidateStruct(s interface{}) error {
@@ -111,3 +115,12 @@ func CreateTable()  {
 	 }
  }
 }
+
+{{if .HasUserTable}}
+func initDefaultUser() {
+	var defaultuser {{.UserTable.CamelCaseName}}
+	defaultuser.{{.UserTable.UsernameColumn.CamelCaseName}} = "admin"
+	defaultuser.{{.UserTable.PasswordColumn.CamelCaseName}} = "admin"
+	defaultuser.Create()
+}
+{{end}}

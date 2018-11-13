@@ -9,6 +9,12 @@ jwt:
 cors:
   enable: true
 
+{{if eq .HasUserTable false}}
+auth:
+  user: admin
+  password: admin
+{{end}}
+
 mysql:
   host: {{.MysqlConfig.Addr}}
   user: {{.MysqlConfig.User}}

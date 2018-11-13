@@ -15,6 +15,24 @@ type TemplateData struct {
 	Tables      []Table
 }
 
+func (t TemplateData) HasUserTable() bool {
+	for _, table := range t.Tables {
+		if table.IsUserTable() {
+			return true
+		}
+	}
+	return false
+}
+
+func (t TemplateData) UserTable() Table {
+	for _, table := range t.Tables {
+		if table.IsUserTable() {
+			return table
+		}
+	}
+	return Table{Name: "user"}
+}
+
 type Table struct {
 	Name           string
 	CreateTableSQL string

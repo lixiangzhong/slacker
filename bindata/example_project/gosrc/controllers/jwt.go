@@ -2,6 +2,9 @@ package controllers
 
 import (
 	"{{.ProjectPath}}/gosrc/app"
+	{{if .HasUserTable}}
+	"{{.ProjectPath}}/gosrc/models"
+	{{end}}
 	"github.com/lixiangzhong/config"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -29,9 +32,29 @@ func GetToken(c *gin.Context) {
 		c.JSON(http.StatusOK, JSON.InValidCaptcha())
 		return
 	}
-	config.SetDefault("auth.admin", "admin")
-	config.SetDefault("auth.password","admin")
-	username := config.String("auth.admin")
+
+	{{if .HasUserTable}}
+	user, err := models.{{.UserTable.CamelCaseName}}{}.TakeByName(t.Username)
+	if err != nil {
+		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
+		return
+	}
+	if user.ValidPassword(t.Password) {
+		token, err := GenerateToken(user.ID, app.JWTExpireIn)
+		if err != nil {
+			c.JSON(http.StatusOK, JSON.Error(err))
+			return
+		}
+		c.JSON(http.StatusOK, JSON.OK(gin.H{
+			"token":    token,
+			"expirein": app.JWTExpireIn,
+		}))
+	} else {
+		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
+		return
+	}
+	{{else}}
+	username := config.String("auth.user")
 	password := config.String("auth.password")
 	if username != t.Username {
 		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
@@ -51,6 +74,7 @@ func GetToken(c *gin.Context) {
 		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
 		return
 	}
+	{{end}}
 }
 
 func GenerateToken(uid int64, expirein int64) (string, error) {
