@@ -17,6 +17,14 @@ type {{.CamelCaseName}} struct{
     {{end}}
 }
 
+{{if .IsUserTable}}
+func ({{.Initials}} {{.CamelCaseName}}) MarshalJSON() ([]byte, error) {
+	type tmp {{.CamelCaseName}}
+	{{.Initials}}.{{.PasswordColumn.CamelCaseName}} = ""
+	return json.Marshal(tmp({{.Initials}}))
+}
+{{end}}
+
 
 func ({{.Initials}} {{.CamelCaseName}}) List(offset,limit uint64) ([]{{.CamelCaseName}},int,error) {
     var data =make([]{{.CamelCaseName}},0)
