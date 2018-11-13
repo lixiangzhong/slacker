@@ -179,7 +179,7 @@ func (_ {{.CamelCaseName}}) BatchUpdate(c *gin.Context) {
 }
 
 func (_ {{.CamelCaseName}}) Import(c *gin.Context) {
-		/*
+	 
 	file, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(http.StatusOK, JSON.Error(err))
@@ -208,10 +208,34 @@ func (_ {{.CamelCaseName}}) Import(c *gin.Context) {
 				continue
 			}
 			var {{.LowerName}} models.{{.CamelCaseName}}
-	 
-			//do your self
-			{{.LowerName}}.Domain = strings.TrimSpace(row.Cells[0].String())
-	 
+
+			{{range $i,$v:=.Columns}}
+				{{if eq $v.Type "string"}}
+					{{$.LowerName}}.{{$v.CamelCaseName}} = strings.TrimSpace(row.Cells[{{$i}}].String())
+				{{end}}
+
+				{{if eq $v.Type "int64"}}
+				{{$v.ColumnName}},err:= row.Cells[{{$i}}].Int64()
+				if err!=nil{
+					c.JSON(http.StatusOK, JSON.Error(err))
+					return
+				}
+					{{$.LowerName}}.{{$v.CamelCaseName}} = {{$v.ColumnName}}
+				{{end}}
+
+				{{if eq $v.Type "int"}}
+				{{$v.ColumnName}},err:= row.Cells[{{$i}}].Int()
+				if err!=nil{
+					c.JSON(http.StatusOK, JSON.Error(err))
+					return
+				}
+					{{$.LowerName}}.{{$v.CamelCaseName}} = {{$v.ColumnName}}
+				{{end}}
+
+				{{if eq $v.Type "bool"}} 
+					{{$.LowerName}}.{{$v.CamelCaseName}} = row.Cells[{{$i}}].Bool()
+				{{end}}
+			{{end}}
 			{{.LowerName}}s = append({{.LowerName}}s, {{.LowerName}})
 		}
 		break
@@ -222,12 +246,12 @@ func (_ {{.CamelCaseName}}) Import(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, JSON.OK(nil))
-	*/
+	 
 }
 
 
 func (_ {{.CamelCaseName}}) Export(c *gin.Context) {
-		/*
+		 
 	var {{.LowerName}} models.{{.CamelCaseName}} 
 	{{.LowerName}}s, _, err := {{.LowerName}}.List(0, 0)
 	if err != nil {
@@ -242,13 +266,12 @@ func (_ {{.CamelCaseName}}) Export(c *gin.Context) {
 	}
 	for _, {{.LowerName}} := range {{.LowerName}}s {
 		row := sheet.AddRow()
-	
-		//do your self
-		row.AddCell().SetString({{.LowerName}}.Domain)
-	
+	{{range $i,$v:=.Columns}}
+		row.AddCell().SetValue({{$.LowerName}}.{{$v.CamelCaseName}})
+	{{end}}
 	}
 	filename := fmt.Sprintf("{{.Name}}.%v.xlsx", time.Now().Format("20060102150405"))
 	c.Header("Content-disposition", "attachment;filename="+filename)
 	file.Write(c.Writer)
-		*/
+		 
 }
