@@ -241,6 +241,40 @@ func (t Table) MethodDelete() string {
 	return s
 }
 
+func (t Table) IsUserTable() bool {
+	var hasusername bool
+	var haspassword bool
+	for _, c := range t.Columns {
+		if StringInSlice(c.ColumnName, UsernameFields) {
+			hasusername = true
+			continue
+		}
+		if StringInSlice(c.ColumnName, PasswordFields) {
+			haspassword = true
+			continue
+		}
+	}
+	return hasusername && haspassword
+}
+
+func (t Table) UsernameColumn() Column {
+	for _, c := range t.Columns {
+		if StringInSlice(c.ColumnName, UsernameFields) {
+			return c
+		}
+	}
+	return Column{ColumnName: "username"}
+}
+
+func (t Table) PasswordColumn() Column {
+	for _, c := range t.Columns {
+		if StringInSlice(c.ColumnName, PasswordFields) {
+			return c
+		}
+	}
+	return Column{ColumnName: "password"}
+}
+
 type Column struct {
 	ColumnName    string `json:"column_name" db:"column_name"`
 	DataType      string `json:"data_type" db:"data_type"`
@@ -321,6 +355,13 @@ var (
 
 	StateFields = []string{
 		"state", "status",
+	}
+
+	UsernameFields = []string{
+		"user", "username",
+	}
+	PasswordFields = []string{
+		"passwd", "password",
 	}
 )
 

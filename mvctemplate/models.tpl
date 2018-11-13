@@ -64,6 +64,15 @@ func ({{.Initials}} {{.CamelCaseName}}) Patch( update map[string]interface{}) er
 	if len(named) == 0 {
 		return nil
 	}
+	{{if .IsUserTable}}
+	if val, ok := update["{{.PasswordColumn.ColumnName}}"]; ok {
+		password, ok := val.(string)
+		if ok {
+			password = EncryptPassword(password)
+			update["{{.PasswordColumn.ColumnName}}"] = password
+		}
+	}
+	{{end}}
 	fields := strings.Join(named, ",")
 	update["{{.PrimaryKeyColumn.ColumnName}}"] = {{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}}
 	_, err := db.NamedExec("update {{.Name}} set "+ fields +" where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}", update)
@@ -75,6 +84,14 @@ func ({{.Initials}} {{.CamelCaseName}}) Patch( update map[string]interface{}) er
  
 func ({{.Initials}} {{.CamelCaseName}}) Create()({{.CamelCaseName}}, error ){
  	{{.Initials | .AutomaticCreateUpdateExpression}}
+
+	{{if .IsUserTable}}
+	{{.Initials}}.{{.UsernameColumn.CamelCaseName}} = strings.ToLower({{.Initials}}.{{.UsernameColumn.CamelCaseName}})
+	{{.Initials}}.{{.PasswordColumn.CamelCaseName}} = EncryptPassword({{.Initials}}.{{.PasswordColumn.CamelCaseName}})
+	if {{.Initials}}.duplicate() {
+		return {{.Initials}}, errors.New("用户名已经存在")
+	}
+	{{end}}
     result,err := db.NamedExec("insert into {{.Name}} set {{.NamedSQL}}",{{.Initials}})
 	if err!=nil{
 		return {{.Initials}},err
@@ -233,3 +250,34 @@ func (_ {{.CamelCaseName}}) Import({{.LowerName}}s []{{.CamelCaseName}}) error {
 	}
 	return err
 }
+
+
+{{if .IsUserTable}}
+func EncryptPassword(password string) string {
+	hashd, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hashd)
+}
+
+func ({{.Initials}} {{.CamelCaseName }}) ValidPassword(password string) bool {
+	return nil == bcrypt.CompareHashAndPassword([]byte({{.Initials}}.{{.PasswordColumn.CamelCaseName}}), []byte(password))
+}
+
+
+func ({{.Initials}} {{.CamelCaseName}}) TakeByName(username string) ({{.CamelCaseName}}, error) {
+	username = strings.ToLower(username)
+	SQL := "select * from {{.Name}} where {{.UsernameColumn.ColumnName }}=? limit 1"
+	err := db.Get(&{{.Initials}}, SQL, username)
+	return {{.Initials}}, err
+}
+
+func ({{.Initials}} {{.CamelCaseName}}) duplicate() bool {
+	SQL := "select 1 from {{.Name}} where {{.UsernameColumn.ColumnName}}=? limit 1"
+	var exist bool
+	err := db.QueryRow(SQL, {{.Initials}}.{{.UsernameColumn.CamelCaseName}}).Scan(&exist)
+	if err != nil && err != sql.ErrNoRows {
+		return true
+	}
+	return exist
+}
+
+{{end}}
