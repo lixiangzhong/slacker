@@ -100,7 +100,8 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 	if formatter != nil {
 		b, err = formatter(b)
 		if err != nil {
-			log.Error(err)
+			log.Error(string(writer.Bytes()))
+			log.Error(dir, filename, err)
 			return
 		}
 	}

@@ -306,7 +306,7 @@ func (c Column) CamelCaseName() string {
 }
 
 func (c Column) Tag() string {
-	return fmt.Sprintf("`%v`", fmt.Sprintf(`json:"%v" db:"%v"`, c.ColumnName, c.ColumnName))
+	return fmt.Sprintf("`%v`", fmt.Sprintf(`json:"%v" db:"%v" form:"%v"`, c.ColumnName, c.ColumnName, c.ColumnName))
 }
 
 func (c Column) Comment() string {
@@ -318,6 +318,9 @@ func (c Column) Comment() string {
 
 func (c Column) Type() string {
 	c.ColumnName = strings.ToLower(c.ColumnName)
+	if c.IsPrimaryKey() {
+		return "int64"
+	}
 	switch {
 	case strings.Contains(c.DataType, "int"):
 		if StringInSlice(c.ColumnName, AutoAssignFields) {

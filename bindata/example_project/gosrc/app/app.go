@@ -11,6 +11,7 @@ import (
 	"github.com/lixiangzhong/config"
 	"github.com/lixiangzhong/log"
 	"github.com/lixiangzhong/rotatefile"
+	_ "{{.ProjectPath}}/gosrc/validator"
 	"net"
 	"os"
 	"time"

@@ -31,7 +31,7 @@ func (_ {{.CamelCaseName}}) List(c *gin.Context)  {
 	offset,_:=strconv.ParseUint(c.DefaultQuery("offset","0"), 10, 64)
  
     limit,_:=strconv.ParseUint(c.DefaultQuery("limit","0"),10,64)
- 
+ 	c.ShouldBindQuery(&{{.LowerName}})
    data,total,err:= {{.LowerName}}.List(offset,limit)
    	if err != nil {
 		c.JSON(http.StatusOK, JSON.Error(err))
@@ -45,6 +45,7 @@ func (_ {{.CamelCaseName}}) List(c *gin.Context)  {
 
 func (_ {{.CamelCaseName}}) Take(c *gin.Context)  {
     var {{.LowerName}} models.{{.CamelCaseName}}
+		c.ShouldBindQuery(&{{.LowerName}})
     id, err := strconv.ParseInt(c.Param("id"),10,64)
 	if err != nil {
 		c.JSON(http.StatusOK, JSON.BadRequest())
@@ -62,7 +63,7 @@ func (_ {{.CamelCaseName}}) Take(c *gin.Context)  {
 func (_ {{.CamelCaseName}}) Create(c *gin.Context)  {
     var {{.LowerName}} models.{{.CamelCaseName}}
     if err := c.ShouldBindJSON(&{{.LowerName}}); err != nil {
-        c.JSON(http.StatusOK, JSON.BadRequest())
+        c.JSON(http.StatusOK, JSON.BadBinding(err))
         return
 	}
     {{.LowerName}},err := {{.LowerName}}.Create()
@@ -81,7 +82,7 @@ func (_ {{.CamelCaseName}}) Update(c *gin.Context)  {
 	}
     var {{.LowerName}} models.{{.CamelCaseName}}
 	if err := c.ShouldBindJSON(&{{.LowerName}}); err != nil {
-		c.JSON(http.StatusOK, JSON.BadRequest())
+		c.JSON(http.StatusOK, JSON.BadBinding(err))
 		return
 	}
 	{{.LowerName}}.{{.PrimaryKeyColumn.CamelCaseName}} = id
@@ -101,7 +102,7 @@ func (_ {{.CamelCaseName}}) Patch(c *gin.Context)  {
 	}
 	var updatefields = make(map[string]interface{})
 	if err := c.ShouldBindJSON(&updatefields); err != nil {
-		c.JSON(http.StatusOK, JSON.BadRequest())
+		c.JSON(http.StatusOK, JSON.BadBinding(err))
 		return
 	}
 	var {{.LowerName}} models.{{.CamelCaseName}}
@@ -148,7 +149,7 @@ func (_ {{.CamelCaseName}}) BatchDelete(c *gin.Context) {
 func (_ {{.CamelCaseName}}) BatchPatch(c *gin.Context) {
 	var updatefields = make(map[string]interface{})
 	if err := c.ShouldBindJSON(&updatefields); err != nil {
-		c.JSON(http.StatusOK, JSON.BadRequest())
+		c.JSON(http.StatusOK, JSON.BadBinding(err))
 		return
 	}
 	ids := strings2int64s(c.QueryArray("id"))
@@ -163,12 +164,12 @@ func (_ {{.CamelCaseName}}) BatchPatch(c *gin.Context) {
 }
 
 func (_ {{.CamelCaseName}}) BatchUpdate(c *gin.Context) {
-		var {{.LowerName}} models.{{.CamelCaseName}} 
+	var {{.LowerName}} models.{{.CamelCaseName}} 
 	if err := c.ShouldBindJSON(&{{.LowerName}}); err != nil {
-		c.JSON(http.StatusOK, JSON.BadRequest())
+		c.JSON(http.StatusOK,JSON.BadBinding(err))
 		return
 	}
-		ids := strings2int64s(c.QueryArray("id"))
+	ids := strings2int64s(c.QueryArray("id"))
 	ids = append(ids, strings2int64s(c.QueryArray("id[]"))...)
 	err := {{.LowerName}}.BatchUpdate(ids)
 	if err != nil {
@@ -215,21 +216,21 @@ func (_ {{.CamelCaseName}}) Import(c *gin.Context) {
 				{{end}}
 
 				{{if eq $v.Type "int64"}}
-				{{$v.ColumnName}},err:= row.Cells[{{$i}}].Int64()
+				{{$v.CamelCaseName}},err:= row.Cells[{{$i}}].Int64()
 				if err!=nil{
 					c.JSON(http.StatusOK, JSON.Error(err))
 					return
 				}
-					{{$.LowerName}}.{{$v.CamelCaseName}} = {{$v.ColumnName}}
+					{{$.LowerName}}.{{$v.CamelCaseName}} = {{$v.CamelCaseName}}
 				{{end}}
 
 				{{if eq $v.Type "int"}}
-				{{$v.ColumnName}},err:= row.Cells[{{$i}}].Int()
+				{{$v.CamelCaseName}},err:= row.Cells[{{$i}}].Int()
 				if err!=nil{
 					c.JSON(http.StatusOK, JSON.Error(err))
 					return
 				}
-					{{$.LowerName}}.{{$v.CamelCaseName}} = {{$v.ColumnName}}
+				{{$.LowerName}}.{{$v.CamelCaseName}} = {{$v.CamelCaseName}}
 				{{end}}
 
 				{{if eq $v.Type "bool"}} 

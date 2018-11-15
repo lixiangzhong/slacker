@@ -2,9 +2,7 @@ package models
 
 import (
 	"github.com/lixiangzhong/config"
-	"github.com/lixiangzhong/log"
-	"dns.com/utils"
-	valid "github.com/asaskevich/govalidator"
+	"github.com/lixiangzhong/log" 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"net"
@@ -23,7 +21,6 @@ var (
 )
 
 func init() {
-	initValidator()
 	initdb()
 	{{if .HasUserTable}}
 	initDefaultUser()
@@ -63,43 +60,7 @@ func initdb() {
 	}()
 
 }
-
-func ValidateStruct(s interface{}) error {
-	ok, err := valid.ValidateStruct(s)
-	if !ok || err != nil {
-		errs, ok := (err).(valid.Errors)
-		if ok {
-			for _, e := range errs {
-				return e
-			}
-		}
-	}
-	return err
-}
-
-func initValidator() {
-	valid.TagMap["cidr"] = valid.Validator(func(s string) bool {
-		ip, ipnet, err := net.ParseCIDR(s)
-		if err != nil {
-			return false
-		}
-		return ipnet.IP.Equal(ip)
-	})
-
-	valid.TagMap["domain"] = valid.Validator(func(s string) bool {
-		var err error
-		s, err = utils.Domain.PunyCode(s)
-		if err != nil {
-			return false
-		}
-		s = strings.Trim(s, ".")
-		if len(strings.Split(s, ".")) < 2 {
-			return false
-		}
-		return utils.Domain.Valid(s)
-	})
-}
-
+ 
 
 func CreateTable()  {
 	var tables=[]string{

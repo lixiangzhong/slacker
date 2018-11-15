@@ -1,14 +1,11 @@
 package controllers
 
 import (
-	"{{.ProjectPath}}/gosrc/models"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net/http"
 	"strconv"
 )
-
-var ValidateStruct = models.ValidateStruct
 
 var WebSocket = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {

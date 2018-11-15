@@ -37,6 +37,10 @@ func (r ResponseJSON) BadRequest() ResponseJSON {
 	return r.New(400, "参数错误", nil)
 }
 
+func (r ResponseJSON) BadBinding(err interface{}) ResponseJSON {
+	return r.New(400, fmt.Sprintf("参数错误:%v", err), nil)
+}
+
 func (j ResponseJSON) IncorrectUserOrPwd() ResponseJSON {
 	return j.New(402, "账号或密码不正确", nil)
 }
