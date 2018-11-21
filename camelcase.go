@@ -113,4 +113,5 @@ var commonInitialisms = map[string]bool{
 	"XSRF":  true,
 	"XSS":   true,
 	"CIDR":  true,
+	"IDC":   true,
 }
