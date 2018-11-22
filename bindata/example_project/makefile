@@ -1,5 +1,5 @@
-build_version=`date -d today +"%Y%m%d"`
-build_date=`date -d today +"%Y-%m-%d_%H:%M:%S"`
+build_version=`date +"%Y%m%d"`
+build_date=`date +"%Y-%m-%d_%H:%M:%S"`
 build_gitversion=`git rev-parse HEAD`
 
 all:
