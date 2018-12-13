@@ -1,6 +1,7 @@
 build_version=`date +"%Y%m%d"`
 build_date=`date +"%Y-%m-%d_%H:%M:%S"`
 build_gitversion=`git rev-parse HEAD`
+gofilemd5=`find ./ -name "*.go" -type f -print0| xargs -0 md5|md5`
 
 all:
 	@echo "make : build dist zip"
@@ -9,7 +10,8 @@ all:
 build:
 	@go build  -ldflags "-X {{.ProjectPath}}/gosrc/app.Version=$(build_version)\
 	  -X {{.ProjectPath}}/gosrc/app.BuildTime=$(build_date)\
-	    -X {{.ProjectPath}}/gosrc/app.GitVersion=$(build_gitversion)"\
+	    -X {{.ProjectPath}}/gosrc/app.GitVersion=$(build_gitversion)\
+			-X {{.ProjectPath}}/gosrc/app.GoMD5=$(gofilemd5)"\
 		 -o {{.ProjectName}}
 	@./{{.ProjectName}} -v 
 

@@ -25,6 +25,7 @@ var (
 	Version        string = "unknown"
 	BuildTime      string
 	GitVersion     string
+	GoMD5          string
 )
 
 func init() {
@@ -42,6 +43,7 @@ func initFlag() {
 		fmt.Println("version:", Version)
 		fmt.Println("编译时间:", BuildTime)
 		fmt.Println("git rev:", GitVersion)
+		fmt.Println("gofilemd5:", GoMD5)
 		os.Exit(0)
 	}
 }
