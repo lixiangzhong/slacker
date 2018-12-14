@@ -37,7 +37,7 @@ func initdb() {
 		return 
 	}
 	defer mysql.Close()
-	_,err=	mysql.Exec("CREATE DATABASE IF NOT EXISTS "+dbname+" default charset utf8 COLLATE utf8_general_ci")
+	_,err=	mysql.Exec("CREATE DATABASE IF NOT EXISTS "+dbname+" default charset utf8mb4 COLLATE utf8mb4_general_ci")
 	if err != nil {
 		log.Error(err)
 			return 
