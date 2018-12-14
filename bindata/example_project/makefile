@@ -1,7 +1,7 @@
 build_version=`date +"%Y%m%d"`
 build_date=`date +"%Y-%m-%d_%H:%M:%S"`
-build_gitversion=`git rev-parse HEAD`
-gofilemd5=`find ./ -name "*.go" -type f -print0| xargs -0 md5|md5`
+build_gitversion=`git rev-parse HEAD|cut -c1-8`
+gofilemd5=`find ./ -name "*.go" -type f -print0| xargs -0 md5|md5|cut -c1-8`
 
 all:
 	@echo "make : build dist zip"
