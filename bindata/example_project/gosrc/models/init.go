@@ -85,3 +85,24 @@ func initDefaultUser() {
 	defaultuser.Create()
 }
 {{end}}
+
+
+
+func Tx(f func(*sqlx.Tx) error) error {
+	tx, err := db.Beginx()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if e := recover(); e != nil {
+			log.Error(e)
+			tx.Rollback()
+		}
+	}()
+	err = f(tx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return tx.Commit()
+}

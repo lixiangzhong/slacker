@@ -109,25 +109,17 @@ func ({{.Initials}} {{.CamelCaseName}}) Create()({{.CamelCaseName}}, error ){
 }
 
 func ({{.Initials}} {{.CamelCaseName}}) BatchUpdate(ids []int64) error { 
-	tx, err := db.Beginx()
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
+	return Tx(func(tx *sqlx.Tx)error{
 	{{ .Initials | .AutomaticUpdateExpression}}
-	for _, id := range ids { 
-		{{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}}=id
-		_, err := tx.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",{{.Initials}})
-		if err != nil {
-			tx.Rollback()
-			return err
+		for _, id := range ids { 
+			{{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}}=id
+			_, err := tx.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",{{.Initials}})
+			if err != nil { 
+				return err
+			}
 		}
-	}
-	err = tx.Commit()
-	if err != nil {
-		tx.Rollback()
-	}
-	return err
+		return nil
+	})
 }
 
 func (_ {{.CamelCaseName}}) BatchPatch(ids []int64, update map[string]interface{}) error {
@@ -143,120 +135,83 @@ func (_ {{.CamelCaseName}}) BatchPatch(ids []int64, update map[string]interface{
 		return nil
 	}
 	fields := strings.Join(named, ",")
-	tx, err := db.Beginx()
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
-	for _, id := range ids {
-		update["{{.PrimaryKeyColumn.ColumnName}}"] = id
-		_, err := tx.NamedExec("update {{.Name}} set "+ fields +" where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}", update)
-		if err != nil {
-			tx.Rollback()
-			return err
+
+	return Tx(func(tx *sqlx.Tx)error{
+		for _, id := range ids {
+			update["{{.PrimaryKeyColumn.ColumnName}}"] = id
+			_, err := tx.NamedExec("update {{.Name}} set "+ fields +" where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}", update)
+			if err != nil { 
+				return err
+			}
 		}
-	}
-	err = tx.Commit()
-	if err != nil {
-		tx.Rollback()
-	}
-	return err
+		return nil
+	})
 }
 
 
 
 
 func (_ {{.CamelCaseName}}) BatchCreate({{.LowerName}}s []{{.CamelCaseName}}) error {
-	tx, err := db.Beginx()
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
-	stmt, err := tx.PrepareNamed("insert into {{.Name}} set {{.NamedSQL}}")
-	if err != nil {
-		tx.Rollback()
-		return err
-	} 
-	defer stmt.Close()
-	for _, {{.LowerName}} := range {{.LowerName}}s { 
- 	{{.LowerName | .AutomaticCreateUpdateExpression}}
-		_, err := stmt.Exec({{.LowerName}})
-		if err != nil {
-			tx.Rollback()
+	return Tx(func(tx *sqlx.Tx)error{
+		stmt, err := tx.PrepareNamed("insert into {{.Name}} set {{.NamedSQL}}")
+		if err != nil { 
 			return err
+		} 
+		defer stmt.Close()
+		for _, {{.LowerName}} := range {{.LowerName}}s { 
+		{{.LowerName | .AutomaticCreateUpdateExpression}}
+			_, err := stmt.Exec({{.LowerName}})
+			if err != nil {
+				return err
+			}
 		}
-	}
-	err = tx.Commit()
-	if err != nil {
-		tx.Rollback()
-	}
-	return err
+		return nil
+	})
 }
 
  
 
 func (_ {{.CamelCaseName}})BatchDelete(ids []int64)error{
-    tx, err := db.Beginx()
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
-	for _, id := range ids {
-	{{if Contains .SwitchCase "utime"}}
-		{{if Contains $.SwitchCase "state"}}
-		_, err := tx.Exec("update {{.Name}} set state=?,utime=? where {{.PrimaryKeyColumn.ColumnName}}=?",StateDel,time.Now().Unix(),id)
+	return Tx(func(tx *sqlx.Tx)error{
+		for _, id := range ids {
+		{{if Contains .SwitchCase "utime"}}
+			{{if Contains $.SwitchCase "state"}}
+			_, err := tx.Exec("update {{.Name}} set state=?,utime=? where {{.PrimaryKeyColumn.ColumnName}}=?",StateDel,time.Now().Unix(),id)
+			{{else}}
+			_, err := tx.Exec("update {{.Name}} set utime=? where {{.PrimaryKeyColumn.ColumnName}}=?",time.Now().Unix(),id)
+			{{end}}
 		{{else}}
-		_, err := tx.Exec("update {{.Name}} set utime=? where {{.PrimaryKeyColumn.ColumnName}}=?",time.Now().Unix(),id)
+		_, err := tx.Exec("delete from {{.Name}} where {{.PrimaryKeyColumn.ColumnName}}=?",id)
 		{{end}}
-	{{else}}
-	_, err := tx.Exec("delete from {{.Name}} where {{.PrimaryKeyColumn.ColumnName}}=?",id)
-	{{end}}
-		if err != nil {
-			tx.Rollback()
-			return err
+			if err != nil { 
+				return err
+			}
 		}
-	}
-	err = tx.Commit()
-	if err != nil {
-		tx.Rollback()
-	}
-	return err
+	return nil
+	})
 }
 
 
 func (_ {{.CamelCaseName}}) Import({{.LowerName}}s []{{.CamelCaseName}}) error {
-	tx, err := db.Beginx()
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
-	stmt, err := tx.PrepareNamed("insert into {{.Name}} set {{.NamedSQL}}")
-	if err != nil {
-		tx.Rollback()
-		return err
-	} 
-	defer stmt.Close()
-
-	_, err = tx.Exec("truncate table {{.Name}}")
-	if err != nil {
-		tx.Rollback()
-		return err
-	} 
-
-
-	for _, {{.LowerName}} := range {{.LowerName}}s { 
- 	{{.LowerName | .AutomaticCreateUpdateExpression}}
-		_, err := stmt.Exec({{.LowerName}})
+	return Tx(func(tx *sqlx.Tx)error{
+		stmt, err := tx.PrepareNamed("insert into {{.Name}} set {{.NamedSQL}}")
 		if err != nil {
-			tx.Rollback()
+			return err
+		} 
+		defer stmt.Close()
+		_, err = tx.Exec("truncate table {{.Name}}")
+		if err != nil {
 			return err
 		}
-	}
-	err = tx.Commit()
-	if err != nil {
-		tx.Rollback()
-	}
-	return err
+		for _, {{.LowerName}} := range {{.LowerName}}s { 
+			{{.LowerName | .AutomaticCreateUpdateExpression}}
+			_, err := stmt.Exec({{.LowerName}})
+			if err != nil {
+				return err
+			}
+		}
+		return err
+	}) 
 }
 
 
