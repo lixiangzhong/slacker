@@ -2,15 +2,16 @@ package slacker
 
 import (
 	"bytes"
-	"dns.com/log"
 	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/printer"
 	"go/token"
-	"golang.org/x/tools/go/ast/astutil"
 	"io/ioutil"
 	"os"
+
+	"github.com/lixiangzhong/log"
+	"golang.org/x/tools/go/ast/astutil"
 )
 
 var (
@@ -45,7 +46,7 @@ func addInitCreateTableFile(table string) {
 	}
 	err = ioutil.WriteFile(file, buff.Bytes(), fi.Mode().Perm())
 	if err != nil {
-		log.Info(string(b))
+		log.Println(string(b))
 		log.Error(err)
 		return
 	}
@@ -87,7 +88,7 @@ func addTable(table string) astutil.ApplyFunc {
 							}
 							filenames[bl.Value] = true
 						}
-						filenames[fmt.Sprintf(`"%v.sql"`, table)] = true
+						filenames[fmt.Sprintf(`"%v_%v.sql"`, DBName, table)] = true
 						cl.Elts = cl.Elts[:0]
 						for filename := range filenames {
 							cl.Elts = append(cl.Elts, &ast.BasicLit{

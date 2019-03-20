@@ -1,13 +1,14 @@
 package slacker
 
 import (
-	"dns.com/log"
 	"fmt"
-	gobindata "github.com/go-bindata/go-bindata"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
+
+	gobindata "github.com/go-bindata/go-bindata"
+	"github.com/lixiangzhong/log"
 )
 
 func FolderName() string {

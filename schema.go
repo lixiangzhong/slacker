@@ -2,15 +2,16 @@ package slacker
 
 import (
 	"bytes"
-	"dns.com/log"
 	"fmt"
-	"github.com/lixiangzhong/slacker/mvctemplate"
 	"go/format"
-	"golang.org/x/tools/imports"
 	"os"
 	"path"
 	"strings"
 	"text/template"
+
+	"github.com/lixiangzhong/log"
+	"github.com/lixiangzhong/slacker/mvctemplate"
+	"golang.org/x/tools/imports"
 )
 
 var (
@@ -79,7 +80,7 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 		if dir == MVCDefaultDir {
 			dir = "gosrc/bindata"
 		}
-		filename = fmt.Sprintf("%v.sql", t.Name)
+		filename = fmt.Sprintf("%v_%v.sql", DBName, t.Name)
 		b = mvctemplate.MustAsset("sql.tpl")
 	}
 

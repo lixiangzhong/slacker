@@ -1,11 +1,12 @@
 package slacker
 
 import (
-	"dns.com/log"
 	"fmt"
-	"github.com/go-sql-driver/mysql"
 	"path"
 	"strings"
+
+	"github.com/go-sql-driver/mysql"
+	"github.com/lixiangzhong/log"
 )
 
 type TemplateData struct {
