@@ -340,6 +340,8 @@ func (c Column) Type() string {
 		return "string"
 	case "timestamp" == c.DataType:
 		return "time.Time"
+	case strings.Contains(c.DataType, "float"):
+		return "float64"
 	default:
 		return "interface{}"
 	}

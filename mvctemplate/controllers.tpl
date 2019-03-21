@@ -236,6 +236,15 @@ func (_ {{.CamelCaseName}}) Import(c *gin.Context) {
 				{{if eq $v.Type "bool"}} 
 					{{$.LowerName}}.{{$v.CamelCaseName}} = row.Cells[{{$i}}].Bool()
 				{{end}}
+
+				{{if eq $v.Type "float64"}}
+				{{$v.CamelCaseName}},err:= row.Cells[{{$i}}].Float()
+				if err!=nil{
+					c.JSON(http.StatusOK, JSON.Error(err))
+					return
+				}
+				{{$.LowerName}}.{{$v.CamelCaseName}} = {{$v.CamelCaseName}}
+				{{end}}
 			{{end}}
 			{{.LowerName}}s = append({{.LowerName}}s, {{.LowerName}})
 		}
