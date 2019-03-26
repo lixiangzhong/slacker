@@ -2,13 +2,14 @@ package slacker
 
 import (
 	"fmt"
+	"os"
+	"time"
+
 	gobindata "github.com/go-bindata/go-bindata"
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/lixiangzhong/slacker/bindata"
 	"github.com/urfave/cli"
-	"os"
-	"time"
 )
 
 var (
@@ -48,6 +49,7 @@ func New() cli.Command {
 			tpldata.ProjectName = projectname
 			tpldata.ProjectPath = ProjectPath()
 			tpldata.MysqlConfig = mysqlconfig
+			tpldata.DBName = mysqlconfig.DBName
 			tpldata.Tables = tables
 			fmt.Printf("Creating %v Project...\n", projectname)
 			if err := bindata.Restore(tpldata); err != nil {
@@ -63,7 +65,7 @@ func New() cli.Command {
 				table.ExecTemplate("sql", MVCDefaultDir)
 
 				cfg.Input = append(cfg.Input, gobindata.InputConfig{
-					Path: fmt.Sprintf("%v.sql", table.Name),
+					Path: fmt.Sprintf("%v_%v.sql", mysqlconfig.DBName, table.Name),
 				})
 			}
 			if err := os.Chdir("gosrc/bindata"); err != nil {

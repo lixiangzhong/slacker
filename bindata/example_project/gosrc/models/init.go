@@ -64,7 +64,7 @@ func initdb() {
 
 func CreateTable()  {
 	var tables=[]string{
-		{{range $i,$v:=.Tables}}"{{$v.Name}}.sql",{{end}}
+		{{range $i,$v:=.Tables}}"{{$.DBName}}_{{$v.Name}}.sql",{{end}}
 	}
  for _, table := range tables {
 	 sql:=string(bindata.MustAsset(table))

@@ -13,6 +13,7 @@ type TemplateData struct {
 	ProjectName string
 	ProjectPath string
 	MysqlConfig *mysql.Config
+	DBName      string
 	Tables      []Table
 }
 
