@@ -115,4 +115,5 @@ var commonInitialisms = map[string]bool{
 	"CIDR":  true,
 	"IDC":   true,
 	"IPV6":  true,
+	"SSL":   true,
 }
