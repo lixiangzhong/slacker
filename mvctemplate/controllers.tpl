@@ -131,6 +131,7 @@ func (_ {{.CamelCaseName}}) Delete(c *gin.Context)  {
 	c.JSON(http.StatusOK, JSON.OK(nil))
 }
 
+/*
 
 func (_ {{.CamelCaseName}}) BatchDelete(c *gin.Context) {
 	ids := strings2int64s(c.QueryArray("id"))
@@ -285,3 +286,5 @@ func (_ {{.CamelCaseName}}) Export(c *gin.Context) {
 	file.Write(c.Writer)
 		 
 }
+
+*/

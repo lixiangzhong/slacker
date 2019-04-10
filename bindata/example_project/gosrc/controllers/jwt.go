@@ -18,8 +18,8 @@ import (
 type LoginForm struct {
 	Username     string `json:"username"`
 	Password     string `json:"password"`
-	CaptchaID    string `json:"captcha_id" db:"captcha_id"`
-	CaptchaValue string `json:"captcha_value" db:"captcha_value"`
+	CaptchaID    string `json:"captcha_id"`
+	CaptchaValue string `json:"captcha_value"`
 }
 
 func GetToken(c *gin.Context) {

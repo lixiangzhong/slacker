@@ -11,8 +11,8 @@
           <el-button @click="resetsearchform">清空查询条件</el-button>
         </el-form-item>
       </el-form>
-      <el-button @click="importfile.visible=true" round type="primary" class="card-button"><i class="el-icon-upload2"></i>导入表格</el-button>
-      <el-button @click="Export" type="primary" round class="card-button"><i class="el-icon-download"></i>导出表格</el-button>
+      <!-- <el-button @click="importfile.visible=true" round type="primary" class="card-button"><i class="el-icon-upload2"></i>导入表格</el-button> -->
+      <!-- <el-button @click="Export" type="primary" round class="card-button"><i class="el-icon-download"></i>导出表格</el-button> -->
       <el-button @click="create.visible = true" type="primary" round class="card-button" icon="el-icon-plus">添加</el-button>
       <div style="clear:both"></div>
     </div>
@@ -82,7 +82,7 @@
         <el-button type="primary" @click="BatchPatch">确 定</el-button>
       </div>
     </el-dialog>
-
+ 
      <el-dialog title="提示:上传后将改变原有数据" :visible.sync="importfile.visible" width="30%">
       <el-upload ref="upload" :on-change="FileChange" :file-list="importfile.filelist" :http-request="Import" :auto-upload="false" drag action="">
         <i class="el-icon-upload"></i>
@@ -95,7 +95,8 @@
         <el-button @click="importfile.visible = false">取 消</el-button>
         <el-button type="primary" @click="submitUpload">确 定</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> 
+    
   </el-card>
 </template>
 

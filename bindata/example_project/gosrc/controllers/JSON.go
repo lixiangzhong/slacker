@@ -2,15 +2,16 @@ package controllers
 
 import (
 	"fmt"
+
 	"github.com/lixiangzhong/log"
 )
 
 var JSON ResponseJSON
 
 type ResponseJSON struct {
-	Code int         `json:"code" db:"code"`
-	Msg  string      `json:"msg" db:"msg"`
-	Data interface{} `json:"data,omitempty" db:"data"`
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data,omitempty"`
 }
 
 func (r ResponseJSON) New(code int, msg string, data interface{}) ResponseJSON {
@@ -59,5 +60,5 @@ func (j ResponseJSON) TimeoutToken() ResponseJSON {
 
 func (j ResponseJSON) MysqlError(err error) ResponseJSON {
 	log.Debug(err)
-	return j.New(500, "查询数据库出错", err)
+	return j.New(500, "查询数据库出错", nil)
 }
