@@ -29,6 +29,7 @@ func init() {
 
 func initdb() {
 	mysqlconfig:=config.MySQLConfig("mysql")
+	dbname:=mysqlconfig.DBName
 	mysqlconfig.DBName=""
 	mysql,err:=	sqlx.Connect("mysql",mysqlconfig.FormatDSN())
 	if err != nil {
@@ -36,7 +37,7 @@ func initdb() {
 		return 
 	}
 	defer mysql.Close()
-	_,err=	mysql.Exec("CREATE DATABASE IF NOT EXISTS `"+mysqlconfig.DBName+"` default charset utf8mb4 COLLATE utf8mb4_general_ci")
+	_,err=	mysql.Exec("CREATE DATABASE IF NOT EXISTS `"+dbname+"` default charset utf8mb4 COLLATE utf8mb4_general_ci")
 	if err != nil {
 		log.Error(err)
 			return 
