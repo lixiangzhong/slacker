@@ -42,11 +42,12 @@
 
     <el-dialog title="添加" :visible.sync="create.visible" width="500px">
       <el-form :model="create.form" label-position="right" label-width="100px">
-           {{range $i,$col:=.Columns}}
+          {{range $i,$col:=.Columns}}
+           {{if not $col.IsPrimaryKey}}
         <el-form-item label="{{$col.CamelCaseName}}">
-        
           <el-input v-model.{{if Contains $col.Type "int"}}number{{else}}trim{{end}}="create.form.{{$col.ColumnName}}" auto-complete="off"></el-input>
         </el-form-item>
+            {{end}}
           {{end}}
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -58,10 +59,12 @@
     <el-dialog title="编辑" :visible.sync="update.visible" width="500px">
       <el-form :model="update.form" label-position="right" label-width="100px">
       {{range $i,$col:=.Columns}}
+          {{if not $col.IsPrimaryKey}}
         <el-form-item label="{{$col.CamelCaseName}}">
           <el-input v-model.{{if Contains $col.Type "int"}}number{{else}}trim{{end}}="update.form.{{$col.ColumnName}}" auto-complete="off"></el-input>
         </el-form-item>
           {{end}}
+      {{end}}
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="update.visible = false">取 消</el-button>
@@ -71,11 +74,13 @@
 
     <el-dialog title="批量修改" :visible.sync="batchpatch.visible" width="500px">
       <el-form :model="batchpatch.form" label-position="right" label-width="100px">
-            {{range $i,$col:=.Columns}}
+        {{range $i,$col:=.Columns}}
+            {{if not $col.IsPrimaryKey}}
         <el-form-item label="{{$col.CamelCaseName}}">
           <el-input v-model.{{if Contains $col.Type "int"}}number{{else}}trim{{end}}="batchpatch.form.{{$col.ColumnName}}" auto-complete="off"></el-input>
         </el-form-item>
           {{end}}
+        {{end}}
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="batchpatch.visible = false">取 消</el-button>
