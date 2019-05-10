@@ -116,4 +116,6 @@ var commonInitialisms = map[string]bool{
 	"IDC":   true,
 	"IPV6":  true,
 	"SSL":   true,
+	"CDN":   true,
+	"CNAME": true,
 }

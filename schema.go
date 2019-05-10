@@ -53,28 +53,28 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 		if dir == MVCDefaultDir {
 			dir = "gosrc/models"
 		}
-		filename = fmt.Sprintf("%v.go", t.Name)
+		filename = fmt.Sprintf("%v_%v.go", DBName, t.Name)
 		b = mvctemplate.MustAsset("models.tpl")
 		formatter = gofmt
 	case "c", "controller":
 		if dir == MVCDefaultDir {
 			dir = "gosrc/controllers"
 		}
-		filename = fmt.Sprintf("%v.go", t.Name)
+		filename = fmt.Sprintf("%v_%v.go", DBName, t.Name)
 		b = mvctemplate.MustAsset("controllers.tpl")
 		formatter = gofmt
 	case "v", "vue", "view":
 		if dir == MVCDefaultDir {
 			dir = "src/views"
 		}
-		filename = fmt.Sprintf("%v.vue", t.CamelCaseName())
+		filename = fmt.Sprintf("%v%v.vue", CamelCase(DBName), t.CamelCaseName())
 		b = mvctemplate.MustAsset("vue.tpl")
 		formatter = vuedelims
 	case "js":
 		if dir == MVCDefaultDir {
 			dir = "src/api"
 		}
-		filename = fmt.Sprintf("%v.js", t.Name)
+		filename = fmt.Sprintf("%v_%v.js", DBName, t.Name)
 		b = mvctemplate.MustAsset("js.tpl")
 	case "sql":
 		if dir == MVCDefaultDir {
