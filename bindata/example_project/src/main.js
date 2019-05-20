@@ -10,6 +10,8 @@ import * as utils from '@/utils/utils'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
+import mycomponents from '@/components/mycomponents'
+Vue.use(mycomponents)
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/logout') {

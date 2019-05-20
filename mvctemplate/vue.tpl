@@ -106,7 +106,7 @@
 </template>
 
 <script>
-  import * as api from "@/api/{{.Name}}";
+  import * as api from "@/api/{{.DBName}}_{{.Name}}";
   export default {
     data() {
       return {

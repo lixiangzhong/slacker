@@ -38,6 +38,7 @@ func (t TemplateData) UserTable() Table {
 type Table struct {
 	Name           string
 	CreateTableSQL string
+	DBName         string
 	Columns        []Column
 }
 
@@ -48,6 +49,10 @@ func (t Table) Initials() string {
 
 func (t Table) CamelCaseName() string {
 	return CamelCase(t.Name)
+}
+
+func (t Table) CamelCaseNameWithDBName() string {
+	return CamelCase(t.DBName) + CamelCase(t.Name)
 }
 
 func (t Table) LowerName() string {
