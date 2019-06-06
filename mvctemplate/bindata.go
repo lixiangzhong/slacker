@@ -85,7 +85,7 @@ func controllersTpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "controllers.tpl", size: 7982, mode: os.FileMode(420), modTime: time.Unix(1554863196, 0)}
+	info := bindataFileInfo{name: "controllers.tpl", size: 7982, mode: os.FileMode(420), modTime: time.Unix(1559809412, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -125,7 +125,7 @@ func modelsTpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "models.tpl", size: 6982, mode: os.FileMode(420), modTime: time.Unix(1545115550, 0)}
+	info := bindataFileInfo{name: "models.tpl", size: 6982, mode: os.FileMode(420), modTime: time.Unix(1559811914, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

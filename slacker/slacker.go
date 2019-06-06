@@ -10,7 +10,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Usage = "一键生成后台管理项目"
-	app.Version = "1.1.0"
+	app.Version = "2.0.0"
 	app.Commands = []cli.Command{
 		slacker.New(),
 		slacker.Add(),
