@@ -80,7 +80,7 @@ func New() cli.Command {
 			fmt.Println("\tcd", projectname)
 			fmt.Println("\tnpm install")
 			fmt.Println("How to run:")
-			fmt.Println("\tnpm run dev")
+			fmt.Println("\tnpm run serve")
 			fmt.Printf("\tgo run %v.go\n", projectname)
 			fmt.Println("How to build")
 			fmt.Println("\tnpm run build")

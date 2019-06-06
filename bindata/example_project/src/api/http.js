@@ -11,8 +11,8 @@ import * as cookie from '@/utils/cookie'
 
 // 创建axios实例
 const http = axios.create({
-  // baseURL: process.env.BASE_API, // api的base_url
-  baseURL: process.env.BaseURL,
+  // baseURL: process.env.VUE_APP_BaseURL, // api的base_url
+  baseURL: process.env.VUE_APP_BaseURL,
   timeout: 15000 // 请求超时时间
 })
 

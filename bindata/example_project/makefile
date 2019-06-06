@@ -13,6 +13,11 @@ build:
 	    -X {{.ProjectPath}}/gosrc/app.GitVersion=$(build_gitversion)\
 			-X {{.ProjectPath}}/gosrc/app.GoMD5=$(gofilemd5)"\
 		 -o {{.ProjectName}}
+	@GOOS=linux go build  -ldflags "-X {{.ProjectPath}}/gosrc/app.Version=$(build_version)\
+	  -X {{.ProjectPath}}/gosrc/app.BuildTime=$(build_date)\
+	    -X {{.ProjectPath}}/gosrc/app.GitVersion=$(build_gitversion)\
+			-X {{.ProjectPath}}/gosrc/app.GoMD5=$(gofilemd5)"\
+		 -o {{.ProjectName}}_linux
 	@./{{.ProjectName}} -v 
 
 .PHONY: dist
