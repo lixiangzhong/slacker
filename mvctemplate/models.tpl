@@ -6,10 +6,15 @@
 //{{.NamedSQL}}
 //Columns
 //{{.SQLColumns}}
-package models
+package {{.LowerName}}
 
 import (
 sq	"github.com/Masterminds/squirrel"
+)
+
+const(
+	StateOK=0
+	StateDel=1
 )
  
 type {{.CamelCaseName}} struct{
@@ -25,222 +30,13 @@ func ({{.Initials}} {{.CamelCaseName}}) MarshalJSON() ([]byte, error) {
 }
 {{end}}
 
-
-func ({{.Initials}} {{.CamelCaseName}}) List(offset,limit uint64) ([]{{.CamelCaseName}},int,error) {
-    var data =make([]{{.CamelCaseName}},0)
-    var total int
-	var where sq.And
-	{{if Contains .SwitchCase "state"}}
-		where = append(where, sq.NotEq{"state":StateDel })
-	{{end}}
-	q, args, _ := sq.Select("count({{.PrimaryKeyColumn.ColumnName}})").From("{{.Name}}").Where(where).ToSql()
-    err:=db.Get(&total,q,args...)
-    if err!=nil{
-        return data,total,err
-    }
-	builder:= sq.Select("*").From("{{.Name}}").Where(where).OrderBy("{{.PrimaryKeyColumn.ColumnName}} desc")
-	if limit>0{
-	builder=builder.Limit(limit)
-	}
-	if offset>0{
-	builder=builder.Offset(offset)
-	}
-	q,args,_ = builder.ToSql()
-    err=db.Select(&data,q,args...)
-    return data,total,err
-}
-
-{{.MethodDelete}}
-
-func ({{.Initials}} {{.CamelCaseName}}) Update() error {
-	 {{.Initials | .AutomaticUpdateExpression}}
-
-    _,err := db.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",{{.Initials}})
-    return err
-}
-
-func ({{.Initials}} {{.CamelCaseName}}) Patch( update map[string]interface{}) error {
-  {{.AutomaticUpdateMapExpression}}
-
-	var named []string
-	for k := range update {
-		switch k {
-	   case {{.SwitchCase}}:
-			named = append(named, fmt.Sprintf("`%s`=:%s", k, k))
-		}
-	}
-	if len(named) == 0 {
-		return nil
-	}
-	{{if .IsUserTable}}
-	if val, ok := update["{{.PasswordColumn.ColumnName}}"]; ok {
-		password, ok := val.(string)
-		if ok {
-			password = EncryptPassword(password)
-			update["{{.PasswordColumn.ColumnName}}"] = password
-		}
-	}
-	{{end}}
-	fields := strings.Join(named, ",")
-	update["{{.PrimaryKeyColumn.ColumnName}}"] = {{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}}
-	_, err := db.NamedExec("update {{.Name}} set "+ fields +" where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}", update)
-	return err
-}
-
-
-	{{.MethodTake}}
- 
-func ({{.Initials}} {{.CamelCaseName}}) Create()({{.CamelCaseName}}, error ){
- 	{{.Initials | .AutomaticCreateUpdateExpression}}
-
-	{{if .IsUserTable}}
-	{{.Initials}}.{{.UsernameColumn.CamelCaseName}} = strings.ToLower({{.Initials}}.{{.UsernameColumn.CamelCaseName}})
-	{{.Initials}}.{{.PasswordColumn.CamelCaseName}} = EncryptPassword({{.Initials}}.{{.PasswordColumn.CamelCaseName}})
-	if {{.Initials}}.duplicate() {
-		return {{.Initials}}, errors.New("用户名已经存在")
-	}
-	{{end}}
-    result,err := db.NamedExec("insert into {{.Name}} set {{.NamedSQL}}",{{.Initials}})
-	if err!=nil{
-		return {{.Initials}},err
-	}
-	{{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}},err=result.LastInsertId()
-    return {{.Initials}}, err
-}
-
-func ({{.Initials}} {{.CamelCaseName}}) BatchUpdate(ids []int64) error { 
-	return Tx(func(tx *sqlx.Tx)error{
-	{{ .Initials | .AutomaticUpdateExpression}}
-		for _, id := range ids { 
-			{{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}}=id
-			_, err := tx.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",{{.Initials}})
-			if err != nil { 
-				return err
-			}
-		}
-		return nil
-	})
-}
-
-func (_ {{.CamelCaseName}}) BatchPatch(ids []int64, update map[string]interface{}) error {
-	{{.AutomaticUpdateMapExpression}}
-	var named []string
-	for k := range update {
-		switch k {
-	   case {{.SwitchCase}}:
-			named = append(named, fmt.Sprintf("%s=:%s", k, k))
-		}
-	}
-	if len(named) == 0 {
-		return nil
-	}
-	fields := strings.Join(named, ",")
-
-	return Tx(func(tx *sqlx.Tx)error{
-		for _, id := range ids {
-			update["{{.PrimaryKeyColumn.ColumnName}}"] = id
-			_, err := tx.NamedExec("update {{.Name}} set "+ fields +" where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}", update)
-			if err != nil { 
-				return err
-			}
-		}
-		return nil
-	})
-}
-
-
-
-
-func (_ {{.CamelCaseName}}) BatchCreate({{.LowerName}}s []{{.CamelCaseName}}) error {
-	return Tx(func(tx *sqlx.Tx)error{
-		stmt, err := tx.PrepareNamed("insert into {{.Name}} set {{.NamedSQL}}")
-		if err != nil { 
-			return err
-		} 
-		defer stmt.Close()
-		for _, {{.LowerName}} := range {{.LowerName}}s { 
-		{{.LowerName | .AutomaticCreateUpdateExpression}}
-			_, err := stmt.Exec({{.LowerName}})
-			if err != nil {
-				return err
-			}
-		}
-		return nil
-	})
+func ({{.Initials}} {{.CamelCaseName}}) TableName() string { 
+	return "{{.Name}}"
 }
 
  
 
-func (_ {{.CamelCaseName}})BatchDelete(ids []int64)error{
-	return Tx(func(tx *sqlx.Tx)error{
-		for _, id := range ids {
-		{{if Contains .SwitchCase "utime"}}
-			{{if Contains $.SwitchCase "state"}}
-			_, err := tx.Exec("update {{.Name}} set state=?,utime=? where {{.PrimaryKeyColumn.ColumnName}}=?",StateDel,time.Now().Unix(),id)
-			{{else}}
-			_, err := tx.Exec("update {{.Name}} set utime=? where {{.PrimaryKeyColumn.ColumnName}}=?",time.Now().Unix(),id)
-			{{end}}
-		{{else}}
-		_, err := tx.Exec("delete from {{.Name}} where {{.PrimaryKeyColumn.ColumnName}}=?",id)
-		{{end}}
-			if err != nil { 
-				return err
-			}
-		}
-	return nil
-	})
-}
-
-
-func (_ {{.CamelCaseName}}) Import({{.LowerName}}s []{{.CamelCaseName}}) error {
-	return Tx(func(tx *sqlx.Tx)error{
-		stmt, err := tx.PrepareNamed("insert into {{.Name}} set {{.NamedSQL}}")
-		if err != nil {
-			return err
-		} 
-		defer stmt.Close()
-		_, err = tx.Exec("truncate table {{.Name}}")
-		if err != nil {
-			return err
-		}
-		for _, {{.LowerName}} := range {{.LowerName}}s { 
-			{{.LowerName | .AutomaticCreateUpdateExpression}}
-			_, err := stmt.Exec({{.LowerName}})
-			if err != nil {
-				return err
-			}
-		}
-		return err
-	}) 
-}
-
-
-{{if .IsUserTable}}
-func EncryptPassword(password string) string {
-	hashd, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	return string(hashd)
-}
-
-func ({{.Initials}} {{.CamelCaseName }}) ValidPassword(password string) bool {
-	return nil == bcrypt.CompareHashAndPassword([]byte({{.Initials}}.{{.PasswordColumn.CamelCaseName}}), []byte(password))
-}
-
-
-func ({{.Initials}} {{.CamelCaseName}}) TakeByName(username string) ({{.CamelCaseName}}, error) {
-	username = strings.ToLower(username)
-	SQL := "select * from {{.Name}} where {{.UsernameColumn.ColumnName }}=? limit 1"
-	err := db.Get(&{{.Initials}}, SQL, username)
-	return {{.Initials}}, err
-}
-
-func ({{.Initials}} {{.CamelCaseName}}) duplicate() bool {
-	SQL := "select 1 from {{.Name}} where {{.UsernameColumn.ColumnName}}=? limit 1"
-	var exist bool
-	err := db.QueryRow(SQL, {{.Initials}}.{{.UsernameColumn.CamelCaseName}}).Scan(&exist)
-	if err != nil && err != sql.ErrNoRows {
-		return true
-	}
-	return exist
-}
-
-{{end}}
+ 
+ 
+ 
+  

@@ -32,14 +32,14 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(
   response => {
     const res = response.data
-    if (res.code == 403) {
+    if (res.code > 400 && res.code <= 499) {
       store.dispatch('LogOut').then(() => {
         location.reload()
       })
     }
     if (res.code !== 0) {
       Message({
-        message: res.msg,
+        message: res.message,
         type: 'error',
         duration: 5 * 1000
       })

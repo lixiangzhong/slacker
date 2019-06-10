@@ -8,11 +8,11 @@ import (
 
 func Meta(c *gin.Context) {
 	logo := config.String("meta.logo")
-	title := config.String("meta.title")
-	c.JSON(200, JSON.OK(gin.H{
+	title := config.String("meta.title") 
+	JSON(c, gin.H{
 		"logo":       logo,
 		"title":      title,
 		"version":    app.Version,
 		"gitversion": app.GitVersion,
-	}))
+	}, nil)
 }

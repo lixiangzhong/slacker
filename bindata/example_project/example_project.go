@@ -13,24 +13,25 @@ func initroute() {
 	api := app.Engine.Group("/api", controllers.MiddleWare.JWTAuth)
 	// importdata:=api.Group("/import")
 	// exportdata:=api.Group("/export")
+	//websocket:=api.Group("/websocket")
 
 	{{range $i,$table:=.Tables}}
 	//{{$table.Name}}
-	api.GET("/{{$table.LowerName}}/:id",controllers.{{$table.CamelCaseName}}{}.Take)
-	api.GET("/{{$table.LowerName}}",controllers.{{$table.CamelCaseName}}{}.List)
-	api.POST("/{{$table.LowerName}}",controllers.{{$table.CamelCaseName}}{}.Create)
-	api.PUT("/{{$table.LowerName}}/:id",controllers.{{$table.CamelCaseName}}{}.Update)
-	api.PATCH("/{{$table.LowerName}}/:id",controllers.{{$table.CamelCaseName}}{}.Patch)
-	api.DELETE("/{{$table.LowerName}}/:id",controllers.{{$table.CamelCaseName}}{}.Delete) 
-	// api.PATCH("/{{$table.LowerName}}",controllers.{{$table.CamelCaseName}}{}.BatchPatch)
-	// api.DELETE("/{{$table.LowerName}}",controllers.{{$table.CamelCaseName}}{}.BatchDelete)
-	// api.PUT("/{{$table.LowerName}}",controllers.{{$table.CamelCaseName}}{}.BatchUpdate)
-	// importdata.POST("/{{$table.LowerName}}", controllers.{{$table.CamelCaseName}}{}.Import)
-	// exportdata.GET("/{{$table.LowerName}}", controllers.{{$table.CamelCaseName}}{}.Export)
+	api.GET("/{{$table.LowerName}}/:id",controllers.Take{{$table.CamelCaseName}})
+	api.GET("/{{$table.LowerName}}",controllers.List{{$table.CamelCaseName}})
+	api.POST("/{{$table.LowerName}}",controllers.Create{{$table.CamelCaseName}})
+	api.PUT("/{{$table.LowerName}}/:id",controllers.Update{{$table.CamelCaseName}})
+	api.PATCH("/{{$table.LowerName}}/:id",controllers.Patch{{$table.CamelCaseName}})
+	api.DELETE("/{{$table.LowerName}}/:id",controllers.Delete{{$table.CamelCaseName}}) 
+	// api.PATCH("/{{$table.LowerName}}",controllers.BatchPatch{{$table.CamelCaseName}})
+	// api.DELETE("/{{$table.LowerName}}",controllers.BatchDelete{{$table.CamelCaseName}})
+	// api.PUT("/{{$table.LowerName}}",controllers.BatchUpdate{{$table.CamelCaseName}}) 
 	{{end}}
 
 }
 func main() {
+	app.Init()
+	controllers.Init()
 	initroute()
 	app.Run()
 }

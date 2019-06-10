@@ -1,10 +1,8 @@
 package controllers
 
 import (
-	"{{.ProjectPath}}/gosrc/app"
-	{{if .HasUserTable}}
-	"{{.ProjectPath}}/gosrc/models"
-	{{end}}
+	"{{.ProjectPath}}/gosrc/app" 
+	"{{.ProjectPath}}/gosrc/errcode" 
 	"github.com/lixiangzhong/config"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -25,53 +23,53 @@ type LoginForm struct {
 func GetToken(c *gin.Context) {
 	var t LoginForm
 	if err := c.ShouldBindJSON(&t); err != nil {
-		c.JSON(http.StatusOK, JSON.BadRequest())
+		JSON(c,nil,errcode.BadRequest) 
 		return
 	}
 	if !base64Captcha.VerifyCaptcha(t.CaptchaID, t.CaptchaValue) {
-		c.JSON(http.StatusOK, JSON.InValidCaptcha())
+		JSON(c,nil,errcode.InvalidCaptcha)  
 		return
 	}
 
 	{{if .HasUserTable}}
-	user, err := models.{{.UserTable.CamelCaseName}}{}.TakeByName(t.Username)
+	user, err := Service.Take{{.UserTable.CamelCaseName}}ByName(t.Username)
 	if err != nil {
-		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
+		JSON(c,nil,errcode.IncorrectUserOrPwd)
 		return
 	}
-	if user.ValidPassword(t.Password) {
+	if Service.ValidPassword(t.Password,user.{{.UserTable.PasswordColumn.CamelCaseName}}) {
 		token, err := GenerateToken(user.ID, app.JWTExpireIn)
 		if err != nil {
-			c.JSON(http.StatusOK, JSON.Error(err))
+			JSON(c,nil,err)
 			return
 		}
-		c.JSON(http.StatusOK, JSON.OK(gin.H{
+		JSON(c,gin.H{
 			"token":    token,
 			"expirein": app.JWTExpireIn,
-		}))
+		},nil) 
 	} else {
-		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
+		JSON(c,nil,errcode.IncorrectUserOrPwd)
 		return
 	}
 	{{else}}
 	username := config.String("auth.user")
 	password := config.String("auth.password")
 	if username != t.Username {
-		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
+		JSON(c,nil,errcode.IncorrectUserOrPwd)
 		return
 	}
 	if password == t.Password {
 		token, err := GenerateToken(0, app.JWTExpireIn)
-		if err != nil {
-			c.JSON(http.StatusOK, JSON.Error(err))
+		if err != nil { 
+			JSON(c,nil,err)
 			return
 		}
-		c.JSON(http.StatusOK, JSON.OK(gin.H{
+		JSON(c,gin.H{
 			"token":    token,
 			"expirein": app.JWTExpireIn,
-		}))
+		},nil) 
 	} else {
-		c.JSON(http.StatusOK, JSON.IncorrectUserOrPwd())
+		JSON(c,nil,errcode.IncorrectUserOrPwd)
 		return
 	}
 	{{end}}

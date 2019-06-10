@@ -1,11 +1,22 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
+	"github.com/lixiangzhong/config"
+	"github.com/jmoiron/sqlx"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket" 
+	"{{.ProjectPath}}/gosrc/service"
 )
+
+var Service *service.Service
+
+func Init() {
+	db:=sqlx.MustConnect("mysql",config.MySQLConfig("mysql").FormatDSN())
+Service=service.New(db)
+}
 
 var WebSocket = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {

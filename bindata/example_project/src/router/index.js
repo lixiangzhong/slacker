@@ -23,7 +23,7 @@ export default new Router({
     children: [{{range $i,$v:=.Tables}}{{if gt $i 0}},{{end}}{
       path: '{{$v.LowerName}}',
       component: () =>
-        import ('@/views/{{$v.CamelCaseNameWithDBName}}'),
+        import ('@/views/{{$v.CamelCaseName}}'),
     }{{end}}]
   }]
 })

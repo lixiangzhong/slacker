@@ -52,37 +52,45 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 	switch mvc {
 	case "m", "models":
 		if dir == MVCDefaultDir {
-			dir = "gosrc/models"
+			dir = "gosrc/models/" + t.Name
 		}
-		filename = fmt.Sprintf("%v_%v.go", DBName, t.Name)
+		filename = fmt.Sprintf("%v.go", t.Name)
 		b = mvctemplate.MustAsset("models.tpl")
 		formatter = gofmt
 	case "c", "controller":
 		if dir == MVCDefaultDir {
 			dir = "gosrc/controllers"
 		}
-		filename = fmt.Sprintf("%v_%v.go", DBName, t.Name)
+		filename = fmt.Sprintf("%v.go", t.Name)
 		b = mvctemplate.MustAsset("controllers.tpl")
 		formatter = gofmt
 	case "v", "vue", "view":
 		if dir == MVCDefaultDir {
 			dir = "src/views"
 		}
-		filename = fmt.Sprintf("%v%v.vue", CamelCase(DBName), t.CamelCaseName())
+		filename = fmt.Sprintf("%v.vue", t.CamelCaseName())
 		b = mvctemplate.MustAsset("vue.tpl")
 		formatter = vuedelims
 	case "js":
 		if dir == MVCDefaultDir {
 			dir = "src/api"
 		}
-		filename = fmt.Sprintf("%v_%v.js", DBName, t.Name)
+		filename = fmt.Sprintf("%v.js", t.Name)
 		b = mvctemplate.MustAsset("js.tpl")
-	case "sql":
+	case "dao":
 		if dir == MVCDefaultDir {
-			dir = "gosrc/bindata"
+			dir = "gosrc/dao"
 		}
-		filename = fmt.Sprintf("%v_%v.sql", DBName, t.Name)
-		b = mvctemplate.MustAsset("sql.tpl")
+		filename = fmt.Sprintf("%v.go", t.Name)
+		b = mvctemplate.MustAsset("dao.tpl")
+		formatter = gofmt
+	case "service":
+		if dir == MVCDefaultDir {
+			dir = "gosrc/service"
+		}
+		filename = fmt.Sprintf("%v.go", t.Name)
+		b = mvctemplate.MustAsset("service.tpl")
+		formatter = gofmt
 	}
 
 	tpl.Funcs(FuncMap)
@@ -106,6 +114,11 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 			log.Error(dir, filename, err)
 			return
 		}
+	}
+	err = os.MkdirAll(dir, 0755)
+	if err != nil {
+		log.Error(err)
+		return
 	}
 	f, err := os.OpenFile(path.Join(dir, filename), os.O_RDWR|os.O_CREATE|os.O_TRUNC|os.O_EXCL, 0644)
 	if err != nil {

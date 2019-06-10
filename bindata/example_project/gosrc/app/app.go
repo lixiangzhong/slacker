@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/jmoiron/sqlx"
 	"crypto/md5"
 	"encoding/hex"
 	"flag"
@@ -28,7 +29,7 @@ var (
 	GoMD5          string
 )
 
-func init() {
+func Init() {
 	initFlag()
 	initCfg()
 	initEngine()

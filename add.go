@@ -42,7 +42,7 @@ func Add() cli.Command {
 
 			var mvc = c.Args().First()
 			var dir = c.String("dir")
-			var rebindata bool
+
 			for _, table := range tables {
 				switch mvc {
 				case "m", "model", "models":
@@ -53,28 +53,22 @@ func Add() cli.Command {
 					table.ExecTemplate("js", dir)
 				case "c", "controller", "controllers":
 					table.ExecTemplate("c", dir)
-				case "s", "sql":
-					table.ExecTemplate("sql", dir)
-					addInitCreateTableFile(table.Name)
-					rebindata = true
+				case "dao", "d":
+					table.ExecTemplate("dao", dir)
+				case "service", "s":
+					table.ExecTemplate("service", dir)
 				case "a", "all":
 					table.ExecTemplate("m", MVCDefaultDir)
 					table.ExecTemplate("v", MVCDefaultDir)
 					table.ExecTemplate("c", MVCDefaultDir)
 					table.ExecTemplate("js", MVCDefaultDir)
-					{
-						table.ExecTemplate("sql", MVCDefaultDir)
-						addInitCreateTableFile(table.Name)
-						rebindata = true
-					}
+					table.ExecTemplate("dao", MVCDefaultDir)
+					table.ExecTemplate("service", MVCDefaultDir)
 				case "":
 					return cli.NewExitError("missing action !!!\nexample:\n\tslacker add <action>", 0)
 				default:
 					return cli.NewExitError("action: "+mvc+" unknown", 0)
 				}
-			}
-			if rebindata {
-				ReBindata(dir, "sql")
 			}
 			return nil
 		},

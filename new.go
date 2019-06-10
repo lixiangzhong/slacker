@@ -5,7 +5,6 @@ import (
 	"os"
 	"time"
 
-	gobindata "github.com/go-bindata/go-bindata"
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/lixiangzhong/slacker/bindata"
@@ -55,24 +54,15 @@ func New() cli.Command {
 			if err := bindata.Restore(tpldata); err != nil {
 				return cli.NewExitError(err, 1)
 			}
-			cfg := gobindata.NewConfig()
-			cfg.Package = "bindata"
+
 			for _, table := range tables {
 				table.ExecTemplate("m", MVCDefaultDir)
 				table.ExecTemplate("v", MVCDefaultDir)
 				table.ExecTemplate("c", MVCDefaultDir)
 				table.ExecTemplate("js", MVCDefaultDir)
-				table.ExecTemplate("sql", MVCDefaultDir)
+				table.ExecTemplate("dao", MVCDefaultDir)
+				table.ExecTemplate("service", MVCDefaultDir)
 
-				cfg.Input = append(cfg.Input, gobindata.InputConfig{
-					Path: fmt.Sprintf("%v_%v.sql", mysqlconfig.DBName, table.Name),
-				})
-			}
-			if err := os.Chdir("gosrc/bindata"); err != nil {
-				return cli.NewExitError(err, 1)
-			}
-			if err := gobindata.Translate(cfg); err != nil {
-				return cli.NewExitError(err, 1)
 			}
 
 			fmt.Printf("\nProject %v Successfully Created !!!\n\n", projectname)

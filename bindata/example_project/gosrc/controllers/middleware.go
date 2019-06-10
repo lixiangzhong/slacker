@@ -19,14 +19,16 @@ func (m middleware) JWTAuth(c *gin.Context) {
 		return []byte(app.JWTSecret), nil
 	})
 	if err != nil {
-		//token 过期或不正确
-		c.AbortWithStatusJSON(http.StatusOK, JSON.TimeoutToken())
+		//token 过期或不正确 
+		c.Abort()
+		JSON(c, nil,errcode.InvalidToken  )
 		return
 	}
 	if m, ok := token.Claims.(jwt.MapClaims); ok {
 		uid, ok := m["uid"]
 		if !ok {
-			c.AbortWithStatusJSON(http.StatusOK, JSON.InvalidToken())
+			c.Abort()
+			JSON(c, nil,errcode.InvalidToken )
 			return
 		}
 		c.Set("uid", uid)
