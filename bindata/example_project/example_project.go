@@ -6,7 +6,7 @@ import (
 )
 
 func initroute() {
-	app.Engine.GET("/captcha", controllers.Captcha{}.Get)
+	app.Engine.GET("/captcha", controllers.Captcha)
 	app.Engine.POST("/token", controllers.GetToken)
 	app.Engine.GET("/meta", controllers.Meta)
 
@@ -22,10 +22,7 @@ func initroute() {
 	api.POST("/{{$table.LowerName}}",controllers.Create{{$table.CamelCaseName}})
 	api.PUT("/{{$table.LowerName}}/:id",controllers.Update{{$table.CamelCaseName}})
 	api.PATCH("/{{$table.LowerName}}/:id",controllers.Patch{{$table.CamelCaseName}})
-	api.DELETE("/{{$table.LowerName}}/:id",controllers.Delete{{$table.CamelCaseName}}) 
-	// api.PATCH("/{{$table.LowerName}}",controllers.BatchPatch{{$table.CamelCaseName}})
-	// api.DELETE("/{{$table.LowerName}}",controllers.BatchDelete{{$table.CamelCaseName}})
-	// api.PUT("/{{$table.LowerName}}",controllers.BatchUpdate{{$table.CamelCaseName}}) 
+	api.DELETE("/{{$table.LowerName}}/:id",controllers.Delete{{$table.CamelCaseName}})
 	{{end}}
 
 }

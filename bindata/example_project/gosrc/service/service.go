@@ -12,7 +12,9 @@ type Service struct {
 }
 
 func New(db *sqlx.DB) *Service {
+	d:=dao.New(db)
+	d.Init()
 	return &Service{
-		dao: dao.New(db),
+		dao: d,
 	}
 }

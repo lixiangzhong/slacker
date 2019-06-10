@@ -20,10 +20,7 @@ var CaptchaConfig = base64Captcha.ConfigCharacter{
 	CaptchaLen:         4,
 }
 
-type Captcha struct {
-}
-
-func (_ Captcha) Get(c *gin.Context) {
+func Captcha(c *gin.Context) {
 	id, catpcha := base64Captcha.GenerateCaptcha("", CaptchaConfig)
 	JSON(c, gin.H{
 		"captcha_id":   id,
