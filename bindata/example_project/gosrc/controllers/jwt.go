@@ -37,20 +37,19 @@ func GetToken(c *gin.Context) {
 		JSON(c,nil,errcode.IncorrectUserOrPwd)
 		return
 	}
-	if Service.ValidPassword(t.Password,user.{{.UserTable.PasswordColumn.CamelCaseName}}) {
-		token, err := GenerateToken(user.ID, app.JWTExpireIn)
-		if err != nil {
-			JSON(c,nil,err)
-			return
-		}
-		JSON(c,gin.H{
-			"token":    token,
-			"expirein": app.JWTExpireIn,
-		},nil) 
-	} else {
+	if !Service.ValidPassword(t.Password,user.{{.UserTable.PasswordColumn.CamelCaseName}}) {
 		JSON(c,nil,errcode.IncorrectUserOrPwd)
 		return
+	}  
+	token, err := GenerateToken(user.ID, app.JWTExpireIn)
+	if err != nil {
+		JSON(c,nil,err)
+		return
 	}
+	JSON(c,gin.H{
+		"token":    token,
+		"expirein": app.JWTExpireIn,
+	},nil)
 	{{else}}
 	username := config.String("auth.user")
 	password := config.String("auth.password")
@@ -58,8 +57,11 @@ func GetToken(c *gin.Context) {
 		JSON(c,nil,errcode.IncorrectUserOrPwd)
 		return
 	}
-	if password == t.Password {
-		token, err := GenerateToken(0, app.JWTExpireIn)
+	if password != t.Password {
+		JSON(c,nil,errcode.IncorrectUserOrPwd)
+		return
+	} 
+	token, err := GenerateToken(0, app.JWTExpireIn)
 		if err != nil { 
 			JSON(c,nil,err)
 			return
@@ -68,10 +70,6 @@ func GetToken(c *gin.Context) {
 			"token":    token,
 			"expirein": app.JWTExpireIn,
 		},nil) 
-	} else {
-		JSON(c,nil,errcode.IncorrectUserOrPwd)
-		return
-	}
 	{{end}}
 }
 

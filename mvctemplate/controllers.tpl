@@ -29,15 +29,10 @@ func   List{{.CamelCaseName}}(c *gin.Context)  {
     limit,_:=strconv.ParseUint(c.DefaultQuery("limit","0"),10,64)
  	c.ShouldBindQuery(&{{.LowerName}})
    data,total,err:= Service.List{{.CamelCaseName}}(offset,limit)
-   	if err != nil {
-		JSON(c, nil,err)
-		return
-	} 
-
 			JSON(c, gin.H{
 		"data":  data,
 		"total": total,
-	},nil)
+	},err)
 }
 
 func   Take{{.CamelCaseName}}(c *gin.Context)  {
@@ -45,82 +40,62 @@ func   Take{{.CamelCaseName}}(c *gin.Context)  {
 		c.ShouldBindQuery(&{{.LowerName}})
     id, err := strconv.ParseInt(c.Param("id"),10,64)
 	if err != nil {
-		JSON(c, nil,errcode.BadRequest)
+		JSON(c, nil,errcode.New(errcode.BadRequest,err))
 		return
 	} 
-    {{.LowerName}}, err = Service.Take{{.CamelCaseName}}(id)
-	if err != nil {
-		JSON(c, nil,err)
-		return
-	}
-			JSON(c, {{.LowerName}},nil)
+    {{.LowerName}}, err = Service.Take{{.CamelCaseName}}(id) 
+			JSON(c, {{.LowerName}},err)
 }
 
 func  Create{{.CamelCaseName}}(c *gin.Context)  {
     var {{.LowerName}} {{.LowerName}}.{{.CamelCaseName}}
     if err := c.ShouldBindJSON(&{{.LowerName}}); err != nil {
-      		JSON(c, nil,errcode.BadRequest)
+      		JSON(c, nil,errcode.New(errcode.BadRequest,err))
         return
 	}
     {{.LowerName}},err := Service.Create{{.CamelCaseName}}({{.LowerName}})
-	if err != nil {
-		JSON(c, nil,err)
-		return
-	} 
-		JSON(c, {{.LowerName}},nil)
+		JSON(c, {{.LowerName}},err)
 }
 
 func Update{{.CamelCaseName}}(c *gin.Context)  {
 	  id, err := strconv.ParseInt(c.Param("id"),10,64)
 	if err != nil {
-	JSON(c, nil,errcode.BadRequest)
+	JSON(c, nil,errcode.New(errcode.BadRequest,err))
 		return
 	}
     var {{.LowerName}} {{.LowerName}}.{{.CamelCaseName}}
 	if err := c.ShouldBindJSON(&{{.LowerName}}); err != nil {
-		JSON(c, nil,errcode.BadRequest)
+		JSON(c, nil,errcode.New(errcode.BadRequest,err))
 		return
 	}
 	{{.LowerName}}.{{.PrimaryKeyColumn.CamelCaseName}} = id
 	err = Service.Update{{.CamelCaseName}}({{.LowerName}})
-	if err != nil {
-			JSON(c, nil,err)
-		return
-	}
-		JSON(c, nil,nil)
+		JSON(c, nil,err)
 }
 
 func  Patch{{.CamelCaseName}}(c *gin.Context)  {
 	id, err := strconv.ParseInt(c.Param("id"),10,64)
 	if err != nil {
-	JSON(c, nil,errcode.BadRequest)
+	JSON(c, nil,errcode.New(errcode.BadRequest,err))
 		return
 	}
 	var updatefields = make(map[string]interface{})
 	if err := c.ShouldBindJSON(&updatefields); err != nil {
-	JSON(c, nil,errcode.BadRequest)
+	JSON(c, nil,errcode.New(errcode.BadRequest,err))
 		return
 	} 
 	err = Service.Patch{{.CamelCaseName}}(id,updatefields)
-	if err != nil {
-		JSON(c, nil,err)
-		return
-	}
-	JSON(c, nil,nil)
+	JSON(c, nil,err)
 }
 
 func  Delete{{.CamelCaseName}}(c *gin.Context)  {
     id, err := strconv.ParseInt(c.Param("id"),10,64)
 	if err != nil { 
-		JSON(c, nil,errcode.BadRequest)
+		JSON(c, nil,errcode.New(errcode.BadRequest,err))
 		return
 	} 
 	err = Service.Delete{{.CamelCaseName}}(id)
-	if err != nil {
 		JSON(c, nil,err)
-		return
-	}
-		JSON(c, nil,nil)
 }
 
 /*
@@ -128,11 +103,7 @@ func  BatchDelete{{.CamelCaseName}}(c *gin.Context) {
 	ids := strings2int64s(c.QueryArray("id"))
 	ids = append(ids, strings2int64s(c.QueryArray("id[]"))...) 
 	err := Service.BatchDelete{{.CamelCaseName}}(ids)
-	if err != nil {
-			JSON(c, nil,err)
-		return
-	}
-	JSON(c, nil,nil)
+	JSON(c, nil,err)
 }
 
 
@@ -140,17 +111,13 @@ func  BatchDelete{{.CamelCaseName}}(c *gin.Context) {
 func  BatchPatch{{.CamelCaseName}}(c *gin.Context) {
 	var updatefields = make(map[string]interface{})
 	if err := c.ShouldBindJSON(&updatefields); err != nil {
-		c.JSON(http.StatusOK, JSON.BadBinding(err))
+			JSON(c, nil,errcode.New(errcode.BadRequest,err))
 		return
 	}
 	ids := strings2int64s(c.QueryArray("id"))
 	ids = append(ids, strings2int64s(c.QueryArray("id[]"))...) 
 	err := Service.BatchPatch{{.CamelCaseName}}(ids, updatefields)
-	if err != nil {
-			JSON(c, nil,err)
-		return
-	}
-		JSON(c, nil,nil)
+		JSON(c, nil,err)
 }
 
 func  BatchUpdate{{.CamelCaseName}}(c *gin.Context) {
@@ -161,11 +128,7 @@ func  BatchUpdate{{.CamelCaseName}}(c *gin.Context) {
 	}
 	ids := strings2int64s(c.QueryArray("id"))
 	ids = append(ids, strings2int64s(c.QueryArray("id[]"))...)
-	err := Service.BatchUpdate{{.CamelCaseName}}(ids)
-	if err != nil {
-			JSON(c, nil,err)
-		return
-	}
-		JSON(c, nil,nil)
+	err := Service.BatchUpdate{{.CamelCaseName}}(ids) 
+		JSON(c, nil,err)
 } 
 */

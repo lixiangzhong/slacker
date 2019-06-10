@@ -62,7 +62,6 @@ func New() cli.Command {
 				table.ExecTemplate("js", MVCDefaultDir)
 				table.ExecTemplate("dao", MVCDefaultDir)
 				table.ExecTemplate("service", MVCDefaultDir)
-
 			}
 
 			fmt.Printf("\nProject %v Successfully Created !!!\n\n", projectname)

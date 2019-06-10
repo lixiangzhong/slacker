@@ -22,7 +22,9 @@ func JSON(c *gin.Context, data interface{}, err error) {
 		e=errcode.OK
 	case sql.ErrNoRows:
 		e=errcode.NotFound
+		data=nil
 	default:
+		data=nil
 		var ok bool
 		e, ok = err.(errcode.CodeError)
 		if !ok {
