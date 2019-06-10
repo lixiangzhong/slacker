@@ -20,7 +20,7 @@ func New(db *sqlx.DB) *Dao {
 }
 
 func (d *Dao) Init() {
-	d.AutoMigrate()
+	d.autoMigrate()
 }
 
 func (d *Dao) gorm() *gorm.DB {
@@ -31,7 +31,7 @@ func (d *Dao) gorm() *gorm.DB {
 	return db
 }
 
-func (d *Dao) AutoMigrate() {
+func (d *Dao) autoMigrate() {
 	d.gorm().Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
 		{{range $i,$table:=.Tables}}{{$table.LowerName}}.{{$table.CamelCaseName}}{},
 		{{end}}
