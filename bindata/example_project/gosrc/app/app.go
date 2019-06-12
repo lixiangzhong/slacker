@@ -78,12 +78,10 @@ func initEngine() {
 			MaxAge:           12 * time.Hour,
 		}))
 	}
-	Engine.Static("/static", "dist/static")
+	Engine.Static("/js", "dist/js")
+	Engine.Static("/css", "dist/css")
+	Engine.Static("/fonts", "dist/fonts")
 	Engine.LoadHTMLFiles("dist/index.html")
-	// Engine.NoRoute(func(c *gin.Context) {
-	// 	c.HTML(200, "index.html", nil)
-	// })
-
 	Engine.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
 	})
