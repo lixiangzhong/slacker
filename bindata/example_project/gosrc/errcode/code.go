@@ -42,7 +42,7 @@ func add(code int, message string) CodeError {
 	return Code(code)
 }
 
-func New(ecode CodeError, err error) CodeError {
+func New(ecode CodeError, err interface{}) CodeError {
 	return DiyCode{
 		CodeError: ecode,
 		e:         err,
@@ -51,7 +51,7 @@ func New(ecode CodeError, err error) CodeError {
 
 type DiyCode struct {
 	CodeError
-	e error
+	e interface{}
 }
 
 func (d DiyCode) Message() string {
