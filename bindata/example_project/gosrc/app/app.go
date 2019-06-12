@@ -78,9 +78,7 @@ func initEngine() {
 			MaxAge:           12 * time.Hour,
 		}))
 	}
-	Engine.Static("/js", "dist/js")
-	Engine.Static("/css", "dist/css")
-	Engine.Static("/fonts", "dist/fonts")
+	Engine.Static("/static", "dist/static") 
 	Engine.LoadHTMLFiles("dist/index.html")
 	Engine.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
