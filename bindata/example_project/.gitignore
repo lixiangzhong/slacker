@@ -16,5 +16,5 @@ yarn-error.log*
 
 #golang
 {{.ProjectName}}
-
+{{.ProjectName}}_linux
 *.zip
