@@ -13,8 +13,8 @@ func (s *Service)Take{{.CamelCaseName}}(id int64)({{.LowerName}}.{{.CamelCaseNam
 }
 
 
-func (s *Service)List{{.CamelCaseName}}(offset,limit uint64)([]{{.LowerName}}.{{.CamelCaseName}},int,error){ 
-	data,total,err := s.dao.List{{.CamelCaseName}}(offset,limit) 
+func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}}.{{.CamelCaseName}})([]{{.LowerName}}.{{.CamelCaseName}},int,error){ 
+	data,total,err := s.dao.List{{.CamelCaseName}}(offset,limit,search) 
 	return data,total, err 
 }
 
@@ -23,7 +23,7 @@ func (s *Service)Create{{.CamelCaseName}}({{.LowerName}} {{.LowerName}}.{{.Camel
 		{{.LowerName}}.{{.UsernameColumn.CamelCaseName}} = strings.ToLower({{.LowerName}}.{{.UsernameColumn.CamelCaseName}})
 		{{.LowerName}}.{{.PasswordColumn.CamelCaseName}} = s.EncryptPassword({{.LowerName}}.{{.PasswordColumn.CamelCaseName}})
 		if s.dao.{{.CamelCaseName}}IsExist({{.LowerName}}.{{.UsernameColumn.CamelCaseName}}) {
-			return {{.LowerName}}, errcode.IsExist
+			return {{.LowerName}}, errcode.AlreadyExist
 		}
 	{{end}}
 	data, err := s.dao.Create{{.CamelCaseName}}({{.LowerName}}) 

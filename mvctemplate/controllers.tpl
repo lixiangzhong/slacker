@@ -28,7 +28,7 @@ func   List{{.CamelCaseName}}(c *gin.Context)  {
  
     limit,_:=strconv.ParseUint(c.DefaultQuery("limit","0"),10,64)
  	c.ShouldBindQuery(&{{.LowerName}})
-   data,total,err:= Service.List{{.CamelCaseName}}(offset,limit)
+   data,total,err:= Service.List{{.CamelCaseName}}(offset,limit,{{.LowerName}})
 			JSON(c, gin.H{
 		"data":  data,
 		"total": total,

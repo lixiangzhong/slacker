@@ -6,7 +6,7 @@ sq	"github.com/Masterminds/squirrel"
 "{{"gosrc/models"| .ImportLibrary}}/{{.Name}}"
 )
 
-func (d *Dao) List{{.CamelCaseName}}(offset,limit uint64) ([]{{.LowerName}}.{{.CamelCaseName}},int,error) {
+func (d *Dao) List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}}.{{.CamelCaseName}}) ([]{{.LowerName}}.{{.CamelCaseName}},int,error) {
     var data =make([]{{.LowerName}}.{{.CamelCaseName}},0)
     var total int
 	var where sq.And

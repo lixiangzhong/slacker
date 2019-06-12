@@ -5,6 +5,7 @@ import (
 	"errors"
 	"{{.ProjectPath}}/gosrc/dao"
 	"github.com/jmoiron/sqlx"
+	"{{.ProjectPath}}/gosrc/models/{{.UserTable.Name}}"
 )
 
  
@@ -15,7 +16,19 @@ type Service struct {
 func New(db *sqlx.DB) *Service {
 	d:=dao.New(db)
 	d.Init()
-	return &Service{
+	s:= &Service{
 		dao: d,
 	}
+	s.init()
+	return s
+}
+
+func (s *Service)init()  {
+	{{if .HasUserTable}}
+user:={{.UserTable.LowerName}}.{{.UserTable.CamelCaseName}}{
+	{{.UserTable.UsernameColumn.CamelCaseName}}:"admin",
+	{{.UserTable.PasswordColumn.CamelCaseName}}:"admin",
+} 
+s.Create{{.UserTable.CamelCaseName}}(user)
+{{end}}
 }
