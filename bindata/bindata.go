@@ -178,7 +178,7 @@ func Gitignore() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: ".gitignore", size: 187, mode: os.FileMode(420), modTime: time.Unix(1542595017, 0)}
+	info := bindataFileInfo{name: ".gitignore", size: 187, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -198,7 +198,7 @@ func readmeMd() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "README.md", size: 613, mode: os.FileMode(420), modTime: time.Unix(1559811932, 0)}
+	info := bindataFileInfo{name: "README.md", size: 613, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -258,7 +258,7 @@ func example_projectGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "example_project.go", size: 1451, mode: os.FileMode(420), modTime: time.Unix(1559811914, 0)}
+	info := bindataFileInfo{name: "example_project.go", size: 1451, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -278,7 +278,7 @@ func gosrcAppAppGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/app/app.go", size: 3181, mode: os.FileMode(420), modTime: time.Unix(1559811914, 0)}
+	info := bindataFileInfo{name: "gosrc/app/app.go", size: 3181, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -298,7 +298,7 @@ func gosrcBindataGoBindataGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/bindata/go-bindata.go", size: 51, mode: os.FileMode(420), modTime: time.Unix(1542595017, 0)}
+	info := bindataFileInfo{name: "gosrc/bindata/go-bindata.go", size: 51, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -318,7 +318,7 @@ func gosrcControllersJsonGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/JSON.go", size: 1448, mode: os.FileMode(420), modTime: time.Unix(1554862957, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/JSON.go", size: 1448, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -338,7 +338,7 @@ func gosrcControllersCaptchaGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/captcha.go", size: 841, mode: os.FileMode(420), modTime: time.Unix(1542595017, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/captcha.go", size: 841, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -358,7 +358,7 @@ func gosrcControllersJwtGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2291, mode: os.FileMode(420), modTime: time.Unix(1559811914, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2291, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -378,7 +378,7 @@ func gosrcControllersMetaGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/meta.go", size: 368, mode: os.FileMode(420), modTime: time.Unix(1542595017, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/meta.go", size: 368, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -398,7 +398,7 @@ func gosrcControllersMiddlewareGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/middleware.go", size: 749, mode: os.FileMode(420), modTime: time.Unix(1542595017, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/middleware.go", size: 749, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -418,7 +418,7 @@ func gosrcControllersVarGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/var.go", size: 1060, mode: os.FileMode(420), modTime: time.Unix(1559811914, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/var.go", size: 1060, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -438,7 +438,7 @@ func gosrcModelsInitGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/models/init.go", size: 1879, mode: os.FileMode(420), modTime: time.Unix(1554862932, 0)}
+	info := bindataFileInfo{name: "gosrc/models/init.go", size: 1879, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -458,7 +458,7 @@ func gosrcValidatorValidatorGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/validator/validator.go", size: 1474, mode: os.FileMode(420), modTime: time.Unix(1542595017, 0)}
+	info := bindataFileInfo{name: "gosrc/validator/validator.go", size: 1474, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -598,7 +598,7 @@ func srcApiHttpJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "src/api/http.js", size: 1335, mode: os.FileMode(420), modTime: time.Unix(1559811933, 0)}
+	info := bindataFileInfo{name: "src/api/http.js", size: 1335, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -778,7 +778,7 @@ func srcRouterIndexJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "src/router/index.js", size: 680, mode: os.FileMode(420), modTime: time.Unix(1558321976, 0)}
+	info := bindataFileInfo{name: "src/router/index.js", size: 680, mode: os.FileMode(420), modTime: time.Unix(1560505675, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
