@@ -87,7 +87,7 @@ func controllersTpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "controllers.tpl", size: 4134, mode: os.FileMode(420), modTime: time.Unix(1560152735, 0)}
+	info := bindataFileInfo{name: "controllers.tpl", size: 4134, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -107,7 +107,7 @@ func daoTpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dao.tpl", size: 2997, mode: os.FileMode(420), modTime: time.Unix(1560152698, 0)}
+	info := bindataFileInfo{name: "dao.tpl", size: 2997, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -147,7 +147,7 @@ func modelsTpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "models.tpl", size: 719, mode: os.FileMode(420), modTime: time.Unix(1560127998, 0)}
+	info := bindataFileInfo{name: "models.tpl", size: 719, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -167,7 +167,7 @@ func serviceTpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "service.tpl", size: 2342, mode: os.FileMode(420), modTime: time.Unix(1560153219, 0)}
+	info := bindataFileInfo{name: "service.tpl", size: 2342, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -207,7 +207,7 @@ func vueTpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "vue.tpl", size: 11328, mode: os.FileMode(420), modTime: time.Unix(1560306827, 0)}
+	info := bindataFileInfo{name: "vue.tpl", size: 11328, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
