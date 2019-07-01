@@ -5,7 +5,7 @@ api.GET("/{{.LowerName}}/:id",controllers.Take{{.CamelCaseName}})
 api.GET("/{{.LowerName}}",controllers.List{{.CamelCaseName}})
 api.POST("/{{.LowerName}}",controllers.Create{{.CamelCaseName}})
 api.PUT("/{{.LowerName}}/:id",controllers.Update{{.CamelCaseName}})
-api.PATCH("/{{.LowerName}}/:id",controllers.Patch){{.CamelCaseName}}
+api.PATCH("/{{.LowerName}}/:id",controllers.Patch{{.CamelCaseName}})
 api.DELETE("/{{.LowerName}}/:id",controllers.Delete{{.CamelCaseName}}) 
 api.PATCH("/{{.LowerName}}",controllers.BatchPatch{{.CamelCaseName}})
 api.DELETE("/{{.LowerName}}",controllers.BatchDelete{{.CamelCaseName}})
