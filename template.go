@@ -315,17 +315,24 @@ func (c Column) CamelCaseName() string {
 }
 
 func (c Column) Tag() string {
-	var pk string
+	var index string
 	if c.IsPrimaryKey() {
-		pk = "PRIMARY_KEY"
+		index = "PRIMARY_KEY"
 		c.ColumnType += " AUTO_INCREMENT"
+	} else {
+		switch c.ColumnKey {
+		case "UNI":
+			index = "UNIQUE"
+		case "MUL":
+			index = "index:idx_" + c.ColumnName
+		}
 	}
 	return fmt.Sprintf("`%v`", fmt.Sprintf(`json:"%v" db:"%v" form:"%v" gorm:"column:%v;type:%v;not null%v"`,
 		c.ColumnName, c.ColumnName, c.ColumnName,
 		//gorm
 		c.ColumnName, //column
 		c.ColumnType, //type
-		addSemicolonPrefixIfExist(pk),
+		addSemicolonPrefixIfExist(index),
 	))
 }
 
