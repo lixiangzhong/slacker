@@ -61,6 +61,7 @@ func New() cli.Command {
 				table.ExecTemplate("c", MVCDefaultDir)
 				table.ExecTemplate("js", MVCDefaultDir)
 				table.ExecTemplate("dao", MVCDefaultDir)
+				table.ExecTemplate("md", MVCDefaultDir)
 				table.ExecTemplate("service", MVCDefaultDir)
 			}
 

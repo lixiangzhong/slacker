@@ -362,6 +362,13 @@ func (c Column) Type() string {
 	return "interface{}"
 }
 
+func (c Column) ZeroValue() string {
+	if strings.Contains(c.Type(), "int") {
+		return "0"
+	}
+	return `""`
+}
+
 func guessDataType(name string) string {
 	switch {
 	case likeTimeUnix(name):

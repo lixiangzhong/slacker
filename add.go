@@ -57,12 +57,15 @@ func Add() cli.Command {
 					table.ExecTemplate("dao", dir)
 				case "service", "s":
 					table.ExecTemplate("service", dir)
+				case "markdown", "md":
+					table.ExecTemplate("md", dir)
 				case "a", "all":
 					table.ExecTemplate("m", MVCDefaultDir)
 					table.ExecTemplate("v", MVCDefaultDir)
 					table.ExecTemplate("c", MVCDefaultDir)
 					table.ExecTemplate("js", MVCDefaultDir)
 					table.ExecTemplate("dao", MVCDefaultDir)
+					table.ExecTemplate("md", MVCDefaultDir)
 					table.ExecTemplate("service", MVCDefaultDir)
 				case "":
 					return cli.NewExitError("missing action !!!\nexample:\n\tslacker add <action>", 0)

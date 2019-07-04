@@ -77,6 +77,12 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 		}
 		filename = fmt.Sprintf("%v.js", t.Name)
 		b = mvctemplate.MustAsset("js.tpl")
+	case "md":
+		if dir == MVCDefaultDir {
+			dir = "markdowndoc"
+		}
+		filename = fmt.Sprintf("%v.md", t.Name)
+		b = mvctemplate.MustAsset("markdown.tpl")
 	case "dao":
 		if dir == MVCDefaultDir {
 			dir = "gosrc/dao"
