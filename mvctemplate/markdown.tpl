@@ -26,24 +26,24 @@
 ```
 
 ## 创建 
-> post json 到 /api/{{.Name}}
+> post json 到 /api/{{.LowerName}}
 
 ## 全字段修改
-> put json 到 /api/{{.Name}}/:id 
+> put json 到 /api/{{.LowerName}}/:id 
 
 ## 指定字段修改 
-> patch json 到 /api/{{.Name}}/:id 
->> 例如  patch {"需要修改的字段":值} 到 /api/{{.Name}}/:id 
+> patch json 到 /api/{{.LowerName}}/:id 
+>> 例如  patch {"需要修改的字段":值} 到 /api/{{.LowerName}}/:id 
 
 
 ## 删除
-> delete /api/{{.Name}}/:id 
+> delete /api/{{.LowerName}}/:id 
  
 ## 获取一条
-> get /api/{{.Name}}/:id 
+> get /api/{{.LowerName}}/:id 
 
 ## 获取多条
-> get /api/{{.Name}}
+> get /api/{{.LowerName}}
 > 查询条件以query参数方式组合,默认?offset=0&limit=0
 >
 > 返回
