@@ -1,6 +1,7 @@
 package slacker
 
 import (
+	"database/sql"
 	"fmt"
 	"path"
 	"strings"
@@ -303,11 +304,12 @@ func (t Table) PasswordColumn() Column {
 }
 
 type Column struct {
-	ColumnName    string `json:"column_name" db:"column_name"`
-	DataType      string `json:"data_type" db:"data_type"`
-	ColumnType    string `json:"column_type" db:"column_type"`
-	ColumnComment string `json:"column_comment" db:"column_comment"`
-	ColumnKey     string `json:"column_key" db:"column_key"`
+	ColumnName    string         `json:"column_name" db:"column_name"`
+	DataType      string         `json:"data_type" db:"data_type"`
+	ColumnType    string         `json:"column_type" db:"column_type"`
+	ColumnComment string         `json:"column_comment" db:"column_comment"`
+	ColumnKey     string         `json:"column_key" db:"column_key"`
+	ColumnDefault sql.NullString `json:"column_default" db:"column_default"`
 }
 
 func (c Column) CamelCaseName() string {
@@ -327,12 +329,17 @@ func (c Column) Tag() string {
 			index = "index:idx_" + c.ColumnName
 		}
 	}
-	return fmt.Sprintf("`%v`", fmt.Sprintf(`json:"%v" db:"%v" form:"%v" gorm:"column:%v;type:%v;not null%v"`,
+	var defaultvalue string
+	if c.ColumnDefault.Valid {
+		defaultvalue = "DEFAULT:" + c.ColumnDefault.String
+	}
+	return fmt.Sprintf("`%v`", fmt.Sprintf(`json:"%v" db:"%v" form:"%v" gorm:"column:%v;type:%v;not null%v%v"`,
 		c.ColumnName, c.ColumnName, c.ColumnName,
 		//gorm
 		c.ColumnName, //column
 		c.ColumnType, //type
 		addSemicolonPrefixIfExist(index),
+		addSemicolonPrefixIfExist(defaultvalue),
 	))
 }
 

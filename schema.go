@@ -32,7 +32,7 @@ func Tables(dbname string) (tables []Table) {
 		var table Table
 		table.Name = tablename
 		table.Columns = make([]Column, 0)
-		err = db.Select(&table.Columns, "select column_name,data_type,column_type,column_comment,column_key from information_schema.columns where table_schema =?  and table_name = ?", dbname, tablename)
+		err = db.Select(&table.Columns, "select column_name,data_type,column_type,column_comment,column_key,column_default from information_schema.columns where table_schema =?  and table_name = ?", dbname, tablename)
 		if err != nil {
 			log.Error(err)
 			continue
