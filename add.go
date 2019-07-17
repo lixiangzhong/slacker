@@ -59,6 +59,11 @@ func Add() cli.Command {
 					table.ExecTemplate("service", dir)
 				case "markdown", "md":
 					table.ExecTemplate("md", dir)
+				case "go":
+					table.ExecTemplate("m", MVCDefaultDir)
+					table.ExecTemplate("dao", MVCDefaultDir)
+					table.ExecTemplate("service", MVCDefaultDir)
+					table.ExecTemplate("c", MVCDefaultDir)
 				case "a", "all":
 					table.ExecTemplate("m", MVCDefaultDir)
 					table.ExecTemplate("v", MVCDefaultDir)
