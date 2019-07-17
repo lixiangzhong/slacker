@@ -304,17 +304,17 @@ func (t Table) PasswordColumn() Column {
 }
 
 type Column struct {
-	ColumnName       string         `json:"column_name" db:"column_name"`
-	DataType         string         `json:"data_type" db:"data_type"`
-	ColumnType       string         `json:"column_type" db:"column_type"`
-	ColumnComment    string         `json:"column_comment" db:"column_comment"`
-	ColumnKey        string         `json:"column_key" db:"column_key"`
-	ColumnDefault    sql.NullString `json:"column_default" db:"column_default"`
-	ReferencedDB     sql.NullString `json:"referenced_db" db:"referenced_table_schema"`
-	ReferencedTable  sql.NullString `json:"referenced_table" db:"referenced_table_name"`
-	ReferencedColumn sql.NullString `json:"referenced_column" db:"referenced_column_name"`
-	OnDelete         string         `json:"on_delete" db:"delete_rule"`
-	OnUpdate         string         `json:"on_update" db:"update_rule"`
+	ColumnName    string         `json:"column_name" db:"column_name"`
+	DataType      string         `json:"data_type" db:"data_type"`
+	ColumnType    string         `json:"column_type" db:"column_type"`
+	ColumnComment string         `json:"column_comment" db:"column_comment"`
+	ColumnKey     string         `json:"column_key" db:"column_key"`
+	ColumnDefault sql.NullString `json:"column_default" db:"column_default"`
+	// ReferencedDB     sql.NullString `json:"referenced_db" db:"referenced_table_schema"`
+	// ReferencedTable  sql.NullString `json:"referenced_table" db:"referenced_table_name"`
+	// ReferencedColumn sql.NullString `json:"referenced_column" db:"referenced_column_name"`
+	// OnDelete         string         `json:"on_delete" db:"delete_rule"`
+	// OnUpdate         string         `json:"on_update" db:"update_rule"`
 }
 
 func (c Column) CamelCaseName() string {

@@ -37,13 +37,13 @@ func Tables(dbname string) (tables []Table) {
 			log.Error(err)
 			continue
 		}
-		for i := 0; i < len(table.Columns); i++ {
-			col := table.Columns[i]
-			err = db.Get(&col, "select referenced_table_schema,referenced_table_name,referenced_column_name from information_schema.key_column_usage where table_schema=? and table_name=? and column_name=?", dbname, tablename, col.ColumnName)
-			if err == nil {
-				db.Get(&col, "select delete_rule,update_rule from information_schema.referential_constraints where constraint_schema=? and table_name=? and referenced_table_name=?", dbname, tablename, col.ReferencedTable.String)
-			}
-		}
+		// for i := 0; i < len(table.Columns); i++ {
+		// 	col := table.Columns[i]
+		// 	err = db.Get(&col, "select referenced_table_schema,referenced_table_name,referenced_column_name from information_schema.key_column_usage where table_schema=? and table_name=? and column_name=?", dbname, tablename, col.ColumnName)
+		// 	if err == nil {
+		// 		db.Get(&col, "select delete_rule,update_rule from information_schema.referential_constraints where constraint_schema=? and table_name=? and referenced_table_name=?", dbname, tablename, col.ReferencedTable.String)
+		// 	}
+		// }
 		table.DBName = dbname
 		table.ShowCreateTable()
 		tables = append(tables, table)
