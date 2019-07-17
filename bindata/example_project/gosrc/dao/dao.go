@@ -31,7 +31,7 @@ func (d *Dao) initGorm()  {
 	if err != nil {
 		log.Error(err)
 	}
-	d.gorm= db
+	d.gorm = db.Set("gorm:save_associations", false)
 }
 
 func (d *Dao) autoMigrate() {
