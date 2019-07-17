@@ -11,28 +11,31 @@ import (
 
 type Dao struct {
 	db *sqlx.DB
+	gorm *gorm.DB
 }
 
 func New(db *sqlx.DB) *Dao {
-	return &Dao{
+	d:= &Dao{
 		db: db,
 	}
+	d.initGorm()
+	return d
 }
 
 func (d *Dao) Init() {
 	d.autoMigrate()
 }
 
-func (d *Dao) gorm() *gorm.DB {
+func (d *Dao) initGorm()  {
 	db, err := gorm.Open("mysql", d.db.DB)
 	if err != nil {
 		log.Error(err)
 	}
-	return db
+	d.gorm= db
 }
 
 func (d *Dao) autoMigrate() {
-	d.gorm().Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
+	d.gorm.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
 		{{range $i,$table:=.Tables}}{{$table.LowerName}}.{{$table.CamelCaseName}}{},
 		{{end}}
 	)
