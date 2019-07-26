@@ -181,7 +181,7 @@ func Gitignore() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: ".gitignore", size: 227, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: ".gitignore", size: 227, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -201,7 +201,7 @@ func readmeMd() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "README.md", size: 348, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "README.md", size: 348, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -261,7 +261,7 @@ func example_projectGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "example_project.go", size: 1045, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "example_project.go", size: 1045, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -281,7 +281,7 @@ func gosrcAppAppGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/app/app.go", size: 3123, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/app/app.go", size: 3123, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -301,7 +301,7 @@ func gosrcControllersJsonGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/JSON.go", size: 686, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/JSON.go", size: 686, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -321,7 +321,7 @@ func gosrcControllersCaptchaGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/captcha.go", size: 778, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/captcha.go", size: 778, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -341,7 +341,7 @@ func gosrcControllersJwtGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2146, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2146, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -361,7 +361,7 @@ func gosrcControllersMetaGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/meta.go", size: 361, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/meta.go", size: 361, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -381,7 +381,7 @@ func gosrcControllersMiddlewareGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/middleware.go", size: 730, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/middleware.go", size: 730, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -401,12 +401,12 @@ func gosrcControllersVarGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/var.go", size: 1299, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/var.go", size: 1299, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
 
-var _gosrcDaoDaoGo = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x94\x92\x4f\x4f\xdc\x30\x10\xc5\xcf\xf6\xa7\x98\x46\x08\x25\x28\x72\xee\x2b\xe5\x50\x58\x8a\x90\x60\x8b\x04\x3d\x55\x15\x9a\xc4\xb3\x59\x43\x62\x07\xdb\xe1\x4f\xa3\x7c\xf7\xca\x0e\xe5\x7f\x29\x5c\x12\xd9\x7e\xf3\x9b\xf7\xec\x29\x8a\x03\xd2\x64\xd1\x93\x84\xea\x0e\x5c\x8b\xf5\x25\x59\xde\x63\x7d\x89\x0d\x81\x44\xc3\xb9\xea\x7a\x63\x3d\xa4\x9c\x25\x8d\xf2\x9b\xa1\x12\xb5\xe9\x8a\x8b\xce\x28\x6b\x74\xe1\xae\xda\xdb\xe4\xf9\x51\xab\x6e\x15\xea\xe6\xf7\xc6\xe8\xa6\x68\x8c\xed\xde\x3b\x6f\x4d\x93\x00\x67\xe3\x68\x51\x37\x04\x5b\x2a\xdf\xf2\x58\xb5\xb4\x28\xc5\x59\xf8\xbb\x69\x1a\xc7\x79\x4b\x1c\x99\x1b\xb2\x2b\xec\x68\x9a\x20\x19\xc7\x2d\x71\x62\xcd\x05\xd5\xfe\x04\xfd\x66\x9a\x8a\xc6\x38\x5b\x17\x9d\x91\xd4\xba\xe2\xa1\x68\xd6\x27\xa1\x05\x69\x39\x4d\x3c\xe3\xdc\xdf\xf5\x04\x4b\x34\xe0\xbc\x1d\x6a\x0f\x23\x67\xb2\x82\x9d\x90\x45\x2c\x77\x39\x0b\xa6\x61\x27\x7c\xc3\x72\xe2\x7c\x3d\xe8\x1a\x56\x74\x93\x3e\x91\x65\xb0\x13\x10\xa1\x76\x51\xc2\xf6\x12\xcd\xc8\x19\x93\xd5\x02\x64\x95\x73\x36\x71\x26\x85\xd2\xca\x1f\x18\xdb\xa5\x19\x67\x96\xfc\x60\x35\xc8\x07\x5e\x2a\x23\x21\x83\x43\xad\x7c\x9a\x45\x92\xc0\xc1\x9b\x63\xd5\x84\x27\x49\xb3\xd7\xd2\x47\x20\xcc\xae\x73\x20\x6b\x61\x51\x42\x74\xfb\xbd\x27\x9d\x26\xdd\x9d\xbb\x6a\x93\x1c\xa4\x90\x55\x30\xca\x99\x5a\x47\xd9\x97\x12\xb4\x6a\x43\x21\x6b\x4d\x23\xf6\xad\x35\x36\x25\x6b\xb3\x7b\xbb\x31\x77\x09\xb2\x12\xa7\xe4\xd3\x24\x2c\x17\x0e\xaf\xe9\x1c\x9d\x33\xb5\x42\xaf\x8c\x76\x49\x0e\x6b\x6c\x1d\xbd\xe1\xee\x99\xf9\x39\x4f\xb4\xf5\x48\x8b\x6f\x72\x6e\xfa\xbf\xa4\x64\x7f\x75\x70\xb8\xda\x2f\x0f\xb5\x36\xcb\xdd\x24\x13\x5f\x9f\x20\x38\xfb\xf4\x5c\x88\x87\xcd\x3d\xec\xa8\xdd\x43\x47\xf3\xc1\x38\xe5\x11\x37\xcf\x00\x8b\xe6\x5f\xb8\xdf\xb3\x14\xba\x4a\xf4\x08\x4a\x7b\xb2\x6b\xac\x69\x9c\xb2\x70\x43\xc6\x66\x30\xc2\xe3\x23\xce\xb9\xee\x2b\xb6\x43\x49\x36\x5f\xe7\xeb\x4b\xf9\xd1\xcb\x37\xb1\x91\xfa\x06\xf4\x14\xaf\xff\x87\x3c\x41\x5f\x6f\xd2\x38\xe9\x4f\x91\xf9\x00\x1d\xf6\x3f\x9d\xb7\x4a\x37\xbf\x3e\xd2\xeb\x38\x20\xd2\xed\x48\xca\xc4\xec\xd4\xa5\xc3\x3f\x1b\x2f\xa9\xa5\xcf\x64\xb9\xd7\xbf\x9f\xe6\x0c\x2f\x3f\x81\x8c\xea\xf7\x81\x47\xca\xf9\x8f\x03\xbf\x29\x2d\x5f\x00\xff\x04\x00\x00\xff\xff\x57\xdd\xa4\x85\x17\x05\x00\x00")
+var _gosrcDaoDaoGo = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x94\x94\xdf\x4f\xe3\x38\x10\xc7\x9f\xed\xbf\x62\x2e\x42\xc8\x46\x51\x72\x0f\xa7\x7b\xa8\xd4\x93\x0e\xca\x22\x24\x28\x48\xb0\x4f\xab\x15\x72\xe2\x69\x6a\x48\xec\x60\x3b\xfc\xd8\x28\xff\xfb\xca\x4e\x5b\x60\xdb\x65\xe1\xa5\x55\xc6\xdf\xf9\xcc\x77\x6c\x8f\xf3\xfc\x04\x35\x5a\xe1\x51\x42\xf1\x0c\xae\x16\xe5\x1d\x5a\xda\x8a\xf2\x4e\x54\x08\x52\x18\x4a\x55\xd3\x1a\xeb\x81\x51\x92\x54\xca\x2f\xbb\x22\x2b\x4d\x93\xdf\x36\x46\x59\xa3\x73\x77\x5f\x3f\x25\x6f\x97\x6a\xf5\xa4\x84\xae\x7e\x2c\x8d\xae\xf2\xca\xd8\xe6\xbd\xf5\xda\x54\x09\x50\xd2\xf7\x56\xe8\x0a\x61\x4f\xa5\x7b\x5e\x14\x35\x4e\xa6\xd9\x75\xf8\x77\xc3\xd0\xf7\x63\x28\x3b\x33\x8f\x68\xe7\xa2\xc1\x61\x80\xa4\xef\xf7\xb2\x4b\x6b\x6e\xb1\xf4\x97\xc2\x2f\x87\x21\xaf\x8c\xb3\x65\xde\x18\x89\xb5\xcb\x37\x49\xa3\x3e\x09\x25\x50\xcb\x61\xa0\x9c\x52\xff\xdc\x22\xcc\x84\x01\xe7\x6d\x57\x7a\xe8\x29\x91\x05\x1c\x84\x5e\xb2\xd9\x21\x25\xc1\x34\x1c\x84\xdf\xf0\x39\x50\xba\xe8\x74\x09\x73\x7c\x64\xaf\x64\x1c\x0e\x02\x22\xe4\x4e\xa6\xb0\x3f\x13\xa6\xa7\x84\xc8\x62\x02\xb2\x48\x29\x19\x28\x91\x99\xd2\xca\x9f\x18\xdb\x30\x4e\x89\x45\xdf\x59\x0d\x72\xc3\x63\x32\x12\x38\x9c\x6a\xe5\x19\x8f\xa4\x4c\x74\xde\x9c\xab\x2a\x1c\x09\xe3\xdb\xd2\x17\x20\x8c\xae\x53\x40\x6b\x61\x32\x85\xe8\xf6\xa2\x45\xcd\x92\xe6\xd9\xdd\xd7\x49\x0a\x32\x93\x45\x30\x4a\x89\x5a\x44\xd9\x5f\x53\xd0\xaa\x0e\x89\xa4\x36\x55\x76\x6c\xad\xb1\x0c\xad\xe5\x2b\xbb\xb1\xef\x29\xc8\x22\xbb\x42\xcf\x92\xf0\x39\x71\xe2\x01\x6f\x84\x73\xa6\x54\xc2\x2b\xa3\x5d\x92\xc2\x42\xd4\x0e\x77\xb8\x7b\x63\x7e\xec\x27\xda\x7a\xa1\xc5\x33\xb9\x31\xed\x9a\x94\x1c\xcf\x4f\x4e\xe7\xc7\xd3\x53\xad\xcd\xec\x30\xe1\xd9\xff\xaf\x10\x94\x7c\xfa\x5e\x64\x9b\xe0\x91\x68\xb0\x3e\x12\x0e\xc7\x85\x7e\x48\x23\x6e\xbc\x03\x24\x9a\xff\xc5\xfd\x91\xc5\x50\x55\x0a\x2f\x40\x69\x8f\x76\x21\x4a\xec\x07\x1e\x76\xc8\x58\x0e\x3d\xbc\x1c\xe2\xd8\xd7\x2a\x63\x3f\xa4\xf0\x71\x3b\xb7\x37\xe5\x6b\x2b\x77\x62\x23\x75\x07\xf4\x4a\x3c\xfc\x09\x79\x29\x7c\xb9\x64\xf1\xa6\xbf\x46\xa6\x1d\x34\xa2\xfd\xe6\xbc\x55\xba\xfa\xfe\x91\x5a\xe7\x01\xc1\xf6\x23\x89\x67\xa3\x53\xc7\xba\xdf\x16\x9e\x61\x8d\x9f\xe9\x65\xa5\x7f\xbf\x9b\x6b\x71\xf7\x09\x64\x54\xbf\x0f\x3c\x53\xce\x7f\x1c\xf8\x45\x69\xb9\x05\x1c\x89\x17\x8b\x85\x43\x7f\xa6\x1a\xe5\xaf\x4a\xd3\x22\x33\x31\x90\x42\x1d\x42\xd0\x29\xed\xff\xfd\x87\x43\xd0\xb2\xf5\x73\xc1\x37\x0f\x47\x18\x80\x55\xa9\xa8\x08\x6f\xc7\x4e\x51\x18\xcf\x91\x0c\xff\xc1\xdf\x31\x12\xde\xa3\x38\x88\xa3\x85\x55\x61\x4e\x49\x18\xd4\xa0\x1f\x1d\x6c\xc9\xa3\x57\x16\x17\xd7\xe2\x75\xb7\x45\x18\xf2\x81\xfe\x0c\x00\x00\xff\xff\x60\x99\xa4\x36\xf3\x05\x00\x00")
 
 func gosrcDaoDaoGoBytes() ([]byte, error) {
 	return bindataRead(
@@ -421,7 +421,7 @@ func gosrcDaoDaoGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/dao/dao.go", size: 1303, mode: os.FileMode(420), modTime: time.Unix(1563356766, 0)}
+	info := bindataFileInfo{name: "gosrc/dao/dao.go", size: 1523, mode: os.FileMode(420), modTime: time.Unix(1564132384, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -441,7 +441,7 @@ func gosrcErrcodeCodeGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/errcode/code.go", size: 990, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/errcode/code.go", size: 990, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -461,7 +461,7 @@ func gosrcErrcodeVarGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/errcode/var.go", size: 533, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/errcode/var.go", size: 533, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -481,7 +481,7 @@ func gosrcServiceServiceGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/service/service.go", size: 596, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/service/service.go", size: 596, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -501,7 +501,7 @@ func gosrcValidatorValidatorGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/validator/validator.go", size: 2273, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "gosrc/validator/validator.go", size: 2273, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -641,7 +641,7 @@ func srcApiHttpJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "src/api/http.js", size: 1357, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "src/api/http.js", size: 1357, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -821,7 +821,7 @@ func srcRouterIndexJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "src/router/index.js", size: 670, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "src/router/index.js", size: 670, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -921,7 +921,7 @@ func vueConfigJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "vue.config.js", size: 76, mode: os.FileMode(420), modTime: time.Unix(1560927076, 0)}
+	info := bindataFileInfo{name: "vue.config.js", size: 76, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

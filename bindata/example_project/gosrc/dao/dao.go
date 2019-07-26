@@ -65,3 +65,16 @@ func (d *Dao) Take(data interface{})error {
 func (d *Dao) List(data interface{})error { 
 	return d.gorm.Find(&data).Error
 }
+
+
+func OffsetLimitScope(offset, limit uint64) func(*gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		if offset > 0 {
+			db = db.Offset(offset)
+		}
+		if limit > 0 {
+			db = db.Limit(limit)
+		}
+		return db
+	}
+}

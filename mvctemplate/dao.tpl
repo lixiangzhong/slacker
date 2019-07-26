@@ -13,7 +13,7 @@ func (d *Dao) List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}}.{
 	{{if Contains .SwitchCase "state"}} 
 		s=s.Where("state!=?",{{.LowerName}}.StateDel)
 	{{end}}
-	err := s.Count(&total).Order("{{.PrimaryKeyColumn.ColumnName}} desc").Offset(offset).Limit(limit).Find(&data).Error
+	err := s.Count(&total).Order("{{.PrimaryKeyColumn.ColumnName}} desc").Scopes(OffsetLimitScope(offset, limit)).Find(&data).Error
     return data,total,err
 }
 
