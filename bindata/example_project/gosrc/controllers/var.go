@@ -13,9 +13,8 @@ import (
 
 var Service *service.Service
 
-func Init() {
-	db:=sqlx.MustConnect("mysql",config.MySQLConfig("mysql").FormatDSN())
-Service=service.New(db)
+func InitService(db *sqlx.DB) { 
+	Service=service.New(db)
 }
 
 var WebSocket = websocket.Upgrader{

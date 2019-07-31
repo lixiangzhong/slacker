@@ -26,9 +26,28 @@ func initroute() {
 	{{end}}
 
 }
-func main() {
+func initDB() *sqlx.DB {
+	var dbname string
+	var cfg = config.MySQLConfig("mysql")
+	cfg.DBName, dbname = dbname, cfg.DBName
+	mysql := sqlx.MustConnect("mysql", cfg.FormatDSN())
+	_, err := mysql.Exec("CREATE DATABASE IF NOT EXISTS `" + dbname + "` default charset utf8mb4 COLLATE utf8mb4_general_ci")
+	if err != nil {
+		log.Error(err)
+	}
+	defer mysql.Close()
+	db := sqlx.MustConnect("mysql", config.MySQLConfig("mysql").FormatDSN())
+	return db
+}
+
+func init(){
 	app.Init()
-	controllers.Init()
+	db:=initDB()
+	controllers.InitService(db)
 	initroute()
+}
+
+func main() {
+
 	app.Run()
 }

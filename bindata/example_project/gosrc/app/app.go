@@ -86,13 +86,32 @@ func initEngine() {
 }
 
 func Run() {
-	port := config.String("gin.port")
-	if !config.Bool("gin.debug") {
-		log.Println("listen", port)
+	port := config.String("gin.port") 
+	log.Println("listen", port)  
+	httpserver = &http.Server{
+		Addr:    port,
+		Handler: Engine,
 	}
-	Engine.Run(port)
+	go func() {
+		err := httpserver.ListenAndServe()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+	waitSignal()
 }
-
+func waitSignal() {
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGKILL)
+	<-ch
+	log.Println("stop http server...")
+	ctx := context.Background()
+	ctx,_ = context.WithTimeout(ctx, time.Second*10)
+	err := httpserver.Shutdown(ctx)
+	if err != nil {
+		log.Error(err)
+	}
+}
 func Logger() gin.HandlerFunc {
 	log.Set(func(info, err, debug log.LoggerSetter) {
 		info.SetOutput(rotatefile.New("access.log", 3, true))
