@@ -29,7 +29,7 @@ func (d *Dao) Create{{.CamelCaseName}}({{.LowerName}} {{.LowerName}}.{{.CamelCas
 func (d *Dao) Update{{.CamelCaseName}}({{.LowerName}} {{.LowerName}}.{{.CamelCaseName}}) error {
 	 {{.LowerName | .AutomaticUpdateExpression}}
    // _,err := d.db.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",{{.LowerName}})
-   err:=d.gorm.Save({{.LowerName}}).Error
+   err:=d.gorm.Save(&{{.LowerName}}).Error
     return err
 }
 
