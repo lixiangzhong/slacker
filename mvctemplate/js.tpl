@@ -71,14 +71,14 @@ export function Import(file) {
 
 
 export function Export() {
-  var url = process.env.BaseURL + "/api/export/{{.LowerName}}?access_token=" + store.state.token
+  var url = process.env.VUE_APP_BaseURL + "/api/export/{{.LowerName}}?access_token=" + store.state.token
   location.href = url
 }
 
 
 export function WebSocket() {
-  if (process.env.BaseURL == "") {
+  if (process.env.VUE_APP_BaseURL == "") {
     return "ws://" + location.host + "/api/websocket/{{.LowerName}}?access_token=" + cookie.getToken()
   }
-  return process.env.BaseURL.replace("http", "ws") + "/api/websocket/{{.LowerName}}?access_token=" + cookie.getToken()
+  return process.env.VUE_APP_BaseURL.replace("http", "ws") + "/api/websocket/{{.LowerName}}?access_token=" + cookie.getToken()
 }
