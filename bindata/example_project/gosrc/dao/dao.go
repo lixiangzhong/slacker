@@ -43,27 +43,27 @@ func (d *Dao) autoMigrate() {
 
 
 func (d *Dao) Create(data interface{})(error) { 
-	return d.gorm.Create(&data).Error
+	return d.gorm.Create(data).Error
 }
 
 func (d *Dao) Update(data interface{})error { 
-	return d.gorm.Save(&data).Error
+	return d.gorm.Save(data).Error
 }
 
 func (d *Dao) Patch(model interface{},u map[string]interface{})error { 
-	return d.gorm.Model(&model).UpdateColumns(u).Error
+	return d.gorm.Model(model).UpdateColumns(u).Error
 }
 
 func (d *Dao) Delete(data interface{})error { 
-	return d.gorm.Delete(&data).Error
+	return d.gorm.Delete(data).Error
 }
 
 func (d *Dao) Take(data interface{})error { 
-	return d.gorm.Take(&data).Error
+	return d.gorm.Take(data).Error
 }
 
-func (d *Dao) List(data interface{})error { 
-	return d.gorm.Find(&data).Error
+func (d *Dao) List(data interface{},where ...func(*gorm.DB)*gorm.DB) error {  
+	return d.gorm.Scopes(where...).Find(data).Error
 }
 
 
