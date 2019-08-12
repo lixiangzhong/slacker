@@ -206,25 +206,23 @@ func (t Table) MethodTake() string {
 	var s = fmt.Sprintf("func (d *Dao) Take%v(id int64) (%v.%v,error) {\n",
 		t.CamelCaseName(), t.LowerName(), t.CamelCaseName(),
 	)
-	s += fmt.Sprintf("var _%v %v.%v\n", t.LowerName(), t.LowerName(), t.CamelCaseName())
+	s += fmt.Sprintf("var data %v.%v\n", t.LowerName(), t.CamelCaseName())
 	if t.HasStateColumn() {
-		s += fmt.Sprintf(`err:=d.db.Get(&_%v,"select * from %v where %v=? and %v!=? limit 1",id,%v.StateDel)`,
-			t.LowerName(), t.Name, t.PrimaryKeyColumn().ColumnName, t.StateColumn().ColumnName, t.LowerName(),
+		s += fmt.Sprintf(`err:=d.gorm.Take(&data,"%v=? and %v!=?",id,%v.StateDel).Error`,
+			t.PrimaryKeyColumn().ColumnName, t.StateColumn().ColumnName, t.LowerName(),
 		)
 	} else {
-		s += fmt.Sprintf(`err:=d.db.Get(&_%v,"select * from %v where %v=? limit 1",id)`,
-			t.LowerName(), t.Name, t.PrimaryKeyColumn().ColumnName,
-		)
+		s += "err:=d.gorm.Take(&data,id).Error"
 	}
-	s += fmt.Sprintf("\n return _%v,err", t.LowerName())
+	s += fmt.Sprintf("\n return data,err")
 	s += "}"
 	return s
 }
 
 func (t Table) MethodDelete() string {
 	s := fmt.Sprintf("func (d *Dao) Delete%v(id int64) error {\n", t.CamelCaseName())
-	s += fmt.Sprintf("var _%v %v.%v\n", t.LowerName(), t.LowerName(), t.CamelCaseName())
-	s += fmt.Sprintf("_%v.%v=id\n", t.LowerName(), t.PrimaryKeyColumn().CamelCaseName())
+	s += fmt.Sprintf("var data %v.%v\n", t.LowerName(), t.CamelCaseName())
+	s += fmt.Sprintf("data.%v=id\n", t.PrimaryKeyColumn().CamelCaseName())
 	var updatedfields []string
 	for _, col := range t.Columns {
 		if StringInSlice(col.ColumnName, AutoAssignUpdateFields) {
@@ -235,37 +233,30 @@ func (t Table) MethodDelete() string {
 	switch {
 	case t.HasStateColumn() && updatedfields == nil,
 		!t.HasStateColumn():
-		s += fmt.Sprintf(` _,err := d.db.Exec("delete from %v where %v=?",id)`,
-			t.Name, t.PrimaryKeyColumn().ColumnName,
-		)
+		s += "err:=d.gorm.Delete(&data).Error\n"
 	case t.HasStateColumn() && updatedfields != nil:
 		s += "var timeNow = time.Now()\n"
-		var namedfields = make([]string, 0)
+		s += "var fields =make(map[string]interface{})\n"
 		for _, field := range updatedfields {
-			namedfields = append(namedfields, fmt.Sprintf("`%v`=:%v", field, field))
-
 			for _, col := range t.Columns {
 				if col.ColumnName == field {
 					switch col.Type() {
 					case "time.Time":
-						s += fmt.Sprintf("_%v.%v=timeNow\n", t.LowerName(), name.CamelCase(field))
+						// s += fmt.Sprintf("data.%v=timeNow\n",   name.CamelCase(field))
+						s += fmt.Sprintf(`fields["%v"]=timeNow`, field) + "\n"
 					case "int64":
-						s += fmt.Sprintf("_%v.%v=timeNow.Unix()\n", t.LowerName(), name.CamelCase(field))
+						// s += fmt.Sprintf("data.%v=timeNow.Unix()\n",   name.CamelCase(field))
+						s += fmt.Sprintf(`fields["%v"]=timeNow.Unix()`, field) + "\n"
 					}
 				}
 			}
 		}
-		s += fmt.Sprintf("_%v.%v=%v.StateDel\n", t.LowerName(), t.StateColumn().CamelCaseName(), t.LowerName())
-		s += fmt.Sprintf(` _,err := d.db.NamedExec("update %v set %v=:%v,`+strings.Join(namedfields, ",")+` where %v=:%v",_%v)`,
-			t.Name,
-			Quote(t.StateColumn().ColumnName), t.StateColumn().ColumnName,
-			Quote(t.PrimaryKeyColumn().ColumnName), t.PrimaryKeyColumn().ColumnName,
-			t.LowerName(),
-		)
+		// s += fmt.Sprintf("data.%v=%v.StateDel\n",   t.StateColumn().CamelCaseName(), t.LowerName())
+		s += fmt.Sprintf(`fields["%v"]=%v.StateDel`, t.StateColumn().ColumnName, t.LowerName()) + "\n"
+		s += fmt.Sprintf("err:=d.gorm.Model(&data).UpdateColumns(fields).Error\n")
 	}
+	s += fmt.Sprintf("return err\n}")
 
-	s += fmt.Sprintf("\n return err")
-	s += "}"
 	return s
 }
 

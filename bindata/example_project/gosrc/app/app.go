@@ -20,6 +20,7 @@ import (
 
 var (
 	Engine         *gin.Engine
+	httpserver     *http.Server
 	JWTSecret            = "{{.ProjectName}}."
 	JWTExpireIn    int64 = 86400 //jwt token 过期时间,秒, 可config.ini配置
 	configFileName string
