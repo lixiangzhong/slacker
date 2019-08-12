@@ -51,7 +51,7 @@ func (d *Dao) Update(data interface{})error {
 }
 
 func (d *Dao) Patch(model interface{},u map[string]interface{})error { 
-	return d.gorm.Model(&model).Updates(u).Error
+	return d.gorm.Model(&model).UpdateColumns(u).Error
 }
 
 func (d *Dao) Delete(data interface{})error { 
