@@ -12,6 +12,9 @@ import (
 	"github.com/lixiangzhong/config"
 	"github.com/lixiangzhong/log"
 	"github.com/lixiangzhong/rotatefile"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"gopkg.in/natefinch/lumberjack.v2"
 	_ "{{.ProjectPath}}/gosrc/validator"
 	"net"
 	"os"
@@ -62,11 +65,15 @@ func initEngine() {
 	if config.Bool("gin.debug") {
 		Engine = gin.Default()
 	} else {
+		log.Set(func(info, err, debug log.LoggerSetter) {
+			info.SetOutput(rotatefile.New("info.log", 3, true))
+			err.SetOutput(rotatefile.New("error.log", 7, true))
+		})
 		gin.SetMode(gin.ReleaseMode)
-		Engine = gin.New()
-		Engine.Use(gin.Recovery())
-		Engine.Use(Logger())
 	}
+	Engine = gin.New()
+	Engine.Use(gin.Recovery())
+	Engine.Use(Logger())
 	if config.Bool("gin.gzip") {
 		Engine.Use(gzip.Gzip(gzip.DefaultCompression))
 	}
@@ -114,27 +121,51 @@ func waitSignal() {
 	}
 }
 func Logger() gin.HandlerFunc {
-	log.Set(func(info, err, debug log.LoggerSetter) {
-		info.SetOutput(rotatefile.New("access.log", 3, true))
-		err.SetOutput(rotatefile.New("error.log", 7, true))
-	})
+	var out zapcore.WriteSyncer
+	loglevel := zap.NewAtomicLevelAt(zap.InfoLevel)
+	if config.Bool("gin.debug") {
+		loglevel.SetLevel(zap.DebugLevel)
+		out = zapcore.Lock(os.Stdout)
+	} else {
+		f := &lumberjack.Logger{
+			Filename:   "access.log",
+			MaxSize:    10, //10m
+			MaxBackups: 10, //保留10个文件
+			LocalTime:  true,
+			Compress:   false,
+		}
+		out = zapcore.AddSync(f)
+	}
+	enccfg := zap.NewProductionEncoderConfig()
+	enccfg.EncodeTime = func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+		enc.AppendString(t.Format("2006-01-02 15:04:05"))
+	}
+	enc := zapcore.NewConsoleEncoder(enccfg)
+	core := zapcore.NewTee(
+		// zapcore.NewCore(enc, zapcore.AddSync(f), NewLevelEnable(loglevel, zap.InfoLevel)),
+		// zapcore.NewCore(enc, zapcore.Lock(os.Stdout), DebugLevelEnalbe(loglevel, zap.DebugLevel, zap.InfoLevel)),
+		zapcore.NewCore(enc, out, DebugLevelEnalbe(loglevel, zap.DebugLevel, zap.InfoLevel)),
+	)
+	accesslog := zap.New(core).Sugar()
 	return func(c *gin.Context) {
 		start := time.Now()
 		path := c.Request.URL.Path
 		raw := c.Request.URL.RawQuery
 		c.Next()
-
 		end := time.Now()
 		latency := end.Sub(start).Truncate(time.Millisecond)
 		clientIP := c.ClientIP()
 		method := c.Request.Method
 		statusCode := c.Writer.Status()
+		scheme := c.Request.URL.Scheme
+		if scheme == "" {
+			scheme = "http"
+		}
 		if raw != "" {
 			path = path + "?" + raw
 		}
-		uid, _ := c.Get("uid")
-		log.Printf("[GIN] |%v|%8v|%6v:%15s|%-7s|%s", statusCode, latency, uid, clientIP, method, path)
-
+		uid, _ := c.Get("uid") 
+		accesslog.Infof("%v|%8v|%6v:%15s|%v|%-7s|%s", statusCode, latency, uid, clientIP, scheme, method, path)
 	}
 }
 
@@ -148,4 +179,28 @@ func hostSecret() string {
 		m.Write([]byte(itf.HardwareAddr.String()))
 	}
 	return hex.EncodeToString(m.Sum(nil))
+}
+
+func NewLevelEnable(lv zap.AtomicLevel, want ...zapcore.Level) zapcore.LevelEnabler {
+	return zap.LevelEnablerFunc(func(l zapcore.Level) (ok bool) {
+		for _, v := range want {
+			if v == l && lv.Enabled(l) {
+				ok = true
+				break
+			}
+		}
+		return
+	})
+}
+
+func DebugLevelEnalbe(lv zap.AtomicLevel, want ...zapcore.Level) zapcore.LevelEnabler {
+	return zap.LevelEnablerFunc(func(l zapcore.Level) (ok bool) {
+		for _, v := range want {
+			if v == l && lv.Enabled(zap.DebugLevel) {
+				ok = true
+				break
+			}
+		}
+		return
+	})
 }
