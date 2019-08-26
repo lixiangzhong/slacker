@@ -3,6 +3,7 @@ package main
 import (
 	"{{.ProjectPath}}/gosrc/app"
 	"{{.ProjectPath}}/gosrc/controllers"
+	"github.com/lixiangzhong/log"
 )
 
 func initroute() {

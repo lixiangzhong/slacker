@@ -18,11 +18,11 @@ func New(db *sqlx.DB) *Dao {
 	d:= &Dao{
 		db: db,
 	}
-	d.initGorm()
 	return d
 }
 
 func (d *Dao) Init() {
+	d.initGorm()
 	d.autoMigrate()
 }
 
