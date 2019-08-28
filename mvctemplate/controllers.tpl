@@ -20,7 +20,6 @@ import(
 	"net/http"
 	"strconv"
 )
- 
 
 func   List{{.CamelCaseName}}(c *gin.Context)  {
     var {{.LowerName}} {{.LowerName}}.{{.CamelCaseName}}
@@ -105,8 +104,6 @@ func  BatchDelete{{.CamelCaseName}}(c *gin.Context) {
 	err := Service.BatchDelete{{.CamelCaseName}}(ids)
 	JSON(c, nil,err)
 }
-
-
 
 func  BatchPatch{{.CamelCaseName}}(c *gin.Context) {
 	var updatefields = make(map[string]interface{})

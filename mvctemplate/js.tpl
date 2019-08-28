@@ -11,10 +11,9 @@ export function Take(id) {
 
 export function List(query) {
   return http.get('/api/{{.LowerName}}', {
-    params:query
+    params: query
   })
 }
-
 
 export function Create(body) {
   return http.post('/api/{{.LowerName}}',
@@ -22,18 +21,17 @@ export function Create(body) {
   )
 }
 
-export function Update(id,body) {
+export function Update(id, body) {
   return http.put(`/api/{{.LowerName}}/${id}`,
     body
   )
 }
 
-export function Patch(id,body) {
+export function Patch(id, body) {
   return http.patch(`/api/{{.LowerName}}/${id}`,
     body
   )
 }
-
 
 export function Delete(id) {
   return http.delete(`/api/{{.LowerName}}/${id}`)
@@ -51,13 +49,11 @@ export function BatchPatch(query, body) {
   })
 }
 
-
 export function BatchUpdate(query, body) {
   return http.put(`/api/{{.LowerName}}`, body, {
     params: query
   })
 }
-
 
 export function Import(file) {
   var form = new FormData()
@@ -69,12 +65,10 @@ export function Import(file) {
   })
 }
 
-
 export function Export() {
   var url = process.env.VUE_APP_BaseURL + "/api/export/{{.LowerName}}?access_token=" + store.state.token
   location.href = url
 }
-
 
 export function WebSocket() {
   if (process.env.VUE_APP_BaseURL == "") {
