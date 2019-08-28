@@ -1,8 +1,15 @@
-// import example from './example.vue';
+const req = require.context(".", false, /\.vue$/);
+const components = {};
+req.keys().forEach(fileName => {
+  const componentName = fileName.replace(/(\.\/|\.vue)/g, "");
+  components[componentName] = req(fileName).default;
+});
 const mycomponents = {
-  install: function (Vue) {
-    //Vue.component('example', example)
+  install: function(Vue) {
+    for (var key in components) {
+      Vue.component(key, components[key]);
+    }
   }
-}
+};
 
 export default mycomponents;
