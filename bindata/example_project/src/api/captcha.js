@@ -1,6 +1,5 @@
 import http from "./http";
 
-
 export function Get() {
-  return http.get('/captcha')
+  return http.get("/captcha");
 }
