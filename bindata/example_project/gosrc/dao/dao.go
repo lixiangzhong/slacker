@@ -78,3 +78,38 @@ func OffsetLimitScope(offset, limit uint64) func(*gorm.DB) *gorm.DB {
 		return db
 	}
 }
+
+func (d *Dao) Tx(f func(tx *sqlx.Tx) error) error {
+	tx, err := d.db.Beginx()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if e := recover(); e != nil {
+			log.Error(e)
+			tx.Rollback()
+		}
+	}()
+	err = f(tx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return tx.Commit()
+}
+
+func (d *Dao) GormTx(f func(db *gorm.DB) error) error {
+	tx := d.gorm.Begin()
+	defer func() {
+		if e := recover(); e != nil {
+			log.Error(e)
+			tx.Rollback()
+		}
+	}()
+	err := f(tx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return tx.Commit().Error
+}
