@@ -82,7 +82,7 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 		if dir == MVCDefaultDir {
 			dir = "src/components"
 		}
-		filename = fmt.Sprintf("%v_select.vue", t.Name)
+		filename = fmt.Sprintf("%v-select.vue", t.Name)
 		b = mvctemplate.MustAsset("component.tpl")
 		formatter = vuedelims
 	case "js":

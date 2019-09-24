@@ -3,7 +3,7 @@
     v-model.trim="input"
     filterable
     remote
-    placeholder="{{.Name}}"
+    placeholder="请选择"
     @focus="getlist"
     :loading="loading"
     @change="handleSelect"
