@@ -1,10 +1,14 @@
 <template>
   <div>
-    <el-menu mode="horizontal" router background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+    <el-menu
+      mode="horizontal"
+      router
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+    >
       <el-menu-item index="/" style="text-align:center">
-        <b class="logo">
-          {vue meta.logo vue}
-        </b>
+        <b class="logo">{vue meta.logo vue}</b>
       </el-menu-item>
       <el-menu-item class="pull-right" index="/logout">
         <b>{vue username vue}</b>
@@ -13,7 +17,6 @@
       </el-menu-item>
     </el-menu>
   </div>
-
 </template>
 
 <script>

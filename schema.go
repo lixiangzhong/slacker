@@ -78,6 +78,13 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 		filename = fmt.Sprintf("%v.vue", t.CamelCaseName())
 		b = mvctemplate.MustAsset("vue.tpl")
 		formatter = vuedelims
+	case "comp", "component":
+		if dir == MVCDefaultDir {
+			dir = "src/components"
+		}
+		filename = fmt.Sprintf("%v_select.vue", t.Name)
+		b = mvctemplate.MustAsset("component.tpl")
+		formatter = vuedelims
 	case "js":
 		if dir == MVCDefaultDir {
 			dir = "src/api"
@@ -130,7 +137,7 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 	}
 	err = os.MkdirAll(dir, 0755)
 	if err != nil {
-		log.Error(err)
+		log.Error(mvc, dir, err)
 		return
 	}
 	f, err := os.OpenFile(path.Join(dir, filename), os.O_RDWR|os.O_CREATE|os.O_TRUNC|os.O_EXCL, 0644)

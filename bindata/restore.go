@@ -2,14 +2,18 @@ package bindata
 
 import (
 	"bytes"
+	"fmt"
 	"go/format"
-	"golang.org/x/tools/imports"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 	"text/template"
+	"time"
+
+	"golang.org/x/tools/imports"
 )
 
 // RestoreAsset restores an asset under the given directory
@@ -92,7 +96,6 @@ func exectemplate(name string, data []byte, tpldata interface{}) ([]byte, error)
 	ext := path.Ext(name)
 	switch ext {
 	case ".go":
-
 		b, err = imports.Process("", buff.Bytes(), nil)
 		if err != nil {
 			return b, err
@@ -105,8 +108,22 @@ func exectemplate(name string, data []byte, tpldata interface{}) ([]byte, error)
 		b = buff.Bytes()
 		b = bytes.Replace(b, []byte("{vue"), []byte("{{"), -1)
 		b = bytes.Replace(b, []byte("vue}"), []byte("}}"), -1)
+	case ".yaml", ".development":
+		b = buff.Bytes()
+		b = bytes.Replace(b, []byte("{RandPort}"), []byte(RandPort()), -1)
 	default:
 		b = buff.Bytes()
 	}
 	return b, nil
+}
+
+var randport int
+
+func RandPort() string {
+	if randport > 0 {
+		return fmt.Sprintf("%v", randport)
+	}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	randport = r.Intn(20000) + 10000
+	return fmt.Sprintf("%v", randport)
 }

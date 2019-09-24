@@ -57,10 +57,6 @@
     line-height: 40px;
   }
 
-  /* .el-card__header > div > form.el-form.el-form--inline {
-          display: inline;
-        } */
-
   form.el-form.el-form--inline {
     display: inline;
   }

@@ -49,6 +49,8 @@ func Add() cli.Command {
 					table.ExecTemplate("m", dir)
 				case "v", "vue", "view":
 					table.ExecTemplate("v", dir)
+				case "comp", "component":
+					table.ExecTemplate("component", dir)
 				case "js":
 					table.ExecTemplate("js", dir)
 				case "c", "controller", "controllers":
@@ -60,18 +62,19 @@ func Add() cli.Command {
 				case "markdown", "md":
 					table.ExecTemplate("md", dir)
 				case "go":
-					table.ExecTemplate("m", MVCDefaultDir)
-					table.ExecTemplate("dao", MVCDefaultDir)
-					table.ExecTemplate("service", MVCDefaultDir)
-					table.ExecTemplate("c", MVCDefaultDir)
+					table.ExecTemplate("m", dir)
+					table.ExecTemplate("dao", dir)
+					table.ExecTemplate("service", dir)
+					table.ExecTemplate("c", dir)
 				case "a", "all":
-					table.ExecTemplate("m", MVCDefaultDir)
-					table.ExecTemplate("v", MVCDefaultDir)
-					table.ExecTemplate("c", MVCDefaultDir)
-					table.ExecTemplate("js", MVCDefaultDir)
-					table.ExecTemplate("dao", MVCDefaultDir)
-					table.ExecTemplate("md", MVCDefaultDir)
-					table.ExecTemplate("service", MVCDefaultDir)
+					table.ExecTemplate("m", dir)
+					table.ExecTemplate("v", dir)
+					table.ExecTemplate("component", dir)
+					table.ExecTemplate("c", dir)
+					table.ExecTemplate("js", dir)
+					table.ExecTemplate("dao", dir)
+					table.ExecTemplate("md", dir)
+					table.ExecTemplate("service", dir)
 				case "":
 					return cli.NewExitError("missing action !!!\nexample:\n\tslacker add <action>", 0)
 				default:

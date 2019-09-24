@@ -58,6 +58,7 @@ func New() cli.Command {
 			for _, table := range tables {
 				table.ExecTemplate("m", MVCDefaultDir)
 				table.ExecTemplate("v", MVCDefaultDir)
+				table.ExecTemplate("component", MVCDefaultDir)
 				table.ExecTemplate("c", MVCDefaultDir)
 				table.ExecTemplate("js", MVCDefaultDir)
 				table.ExecTemplate("dao", MVCDefaultDir)
