@@ -2,7 +2,8 @@ package controllers
 
 import (
 	"{{.ProjectPath}}/gosrc/app" 
-	"{{.ProjectPath}}/gosrc/errcode" 
+	"{{.ProjectPath}}/gosrc/errcode"
+	"{{.ProjectPath}}/gosrc/models/{{.UserTable.Name}}"
 	"github.com/lixiangzhong/config"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
@@ -32,7 +33,9 @@ func GetToken(c *gin.Context) {
 	}
 
 	{{if .HasUserTable}}
-	user, err := Service.Take{{.UserTable.CamelCaseName}}ByName(t.Username)
+	var user {{.UserTable.LowerName}}.{{.UserTable.CamelCaseName}}
+	user.{{.UserTable.UsernameColumn.CamelCaseName}}=t.Password
+	  err := Service.Take{{.UserTable.CamelCaseName}}ByName(&user)
 	if err != nil {
 		JSON(c,nil,errcode.IncorrectUserOrPwd)
 		return

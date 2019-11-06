@@ -203,18 +203,17 @@ func (t Table) HasStateColumn() bool {
 }
 
 func (t Table) MethodTake() string {
-	var s = fmt.Sprintf("func (d *Dao) Take%v(id int64) (%v.%v,error) {\n",
+	var s = fmt.Sprintf("func (d *Dao) Take%v(data *%v.%v) error {\n",
 		t.CamelCaseName(), t.LowerName(), t.CamelCaseName(),
 	)
-	s += fmt.Sprintf("var data %v.%v\n", t.LowerName(), t.CamelCaseName())
 	if t.HasStateColumn() {
-		s += fmt.Sprintf(`err:=d.gorm.Take(&data,"%v=? and %v!=?",id,%v.StateDel).Error`,
-			t.PrimaryKeyColumn().ColumnName, t.StateColumn().ColumnName, t.LowerName(),
+		s += fmt.Sprintf(`err:=d.gorm.Take(data,"%v=? and %v!=?",data.%v,%v.StateDel).Error`,
+			t.PrimaryKeyColumn().ColumnName, t.StateColumn().ColumnName, t.PrimaryKeyColumn().CamelCaseName(), t.LowerName(),
 		)
 	} else {
-		s += "err:=d.gorm.Take(&data,id).Error"
+		s += fmt.Sprintf("err:=d.gorm.Take(data,data.%v).Error", t.PrimaryKeyColumn().CamelCaseName())
 	}
-	s += fmt.Sprintf("\n return data,err")
+	s += fmt.Sprintf("\n return err")
 	s += "}"
 	return s
 }

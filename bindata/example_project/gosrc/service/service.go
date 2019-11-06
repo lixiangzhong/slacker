@@ -29,6 +29,6 @@ user:={{.UserTable.LowerName}}.{{.UserTable.CamelCaseName}}{
 	{{.UserTable.UsernameColumn.CamelCaseName}}:"admin",
 	{{.UserTable.PasswordColumn.CamelCaseName}}:"admin",
 } 
-s.Create{{.UserTable.CamelCaseName}}(user)
+s.Create{{.UserTable.CamelCaseName}}(&user)
 {{end}}
 }

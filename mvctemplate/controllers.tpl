@@ -35,25 +35,26 @@ func   List{{.CamelCaseName}}(c *gin.Context)  {
 }
 
 func   Take{{.CamelCaseName}}(c *gin.Context)  {
-    var {{.LowerName}} {{.LowerName}}.{{.CamelCaseName}}
-		c.ShouldBindQuery(&{{.LowerName}})
+    var data {{.LowerName}}.{{.CamelCaseName}}
+		c.ShouldBindQuery(&data)
     id, err := strconv.ParseInt(c.Param("id"),10,64)
 	if err != nil {
 		JSON(c, nil,errcode.New(errcode.BadRequest,err))
 		return
 	} 
-    {{.LowerName}}, err = Service.Take{{.CamelCaseName}}(id) 
-			JSON(c, {{.LowerName}},err)
+	data.{{.PrimaryKeyColumn.CamelCaseName}}=id
+   err = Service.Take{{.CamelCaseName}}(&data) 
+			JSON(c, data,err)
 }
 
 func  Create{{.CamelCaseName}}(c *gin.Context)  {
-    var {{.LowerName}} {{.LowerName}}.{{.CamelCaseName}}
-    if err := c.ShouldBindJSON(&{{.LowerName}}); err != nil {
+    var data {{.LowerName}}.{{.CamelCaseName}}
+    if err := c.ShouldBindJSON(&data); err != nil {
       		JSON(c, nil,errcode.New(errcode.BadRequest,err))
         return
 	}
-    {{.LowerName}},err := Service.Create{{.CamelCaseName}}({{.LowerName}})
-		JSON(c, {{.LowerName}},err)
+    err := Service.Create{{.CamelCaseName}}(&data)
+		JSON(c, data,err)
 }
 
 func Update{{.CamelCaseName}}(c *gin.Context)  {

@@ -4,32 +4,41 @@ package service
 import (
 	"github.com/jmoiron/sqlx"
 	"{{"gosrc/models"| .ImportLibrary}}/{{.Name}}"
+	"{{"gosrc/scope"| .ImportLibrary}}"
 )
 
 
-func (s *Service)Take{{.CamelCaseName}}(id int64)({{.LowerName}}.{{.CamelCaseName}},error){ 
-	data, err := s.dao.Take{{.CamelCaseName}}(id) 
-	return data, err 
+func (s *Service)Take{{.CamelCaseName}}(data *{{.LowerName}}.{{.CamelCaseName}})error{ 
+  err := s.dao.Take{{.CamelCaseName}}(data) 
+	return   err 
 }
 
 func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}}.{{.CamelCaseName}})([]{{.LowerName}}.{{.CamelCaseName}},int,error){ 
-	data,total,err := s.dao.List{{.CamelCaseName}}(offset,limit,search) 
+	var where scope.Wheres
+	where=append(where,scope.OffsetLimit(offset,limit))
+	{{if Contains .SwitchCase "state"}} 
+		where=append(where,scope.Where("state!=?",{{.LowerName}}.StateDel)) 
+	{{end}}
+	where=append(where,scope.Order("{{.PrimaryKeyColumn.ColumnName}} desc")) 
+	data,total,err := s.dao.List{{.CamelCaseName}}(where...) 
 	return data,total, err 
 }
 
-func (s *Service)Create{{.CamelCaseName}}({{.LowerName}} {{.LowerName}}.{{.CamelCaseName}})({{.LowerName}}.{{.CamelCaseName}},error){ 
+func (s *Service)Create{{.CamelCaseName}}({{.LowerName}} *{{.LowerName}}.{{.CamelCaseName}})error{ 
 	{{if .IsUserTable}}
 		{{.LowerName}}.{{.UsernameColumn.CamelCaseName}} = strings.ToLower({{.LowerName}}.{{.UsernameColumn.CamelCaseName}})
 		{{.LowerName}}.{{.PasswordColumn.CamelCaseName}} = s.EncryptPassword({{.LowerName}}.{{.PasswordColumn.CamelCaseName}})
 		if s.dao.{{.CamelCaseName}}IsExist({{.LowerName}}.{{.UsernameColumn.CamelCaseName}}) {
-			return {{.LowerName}}, errcode.AlreadyExist
+			return   errcode.AlreadyExist
 		}
 	{{end}}
-	data, err := s.dao.Create{{.CamelCaseName}}({{.LowerName}}) 
-	return data, err 
+	{{.LowerName | .AutomaticCreateUpdateExpression}} 
+  err := s.dao.Create{{.CamelCaseName}}({{.LowerName}}) 
+	return   err 
 }
 
 func (s *Service)Update{{.CamelCaseName}}({{.LowerName}} {{.LowerName}}.{{.CamelCaseName}})error{ 
+		 {{.LowerName | .AutomaticUpdateExpression}}
 	  return s.dao.Update{{.CamelCaseName}}({{.LowerName}}) 
 	 
 }
@@ -44,6 +53,7 @@ func (s *Service)Patch{{.CamelCaseName}}(id int64,update map[string]interface{})
 			}
 		}
 	{{end}}
+		{{.AutomaticUpdateMapExpression}}
 	 return s.dao.Patch{{.CamelCaseName}}(id,update) 
 }
 
@@ -52,8 +62,8 @@ func (s *Service)Delete{{.CamelCaseName}}(id int64)error{
 }
 
 {{if .IsUserTable}}
-func (s *Service) Take{{.CamelCaseName}}ByName(username string) ({{.LowerName}}.{{.CamelCaseName}}, error) { 
-	return 	s.dao.Take{{.CamelCaseName}}ByName(username)  
+func (s *Service) Take{{.CamelCaseName}}ByName(data *{{.LowerName}}.{{.CamelCaseName}})   error  { 
+	return 	s.dao.Take{{.CamelCaseName}}ByName(data)  
 }
 
 func (_ *Service)EncryptPassword(password string) string {

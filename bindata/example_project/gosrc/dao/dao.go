@@ -46,39 +46,32 @@ func (d *Dao) Create(data interface{})(error) {
 	return d.gorm.Create(data).Error
 }
 
-func (d *Dao) Update(data interface{})error { 
-	return d.gorm.Save(data).Error
+func (d *Dao) Update(data interface{},where ...func(*gorm.DB)*gorm.DB)error { 
+	return d.gorm.Scopes(where...).Save(data).Error
 }
 
-func (d *Dao) Patch(model interface{},u map[string]interface{})error { 
-	return d.gorm.Model(model).UpdateColumns(u).Error
+func (d *Dao) Patch(model interface{},u map[string]interface{},where ...func(*gorm.DB)*gorm.DB)error { 
+	return d.gorm.Model(model).Scopes(where...).UpdateColumns(u).Error
 }
 
-func (d *Dao) Delete(data interface{})error { 
-	return d.gorm.Delete(data).Error
+func (d *Dao) Delete(data interface{},where ...func(*gorm.DB)*gorm.DB)error { 
+	return d.gorm.Scopes(where...).Delete(data).Error
 }
 
-func (d *Dao) Take(data interface{})error { 
-	return d.gorm.Take(data).Error
+func (d *Dao) Take(data interface{},where ...func(*gorm.DB)*gorm.DB) error { 
+	return d.gorm.Scopes(where...).Take(data).Error
 }
 
 func (d *Dao) List(data interface{},where ...func(*gorm.DB)*gorm.DB) error {  
 	return d.gorm.Scopes(where...).Find(data).Error
 }
 
-
-func OffsetLimitScope(offset, limit uint64) func(*gorm.DB) *gorm.DB {
-	return func(db *gorm.DB) *gorm.DB {
-		if offset > 0 {
-			db = db.Offset(offset)
-		}
-		if limit > 0 {
-			db = db.Limit(limit)
-		}
-		return db
-	}
+func (d *Dao) Count(data interface{},where ...func(*gorm.DB)*gorm.DB)(int, error) {  
+	var total int
+	err:= d.gorm.Model(&data).Scopes(where...).Count(&total).Error
+	return total,err
 }
-
+ 
 func (d *Dao) Tx(f func(tx *sqlx.Tx) error) error {
 	tx, err := d.db.Beginx()
 	if err != nil {
