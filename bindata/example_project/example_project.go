@@ -4,6 +4,8 @@ import (
 	"{{.ProjectPath}}/gosrc/app"
 	"{{.ProjectPath}}/gosrc/controllers"
 	"github.com/lixiangzhong/log"
+	"github.com/lixiangzhong/config"
+	"github.com/jmoiron/sqlx"
 )
 
 func initroute() {
