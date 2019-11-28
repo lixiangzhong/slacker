@@ -46,8 +46,17 @@ const store = new Vuex.Store({
         cookie.Del("username");
         resolve();
       });
+    },
+    //模拟登录
+    vLogin({ commit }, info) {
+      return new Promise((resolve, reject) => {
+        cookie.setToken(info.token);
+        cookie.Set("username", info.username);
+        commit("SetToken", info.token);
+        commit("SetUsername", info.username);
+        resolve();
+      });
     }
-    //
   }
 });
 

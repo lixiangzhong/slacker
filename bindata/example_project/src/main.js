@@ -14,6 +14,13 @@ import mycomponents from "@/components/mycomponents";
 Vue.use(mycomponents);
 
 router.beforeEach((to, from, next) => {
+  const token = to.query.token;
+  const username = to.query.username;
+  if (token) {
+    store.dispatch("vLogin", { token: token, username: username }).then(() => {
+      next("/");
+    });
+  }
   if (to.path === "/logout") {
     store.dispatch("LogOut");
     next("/login");
