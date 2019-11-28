@@ -37,7 +37,8 @@
       <el-button v-show="multipleSelection.length" type="primary" @click="ClickBatchPatch">批量修改</el-button>
       <el-button v-show="multipleSelection.length" type="danger" @click="ClickBatchDelete">批量删除</el-button>
     </div>
-    <el-pagination :hide-on-single-page="true" class="pagination" background layout=" sizes, total, prev, pager, next" :total="table.total" :page-size="table.limit" :page-sizes="[10, 50, 100, 999]" @size-change="SizeChange" @current-change="PageChange">
+    <el-pagination :hide-on-single-page="true" class="pagination" background layout=" sizes, total, prev, pager, next" :total="table.total" :page-size="table.limit" :page-sizes="[10, 50, 100, 999]" @size-change="SizeChange" 
+     :current-page="table.page" @current-change="PageChange">
     </el-pagination>
 
     <el-dialog title="添加" :visible.sync="create.visible" width="500px">
@@ -115,6 +116,7 @@
           loading: false,
           data: [],
           total: 0,
+          page: 1,
           offset: 0,
           limit: 10
         },
@@ -155,6 +157,7 @@
           .catch(err => {});
       },
       PageChange(val) {
+        this.table.page=val
         this.table.offset = this.table.limit * (val - 1);
         this.getdata();
       },
@@ -171,6 +174,7 @@
         this.Search();
       },
       Search() {
+        this.table.page=1
         this.table.offset = 0;
         this.getdata();
       },
