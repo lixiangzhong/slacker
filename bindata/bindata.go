@@ -362,7 +362,7 @@ func gosrcControllersJwtGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2146, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2146, mode: os.FileMode(420), modTime: time.Unix(1574129331, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -442,7 +442,7 @@ func gosrcDaoDaoGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/dao/dao.go", size: 2113, mode: os.FileMode(420), modTime: time.Unix(1569314546, 0)}
+	info := bindataFileInfo{name: "gosrc/dao/dao.go", size: 2113, mode: os.FileMode(420), modTime: time.Unix(1574129331, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -502,7 +502,7 @@ func gosrcServiceServiceGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/service/service.go", size: 596, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
+	info := bindataFileInfo{name: "gosrc/service/service.go", size: 596, mode: os.FileMode(420), modTime: time.Unix(1574129331, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
