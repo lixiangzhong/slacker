@@ -16,6 +16,7 @@ package controllers
 
 import(
 	 "{{"gosrc/models"| .ImportLibrary}}/{{.Name}}"
+	 "{{"gosrc/errcode"| .ImportLibrary}}/{{.Name}}"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
