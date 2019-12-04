@@ -123,10 +123,8 @@ func waitSignal() {
 func Logger() gin.HandlerFunc {
 	var out zapcore.WriteSyncer
 	loglevel := zap.NewAtomicLevelAt(zap.InfoLevel)
-	if config.Bool("gin.debug") {
-		loglevel.SetLevel(zap.DebugLevel)
-		out = zapcore.Lock(os.Stdout)
-	} else {
+	switch config.String("gin.log") {
+	case "file":
 		f := &lumberjack.Logger{
 			Filename:   "access.log",
 			MaxSize:    10, //10m
@@ -135,6 +133,11 @@ func Logger() gin.HandlerFunc {
 			Compress:   false,
 		}
 		out = zapcore.AddSync(f)
+	case "stdout":
+		loglevel.SetLevel(zap.DebugLevel)
+		out = zapcore.Lock(os.Stdout)
+	default:
+		log.Fatal("bad log output")
 	}
 	enccfg := zap.NewProductionEncoderConfig()
 	enccfg.EncodeTime = func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
@@ -142,9 +145,8 @@ func Logger() gin.HandlerFunc {
 	}
 	enc := zapcore.NewConsoleEncoder(enccfg)
 	core := zapcore.NewTee(
-		// zapcore.NewCore(enc, zapcore.AddSync(f), NewLevelEnable(loglevel, zap.InfoLevel)),
 		// zapcore.NewCore(enc, zapcore.Lock(os.Stdout), DebugLevelEnalbe(loglevel, zap.DebugLevel, zap.InfoLevel)),
-		zapcore.NewCore(enc, out, DebugLevelEnalbe(loglevel, zap.DebugLevel, zap.InfoLevel)),
+		zapcore.NewCore(enc, out, NewLevelEnable(loglevel, zap.InfoLevel)),
 	)
 	accesslog := zap.New(core).Sugar()
 	return func(c *gin.Context) {
