@@ -5,6 +5,9 @@ import (
 	"github.com/jmoiron/sqlx"
 	"{{"gosrc/models"| .ImportLibrary}}/{{.Name}}"
 	"{{"gosrc/scope"| .ImportLibrary}}"
+	{{if .IsUserTable}}
+	"{{"gosrc/errcode"| .ImportLibrary}}/{{.Name}}"
+	{{end}}
 )
 
 
