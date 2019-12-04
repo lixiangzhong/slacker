@@ -282,7 +282,7 @@ func example_projectGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "example_project.go", size: 1562, mode: os.FileMode(420), modTime: time.Unix(1566784334, 0)}
+	info := bindataFileInfo{name: "example_project.go", size: 1562, mode: os.FileMode(420), modTime: time.Unix(1575006368, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -362,7 +362,7 @@ func gosrcControllersJwtGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2146, mode: os.FileMode(420), modTime: time.Unix(1574129331, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2146, mode: os.FileMode(420), modTime: time.Unix(1575006368, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -442,7 +442,7 @@ func gosrcDaoDaoGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/dao/dao.go", size: 2113, mode: os.FileMode(420), modTime: time.Unix(1574129331, 0)}
+	info := bindataFileInfo{name: "gosrc/dao/dao.go", size: 2113, mode: os.FileMode(420), modTime: time.Unix(1575006368, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -482,7 +482,7 @@ func gosrcErrcodeVarGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/errcode/var.go", size: 533, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
+	info := bindataFileInfo{name: "gosrc/errcode/var.go", size: 533, mode: os.FileMode(420), modTime: time.Unix(1575006368, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -502,7 +502,7 @@ func gosrcServiceServiceGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/service/service.go", size: 596, mode: os.FileMode(420), modTime: time.Unix(1574129331, 0)}
+	info := bindataFileInfo{name: "gosrc/service/service.go", size: 596, mode: os.FileMode(420), modTime: time.Unix(1575006368, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -822,7 +822,7 @@ func srcMainJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "src/main.js", size: 1086, mode: os.FileMode(420), modTime: time.Unix(1569289473, 0)}
+	info := bindataFileInfo{name: "src/main.js", size: 1086, mode: os.FileMode(420), modTime: time.Unix(1575006368, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -862,7 +862,7 @@ func srcStoreIndexJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "src/store/index.js", size: 1239, mode: os.FileMode(420), modTime: time.Unix(1569289494, 0)}
+	info := bindataFileInfo{name: "src/store/index.js", size: 1239, mode: os.FileMode(420), modTime: time.Unix(1575006368, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
