@@ -248,7 +248,7 @@ func babelConfigJs() (*asset, error) {
 	return a, nil
 }
 
-var _configYaml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x64\x90\xcf\x6a\xc3\x30\x0c\xc6\xef\x7e\x0a\xd1\x07\x08\x3d\x8c\x31\x7c\xdb\x9f\xc3\x2e\x1b\x61\x6c\x0f\xe0\xd4\x8a\xeb\x92\xd8\xa9\xac\xd0\x6d\x46\xef\x3e\x14\xda\x15\x9a\xa3\xf5\xfb\xe9\xf3\x87\x42\x4c\xd6\x00\x4c\x99\xd8\x82\xad\x1f\x2e\xf9\x36\x13\x8b\x01\xf0\xd8\xcd\xc1\x02\xd3\x8c\x06\x20\xfc\xc6\xe9\xfc\x30\x87\x13\xeb\x12\x7e\x4f\x91\x30\x26\x0b\x0f\xf7\x77\xdb\x2d\x18\xb3\xcb\x54\x16\x92\x5c\x37\xe0\x45\xaf\x35\xf6\x80\x47\x68\x5e\x5d\xf9\x2a\x48\x9f\x0a\xa1\x77\x43\x41\x11\xe3\x66\xde\xeb\xce\x5c\x90\x2c\x38\x3f\xc6\xa4\x85\x5c\x29\xa7\x4c\xfe\x32\xa9\x15\x93\x17\x31\x66\xfc\x29\xc7\x41\xfd\x7d\x2e\x6c\xa1\xd6\xe6\x4d\x27\xcf\x39\xf5\x31\x34\x8f\xde\x93\xc8\x7f\xda\x0d\xd5\xcf\x17\x7a\x4d\xdf\xdc\x28\xad\x12\x2f\xb2\xd1\x03\x74\xab\x84\x97\xa7\x77\x37\xe2\xd2\x03\xd9\x69\x8d\x21\x87\xbc\x68\x2d\xe5\x03\xee\xf8\xcc\x01\x38\xb2\x9e\x60\x45\xfe\x02\x00\x00\xff\xff\x27\x14\xc7\xc6\x72\x01\x00\x00")
+var _configYaml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x64\x90\xcf\x4e\xc3\x30\x0c\xc6\xef\x7e\x0a\x6b\x0f\x30\xed\x80\x10\xca\x8d\x3f\x07\x2e\xa0\x0a\xc1\x03\xa4\x8b\xdb\x65\x6a\x93\xce\x76\x35\x20\xca\xbb\x23\x97\x31\xa4\xed\x18\xff\x3e\xff\x62\x7d\x7d\x4c\x0e\x10\xa7\xcc\xea\xd0\x95\x37\x9f\x42\x93\x59\x2b\x20\x06\x6a\xe7\xde\xa1\xf2\x4c\x80\xd8\x7f\xc7\xe9\xfc\x18\x72\xef\x50\x34\xe4\x59\x01\xf6\x47\x35\x05\x7d\x4e\x91\x29\x26\x87\x77\xb7\x37\x9b\x0d\x02\x6c\x33\xcb\x42\x92\x6f\x07\x3a\x2d\x43\x29\xb1\x43\x3a\xe0\xfa\xd9\xcb\x87\x10\xbf\x1b\xc4\xce\x0f\x42\xb5\x82\x9f\x75\x67\x3b\xb3\x10\x3b\xf4\x61\x8c\xc9\xce\xf3\x22\xc7\xcc\xe1\x6f\x52\x0a\xa5\x50\x2b\xc0\xf8\x25\x87\xc1\xf2\xbb\x2c\xea\xb0\x94\xf5\x8b\x4d\x1e\x73\xea\x62\xbf\xbe\x0f\x81\x6b\x3d\xdb\x2e\xa8\x7d\xbe\xd0\x7f\xfb\xea\x22\xd2\x18\x09\xb5\xae\xac\x8e\xf6\xca\xf0\xf4\xf0\xea\x47\x5a\xee\x20\xf5\xee\xb7\x98\xbc\xc4\x1a\xce\x7b\xda\xea\x89\x23\x6a\x54\xab\xe0\x8a\xfc\x04\x00\x00\xff\xff\x9f\x77\x38\xf3\x80\x01\x00\x00")
 
 func configYamlBytes() ([]byte, error) {
 	return bindataRead(
@@ -263,7 +263,7 @@ func configYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "config.yaml", size: 370, mode: os.FileMode(420), modTime: time.Unix(1569290755, 0)}
+	info := bindataFileInfo{name: "config.yaml", size: 384, mode: os.FileMode(420), modTime: time.Unix(1575442139, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -283,7 +283,7 @@ func example_projectGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "example_project.go", size: 1623, mode: os.FileMode(420), modTime: time.Unix(1575441929, 0)}
+	info := bindataFileInfo{name: "example_project.go", size: 1623, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -303,7 +303,7 @@ func gosrcAppAppGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/app/app.go", size: 5210, mode: os.FileMode(420), modTime: time.Unix(1575442034, 0)}
+	info := bindataFileInfo{name: "gosrc/app/app.go", size: 5210, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -363,7 +363,7 @@ func gosrcControllersJwtGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2314, mode: os.FileMode(420), modTime: time.Unix(1575441929, 0)}
+	info := bindataFileInfo{name: "gosrc/controllers/jwt.go", size: 2314, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -443,7 +443,7 @@ func gosrcDaoDaoGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/dao/dao.go", size: 2278, mode: os.FileMode(420), modTime: time.Unix(1575441929, 0)}
+	info := bindataFileInfo{name: "gosrc/dao/dao.go", size: 2278, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -483,7 +483,7 @@ func gosrcErrcodeVarGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/errcode/var.go", size: 989, mode: os.FileMode(420), modTime: time.Unix(1575441929, 0)}
+	info := bindataFileInfo{name: "gosrc/errcode/var.go", size: 989, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -503,7 +503,7 @@ func gosrcScopeScopeGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/scope/scope.go", size: 775, mode: os.FileMode(420), modTime: time.Unix(1575441929, 0)}
+	info := bindataFileInfo{name: "gosrc/scope/scope.go", size: 775, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -523,7 +523,7 @@ func gosrcServiceServiceGo() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "gosrc/service/service.go", size: 597, mode: os.FileMode(420), modTime: time.Unix(1575441929, 0)}
+	info := bindataFileInfo{name: "gosrc/service/service.go", size: 597, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -843,7 +843,7 @@ func srcMainJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "src/main.js", size: 1996, mode: os.FileMode(420), modTime: time.Unix(1575441929, 0)}
+	info := bindataFileInfo{name: "src/main.js", size: 1996, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -883,7 +883,7 @@ func srcStoreIndexJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "src/store/index.js", size: 1536, mode: os.FileMode(420), modTime: time.Unix(1575441929, 0)}
+	info := bindataFileInfo{name: "src/store/index.js", size: 1536, mode: os.FileMode(420), modTime: time.Unix(1575442127, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
