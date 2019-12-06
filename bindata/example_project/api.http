@@ -1,0 +1,44 @@
+// for vscode extension REST Client
+
+@host=http://127.0.0.1:{RandPort}
+
+### 
+# @name login
+POST {httphosthttp}/token
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"admin"
+}
+
+@token = {httplogin.response.body.data.tokenhttp}
+
+{{range $i,$v:=.Tables}}
+### 获取列表{{$v.Name}}
+GET {httphosthttp}/api/{{$v.LowerName}}
+Authorization: {httptokenhttp}
+
+### 获取一个{{$v.Name}}
+GET {httphosthttp}/api/{{$v.LowerName}}/:id
+Authorization: {httptokenhttp}
+
+### 创建{{$v.Name}}
+POST {httphosthttp}/api/{{$v.LowerName}}
+Authorization: {httptokenhttp}
+Content-Type: application/json
+
+### 更新{{$v.Name}}
+PUT {httphosthttp}/api/{{$v.LowerName}}/:id
+Authorization: {httptokenhttp}
+Content-Type: application/json
+
+### 更新指定字段{{$v.Name}}
+PATCH {httphosthttp}/api/{{$v.LowerName}}/:id
+Authorization: {httptokenhttp}
+Content-Type: application/json
+
+### 删除一个{{$v.Name}}
+DELETE {httphosthttp}/api/{{$v.LowerName}}/:id
+Authorization: {httptokenhttp}
+{{end}}
