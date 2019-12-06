@@ -8,15 +8,15 @@ all:
 
 .PHONY: build
 build:
-	@go build  -ldflags "-X {{.ProjectPath}}/gosrc/app.Version=$(build_version)\
-	  -X {{.ProjectPath}}/gosrc/app.BuildTime=$(build_date)\
-	    -X {{.ProjectPath}}/gosrc/app.GitVersion=$(build_gitversion)\
-			-X {{.ProjectPath}}/gosrc/app.GoMD5=$(gofilemd5)"\
+	@go build  -ldflags "-X {{.ProjectName}}/gosrc/app.Version=$(build_version)\
+	  -X {{.ProjectName}}/gosrc/app.BuildTime=$(build_date)\
+	    -X {{.ProjectName}}/gosrc/app.GitVersion=$(build_gitversion)\
+			-X {{.ProjectName}}/gosrc/app.GoMD5=$(gofilemd5)"\
 		 -o {{.ProjectName}}
-	@GOOS=linux go build  -ldflags "-X {{.ProjectPath}}/gosrc/app.Version=$(build_version)\
-	  -X {{.ProjectPath}}/gosrc/app.BuildTime=$(build_date)\
-	    -X {{.ProjectPath}}/gosrc/app.GitVersion=$(build_gitversion)\
-			-X {{.ProjectPath}}/gosrc/app.GoMD5=$(gofilemd5)"\
+	@GOOS=linux go build  -ldflags "-X {{.ProjectName}}/gosrc/app.Version=$(build_version)\
+	  -X {{.ProjectName}}/gosrc/app.BuildTime=$(build_date)\
+	    -X {{.ProjectName}}/gosrc/app.GitVersion=$(build_gitversion)\
+			-X {{.ProjectName}}/gosrc/app.GoMD5=$(gofilemd5)"\
 		 -o {{.ProjectName}}_linux
 	@./{{.ProjectName}} -v 
 
