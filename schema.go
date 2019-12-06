@@ -20,7 +20,7 @@ var (
 	}
 )
 
-func Tables(dbname string) (tables []Table) {
+func Tables(projectname, dbname string) (tables []Table) {
 	tables = make([]Table, 0)
 	var tablenames = make([]string, 0)
 	err := db.Select(&tablenames, "show tables")
@@ -30,6 +30,7 @@ func Tables(dbname string) (tables []Table) {
 	}
 	for _, tablename := range tablenames {
 		var table Table
+		table.ProjectName = projectname
 		table.Name = tablename
 		table.Columns = make([]Column, 0)
 		err = db.Select(&table.Columns, "select column_name,data_type,column_type,column_comment,column_key,column_default from information_schema.columns where table_schema =?  and table_name = ?", dbname, tablename)

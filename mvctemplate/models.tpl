@@ -8,10 +8,6 @@
 //{{.SQLColumns}}
 package {{.LowerName}}
 
-import (
-sq	"github.com/Masterminds/squirrel"
-)
-
 const(
 	StateOK=0
 	StateDel=1

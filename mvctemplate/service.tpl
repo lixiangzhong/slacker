@@ -6,7 +6,7 @@ import (
 	"{{"gosrc/models"| .ImportLibrary}}/{{.Name}}"
 	"{{"gosrc/scope"| .ImportLibrary}}"
 	{{if .IsUserTable}}
-	"{{"gosrc/errcode"| .ImportLibrary}}/{{.Name}}"
+	"{{"gosrc/errcode"| .ImportLibrary}}"
 	{{end}}
 )
 

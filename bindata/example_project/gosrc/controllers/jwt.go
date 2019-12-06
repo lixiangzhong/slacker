@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"{{.ProjectPath}}/gosrc/app" 
-	"{{.ProjectPath}}/gosrc/errcode"
-	"{{.ProjectPath}}/gosrc/models/{{.UserTable.Name}}"
+	"{{.ProjectName}}/gosrc/app" 
+	"{{.ProjectName}}/gosrc/errcode"
+	"{{.ProjectName}}/gosrc/models/{{.UserTable.Name}}"
 	"github.com/lixiangzhong/config"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"

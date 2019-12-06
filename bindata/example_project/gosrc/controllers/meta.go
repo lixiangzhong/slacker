@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/lixiangzhong/config"
-	"{{.ProjectPath}}/gosrc/app"
+	"{{.ProjectName}}/gosrc/app"
 	"github.com/gin-gonic/gin"
 )
 

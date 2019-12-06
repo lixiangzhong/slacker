@@ -30,9 +30,6 @@ func New() cli.Command {
 			if projectname == "" {
 				return cli.NewExitError("missing project name", 0)
 			}
-			if InGOPATH() == false {
-				return cli.NewExitError("current workdir is not inside $GOPATH/src", 0)
-			}
 			if err := Mkdir(projectname); err != nil {
 				return cli.NewExitError(err, 1)
 			}
@@ -43,7 +40,7 @@ func New() cli.Command {
 			if err := ConnectDB(mysqlconfig); err != nil {
 				return cli.NewExitError(err, 1)
 			}
-			tables := Tables(mysqlconfig.DBName)
+			tables := Tables(projectname, mysqlconfig.DBName)
 			var tpldata TemplateData
 			tpldata.ProjectName = projectname
 			tpldata.ProjectPath = ProjectPath()

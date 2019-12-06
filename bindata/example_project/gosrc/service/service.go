@@ -3,9 +3,9 @@ package service
 
 import (
 	"errors"
-	"{{.ProjectPath}}/gosrc/dao"
+	"{{.ProjectName}}/gosrc/dao"
 	"github.com/jmoiron/sqlx"
-	"{{.ProjectPath}}/gosrc/models/{{.UserTable.Name}}"
+	"{{.ProjectName}}/gosrc/models/{{.UserTable.Name}}"
 )
 
  

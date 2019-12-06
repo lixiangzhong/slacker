@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lixiangzhong/log"
-	"{{.ProjectPath}}/gosrc/errcode"
+	"{{.ProjectName}}/gosrc/errcode"
 )
 
 type ResponseJSON struct {

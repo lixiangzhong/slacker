@@ -5,7 +5,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/jinzhu/gorm"
 	"github.com/lixiangzhong/log" 
-	{{range $i,$table:=.Tables}}{{$table.LowerName}} "{{$.ProjectPath}}/gosrc/models/{{$table.Name}}"
+	{{range $i,$table:=.Tables}}{{$table.LowerName}} "{{$.ProjectName}}/gosrc/models/{{$table.Name}}"
 	{{end}}
 )
 

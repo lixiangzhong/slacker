@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket" 
-	"{{.ProjectPath}}/gosrc/service"
+	"{{.ProjectName}}/gosrc/service"
 )
 
 var Service *service.Service

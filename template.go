@@ -38,6 +38,7 @@ func (t TemplateData) UserTable() Table {
 }
 
 type Table struct {
+	ProjectName    string
 	Name           string
 	CreateTableSQL string
 	DBName         string
@@ -118,7 +119,7 @@ func (t Table) SwitchCase() string {
 }
 
 func (t Table) ImportLibrary(dir string) string {
-	return path.Join(ProjectPath(), dir)
+	return path.Join(t.ProjectName, dir)
 }
 
 func (t *Table) ShowCreateTable() {

@@ -15,7 +15,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
-	_ "{{.ProjectPath}}/gosrc/validator"
+	_ "{{.ProjectName}}/gosrc/validator"
 	"net"
 	"os"
 	"time"

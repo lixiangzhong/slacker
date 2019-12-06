@@ -37,17 +37,17 @@ func ProjectPath() string {
 	return path.Clean(project)
 }
 
-func InGOPATH() bool {
-	GOPATH, ok := os.LookupEnv("GOPATH")
-	if !ok {
-		log.Debug("Lookup Env GOPATH", ok)
-	}
-	pwd, err := os.Getwd()
-	if err != nil {
-		log.Debug(err)
-	}
-	return strings.HasPrefix(pwd, GOPATH)
-}
+// func InGOPATH() bool {
+// 	GOPATH, ok := os.LookupEnv("GOPATH")
+// 	if !ok {
+// 		log.Debug("Lookup Env GOPATH", ok)
+// 	}
+// 	pwd, err := os.Getwd()
+// 	if err != nil {
+// 		log.Debug(err)
+// 	}
+// 	return strings.HasPrefix(pwd, GOPATH)
+// }
 
 //for sql bindata
 func ReBindata(dir string, suffix string) {

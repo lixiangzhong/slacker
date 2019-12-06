@@ -26,9 +26,9 @@ func Add() cli.Command {
 			var tables = make([]Table, 0)
 
 			if tablename == "" {
-				tables = Tables(mysqlconfig.DBName)
+				tables = Tables("", mysqlconfig.DBName)
 			} else {
-				for _, t := range Tables(mysqlconfig.DBName) {
+				for _, t := range Tables("", mysqlconfig.DBName) {
 					if t.Name == tablename {
 						tables = append(tables, t)
 						break

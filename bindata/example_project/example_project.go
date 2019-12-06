@@ -1,8 +1,8 @@
 package main
 
 import (
-	"{{.ProjectPath}}/gosrc/app"
-	"{{.ProjectPath}}/gosrc/controllers"
+	"{{.ProjectName}}/gosrc/app"
+	"{{.ProjectName}}/gosrc/controllers"
 	"github.com/lixiangzhong/log"
 	"github.com/lixiangzhong/config"
 	"github.com/jmoiron/sqlx"
