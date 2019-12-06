@@ -2,6 +2,7 @@ package slacker
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -35,6 +36,28 @@ func ProjectPath() string {
 	}
 	project := strings.TrimPrefix(pwd, path.Join(GOPATH, "src")+"/")
 	return path.Clean(project)
+}
+
+func GoModName() string {
+	b, err := ioutil.ReadFile("go.mod")
+	if err == nil {
+		rows := strings.Split(string(b), "\n")
+		for _, row := range rows {
+			cols := strings.Fields(row)
+			if len(cols) == 2 {
+				if cols[0] == "module" {
+					return cols[1]
+				}
+			}
+		}
+	}
+	log.Debug("can't read go.mod", err)
+	pwd, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Debug("use workdir as module name:", pwd)
+	return pwd
 }
 
 // func InGOPATH() bool {
