@@ -327,9 +327,13 @@ func (c Column) Tag() string {
 	}
 	var defaultvalue string
 	if c.ColumnDefault.Valid {
-		defaultvalue = "DEFAULT:" + c.ColumnDefault.String
+		if c.ColumnDefault.String == "NULL" {
+			defaultvalue = "DEFAULT:" + c.ColumnDefault.String
+		} else {
+			defaultvalue = "not null;DEFAULT:" + c.ColumnDefault.String
+		}
 	}
-	return fmt.Sprintf("`%v`", fmt.Sprintf(`json:"%v" db:"%v" form:"%v" gorm:"column:%v;type:%v;not null%v%v"`,
+	return fmt.Sprintf("`%v`", fmt.Sprintf(`json:"%v" db:"%v" form:"%v" gorm:"column:%v;type:%v%v%v"`,
 		c.ColumnName, c.ColumnName, c.ColumnName,
 		//gorm
 		c.ColumnName, //column

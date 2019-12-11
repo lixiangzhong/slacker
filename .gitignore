@@ -2,3 +2,4 @@ cmd/slacker
 cmd/cmd
 .DS_Store
 go.sum
+.idea
