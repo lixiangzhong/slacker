@@ -325,7 +325,7 @@ func (c Column) Tag() string {
 			index = "index:idx_" + c.ColumnName
 		}
 	}
-	var defaultvalue string
+	var defaultvalue string = "not null"
 	if c.ColumnDefault.Valid {
 		if c.ColumnDefault.String == "NULL" {
 			defaultvalue = "DEFAULT:" + c.ColumnDefault.String
