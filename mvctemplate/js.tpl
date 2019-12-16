@@ -68,17 +68,12 @@ export function Export() {
 }
 
 export function WebSocket() {
+  const token = cookie.getToken();
+  let host = "";
   if (process.env.VUE_APP_BaseURL == "") {
-    return (
-      "ws://" +
-      location.host +
-      "/api/websocket/{{.LowerName}}?access_token=" +
-      cookie.getToken()
-    );
+    host = `ws://${location.host}`;
+  } else {
+    host = process.env.VUE_APP_BaseURL.replace("http", "ws");
   }
-  return (
-    process.env.VUE_APP_BaseURL.replace("http", "ws") +
-    "/api/websocket/{{.LowerName}}?access_token=" +
-    cookie.getToken()
-  );
+  return `${host}/api/websocket/ssh?access_token=${token}`;
 }

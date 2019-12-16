@@ -41,7 +41,7 @@ func (d *Dao) Patch{{.CamelCaseName}}(id int64,update map[string]interface{}) er
 
 func (d *Dao) Take{{.CamelCaseName}}ByName(data *{{.LowerName}}.{{.CamelCaseName}}) error { 
 	data.{{.UsernameColumn.CamelCaseName }} = strings.ToLower(data.{{.UsernameColumn.CamelCaseName }})  
-	err := d.gorm.Where("{{.UsernameColumn.ColumnName }}=?","data.{{.UsernameColumn.CamelCaseName }}").First(data).Error
+	err := d.gorm.Where("{{.UsernameColumn.ColumnName }}=?",data.{{.UsernameColumn.CamelCaseName }}).First(data).Error
 	return  err
 }
 
