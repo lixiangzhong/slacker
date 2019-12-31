@@ -5,11 +5,10 @@ import (
 "{{"gosrc/models"| .ImportLibrary}}/{{.Name}}" 
 )
 
-func (d *Dao) List{{.CamelCaseName}}(where  ...func(*gorm.DB)*gorm.DB) ([]{{.LowerName}}.{{.CamelCaseName}},int,error) {
+func (d *Dao) List{{.CamelCaseName}}(where  ...func(*gorm.DB)*gorm.DB) ([]{{.LowerName}}.{{.CamelCaseName}},error) {
     var data =make([]{{.LowerName}}.{{.CamelCaseName}},0)
-    var total int
-	err :=d.gorm.Model({{.LowerName}}.{{.CamelCaseName}}{}).Scopes(where...).Count(&total).Find(&data).Error
-    return data,total,err
+	err :=d.gorm.Model({{.LowerName}}.{{.CamelCaseName}}{}).Scopes(where...).Find(&data).Error
+    return data,err
 }
 
 {{.MethodTake}}

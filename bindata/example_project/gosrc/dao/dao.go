@@ -4,7 +4,8 @@ package dao
 import (
 	"github.com/jmoiron/sqlx"
 	"github.com/jinzhu/gorm"
-	"github.com/lixiangzhong/log" 
+	"github.com/lixiangzhong/log"
+	"{{$.ProjectName}}/gosrc/models"
 	{{range $i,$table:=.Tables}}{{$table.LowerName}} "{{$.ProjectName}}/gosrc/models/{{$table.Name}}"
 	{{end}}
 )
@@ -42,33 +43,33 @@ func (d *Dao) autoMigrate() {
 }
 
 
-func (d *Dao) Create(data interface{})(error) { 
+func (d *Dao) Create(data interface{})(error) {
 	return d.gorm.Create(data).Error
 }
 
-func (d *Dao) Update(data interface{},where ...func(*gorm.DB)*gorm.DB)error { 
+func (d *Dao) Update(data interface{},where ...func(*gorm.DB)*gorm.DB)error {
 	return d.gorm.Scopes(where...).Save(data).Error
 }
 
-func (d *Dao) Patch(model interface{},u map[string]interface{},where ...func(*gorm.DB)*gorm.DB)error { 
-	return d.gorm.Model(model).Scopes(where...).UpdateColumns(u).Error
+func (d *Dao) Patch(obj models.Table,u map[string]interface{},where ...func(*gorm.DB)*gorm.DB)error {
+	return d.gorm.Table(obj.TableName()).Scopes(where...).UpdateColumns(u).Error
 }
 
-func (d *Dao) Delete(data interface{},where ...func(*gorm.DB)*gorm.DB)error { 
+func (d *Dao) Delete(data interface{},where ...func(*gorm.DB)*gorm.DB)error {
 	return d.gorm.Scopes(where...).Delete(data).Error
 }
 
-func (d *Dao) Take(data interface{},where ...func(*gorm.DB)*gorm.DB) error { 
+func (d *Dao) Take(data interface{},where ...func(*gorm.DB)*gorm.DB) error {
 	return d.gorm.Scopes(where...).Take(data).Error
 }
 
-func (d *Dao) List(data interface{},where ...func(*gorm.DB)*gorm.DB) error {  
+func (d *Dao) List(data interface{},where ...func(*gorm.DB)*gorm.DB) error {
 	return d.gorm.Scopes(where...).Find(data).Error
 }
 
-func (d *Dao) Count(data interface{},where ...func(*gorm.DB)*gorm.DB)(int, error) {  
+func (d *Dao) Count(obj models.Table,where ...func(*gorm.DB)*gorm.DB)(int, error) {
 	var total int
-	err:= d.gorm.Model(&data).Scopes(where...).Count(&total).Error
+	err:= d.gorm.Table(obj.TableName()).Scopes(where...).Count(&total).Error
 	return total,err
 }
  

@@ -18,12 +18,15 @@ func (s *Service)Take{{.CamelCaseName}}(data *{{.LowerName}}.{{.CamelCaseName}})
 
 func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}}.{{.CamelCaseName}})([]{{.LowerName}}.{{.CamelCaseName}},int,error){ 
 	var where scope.Wheres
-	where=append(where,scope.OffsetLimit(offset,limit))
 	{{if Contains .SwitchCase "state"}} 
 		where=append(where,scope.Where("state!=?",{{.LowerName}}.StateDel)) 
 	{{end}}
 	where=append(where,scope.Order("{{.PrimaryKeyColumn.ColumnName}} desc")) 
-	data,total,err := s.dao.List{{.CamelCaseName}}(where...) 
+	data,err := s.dao.List{{.CamelCaseName}}(append(where, scope.OffsetLimit(offset, limit))...)
+	if err!=nil {
+	    return data,0,err
+	}
+	total,err:=s.dao.Count(search,where...)
 	return data,total, err 
 }
 
