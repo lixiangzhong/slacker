@@ -223,7 +223,7 @@
           })
           .catch(err => {});
       },
-      OnClickEdit(){
+      OnClickEdit(row){
          this.update.form = Object.assign({}, row);
             this.update.visible = true;
       },

@@ -21,12 +21,13 @@ func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}
 	{{if Contains .SwitchCase "state"}} 
 		where=append(where,scope.Where("state!=?",{{.LowerName}}.StateDel)) 
 	{{end}}
+    total,err:=s.dao.Count(search,where...)
+    if err!=nil{
+        return nil,0,err
+    }
+	where=append(where,scope.OffsetLimit(offset, limit))
 	where=append(where,scope.Order("{{.PrimaryKeyColumn.ColumnName}} desc")) 
-	data,err := s.dao.List{{.CamelCaseName}}(append(where, scope.OffsetLimit(offset, limit))...)
-	if err!=nil {
-	    return data,0,err
-	}
-	total,err:=s.dao.Count(search,where...)
+	data,err := s.dao.List{{.CamelCaseName}}(where...)
 	return data,total, err 
 }
 
