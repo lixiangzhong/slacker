@@ -28,7 +28,7 @@
          {{end}}
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="small" type="primary" plain @click="update.form = Object.assign({},scope.row);update.visible = true" icon="el-icon-edit"> </el-button>
+          <el-button size="small" type="primary" plain @click="OnClickEdit(scope.row)" icon="el-icon-edit"> </el-button>
           <el-button size="small" type="danger" @click="Delete(scope.row)" icon="el-icon-delete"></el-button>
         </template>
       </el-table-column>
@@ -222,6 +222,10 @@
             this.getdata();
           })
           .catch(err => {});
+      },
+      OnClickEdit(){
+         this.update.form = Object.assign({}, row);
+            this.update.visible = true;
       },
       SelectionChange(val) {
         this.multipleSelection = val;

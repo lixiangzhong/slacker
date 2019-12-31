@@ -8,7 +8,7 @@ import (
 func (d *Dao) List{{.CamelCaseName}}(where  ...func(*gorm.DB)*gorm.DB) ([]{{.LowerName}}.{{.CamelCaseName}},int,error) {
     var data =make([]{{.LowerName}}.{{.CamelCaseName}},0)
     var total int
-	err :=d.gorm.Model({{.LowerName}}.{{.CamelCaseName}}{}).Count(&total).Scopes(where...).Find(&data).Error
+	err :=d.gorm.Model({{.LowerName}}.{{.CamelCaseName}}{}).Scopes(where...).Count(&total).Find(&data).Error
     return data,total,err
 }
 
