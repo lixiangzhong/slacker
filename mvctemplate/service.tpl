@@ -31,22 +31,22 @@ func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}
 	return data,total, err 
 }
 
-func (s *Service)Create{{.CamelCaseName}}({{.LowerName}} *{{.LowerName}}.{{.CamelCaseName}})error{ 
+func (s *Service) Create{{.CamelCaseName}} (data *{{.LowerName}}.{{.CamelCaseName}}) error {
 	{{if .IsUserTable}}
-		{{.LowerName}}.{{.UsernameColumn.CamelCaseName}} = strings.ToLower({{.LowerName}}.{{.UsernameColumn.CamelCaseName}})
-		{{.LowerName}}.{{.PasswordColumn.CamelCaseName}} = s.EncryptPassword({{.LowerName}}.{{.PasswordColumn.CamelCaseName}})
-		if s.dao.{{.CamelCaseName}}IsExist({{.LowerName}}.{{.UsernameColumn.CamelCaseName}}) {
-			return   errcode.AlreadyExist
+		data.{{.UsernameColumn.CamelCaseName}} = strings.ToLower(data.{{.UsernameColumn.CamelCaseName}})
+		data.{{.PasswordColumn.CamelCaseName}} = s.EncryptPassword(data.{{.PasswordColumn.CamelCaseName}})
+		if s.dao.{{.CamelCaseName}}IsExist(data.{{.UsernameColumn.CamelCaseName}}) {
+			return errcode.AlreadyExist
 		}
 	{{end}}
-	{{.LowerName | .AutomaticCreateUpdateExpression}} 
-  err := s.dao.Create{{.CamelCaseName}}({{.LowerName}}) 
-	return   err 
+	{{.AutomaticCreateUpdateExpression "data"}}
+    err := s.dao.Create{{.CamelCaseName}}(data)
+	return err
 }
 
-func (s *Service)Update{{.CamelCaseName}}({{.LowerName}} {{.LowerName}}.{{.CamelCaseName}})error{ 
-		 {{.LowerName | .AutomaticUpdateExpression}}
-	  return s.dao.Update{{.CamelCaseName}}({{.LowerName}}) 
+func (s *Service)Update{{.CamelCaseName}}(data {{.LowerName}}.{{.CamelCaseName}})error{
+		 {{.AutomaticUpdateExpression "data"}}
+	  return s.dao.Update{{.CamelCaseName}}(data)
 	 
 }
 

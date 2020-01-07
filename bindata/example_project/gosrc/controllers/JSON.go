@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,7 +21,7 @@ func JSON(c *gin.Context, data interface{}, err error) {
 	switch err {
 	case nil:
 		e=errcode.OK
-	case sql.ErrNoRows:
+	case sql.ErrNoRows, gorm.ErrRecordNotFound:
 		e=errcode.NotFound
 		data=nil
 	default:
