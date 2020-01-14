@@ -75,5 +75,5 @@ export function WebSocket() {
   } else {
     host = process.env.VUE_APP_BaseURL.replace("http", "ws");
   }
-  return `${host}/api/websocket/ssh?access_token=${token}`;
+  return `${host}/api/websocket/{{.LowerName}}?access_token=${token}`;
 }
