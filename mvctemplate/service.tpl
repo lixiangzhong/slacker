@@ -2,7 +2,6 @@
 package service
 
 import (
-	"github.com/jmoiron/sqlx"
 	"{{"gosrc/models"| .ImportLibrary}}/{{.Name}}"
 	"{{"gosrc/scope"| .ImportLibrary}}"
 	{{if .IsUserTable}}
@@ -11,9 +10,8 @@ import (
 )
 
 
-func (s *Service)Take{{.CamelCaseName}}(data *{{.LowerName}}.{{.CamelCaseName}})error{ 
-  err := s.dao.Take{{.CamelCaseName}}(data) 
-	return   err 
+func (s *Service)Take{{.CamelCaseName}}(data *{{.LowerName}}.{{.CamelCaseName}})error{
+	return s.dao.Take{{.CamelCaseName}}(data)
 }
 
 func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}}.{{.CamelCaseName}})([]{{.LowerName}}.{{.CamelCaseName}},int,error){ 

@@ -18,10 +18,10 @@ func (d *Dao) Create{{.CamelCaseName}}(data *{{.LowerName}}.{{.CamelCaseName}}) 
     return d.gorm.Create(data).Error
 }
 
-func (d *Dao) Update{{.CamelCaseName}}({{.LowerName}} {{.LowerName}}.{{.CamelCaseName}}) error {
+func (d *Dao) Update{{.CamelCaseName}}(data {{.LowerName}}.{{.CamelCaseName}}) error {
 
-   // _,err := d.db.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",{{.LowerName}}) 
-    return  d.gorm.Save(&{{.LowerName}}).Error
+   // _,err := d.db.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",data)
+    return  d.gorm.Save(&data).Error
 }
 
 func (d *Dao) Patch{{.CamelCaseName}}(id int64,update map[string]interface{}) error {
