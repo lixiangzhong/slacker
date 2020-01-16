@@ -46,7 +46,7 @@ func Tables(projectname, dbname string) (tables []Table) {
 		// 	}
 		// }
 		table.DBName = dbname
-		table.ShowCreateTable()
+		//table.ShowCreateTable()
 		tables = append(tables, table)
 	}
 	return

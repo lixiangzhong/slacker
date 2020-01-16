@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/lixiangzhong/log"
 	"github.com/lixiangzhong/name"
 )
 
@@ -38,11 +37,11 @@ func (t TemplateData) UserTable() Table {
 }
 
 type Table struct {
-	ProjectName    string
-	Name           string
-	CreateTableSQL string
-	DBName         string
-	Columns        []Column
+	ProjectName string
+	Name        string
+	DBName      string
+	Columns     []Column
+	//CreateTableSQL string
 }
 
 //首字母
@@ -122,22 +121,22 @@ func (t Table) ImportLibrary(dir string) string {
 	return path.Join(t.ProjectName, dir)
 }
 
-func (t *Table) ShowCreateTable() {
-	err := db.QueryRow("show create table "+t.Name).Scan(&t.Name, &t.CreateTableSQL)
-	if err != nil {
-		log.Error(err)
-		return
-	}
-	t.CreateTableSQL = strings.Replace(t.CreateTableSQL, "CREATE TABLE", "CREATE TABLE IF NOT EXISTS", 1)
-	fields := strings.Fields(t.CreateTableSQL)
-	for i, v := range fields {
-		if strings.Contains(v, "AUTO_INCREMENT=") {
-			fields[i] = ""
-			break
-		}
-	}
-	t.CreateTableSQL = strings.Join(fields, " ")
-}
+//func (t *Table) ShowCreateTable() {
+//	err := db.QueryRow("show create table "+t.Name).Scan(&t.Name, &t.CreateTableSQL)
+//	if err != nil {
+//		log.Error(err)
+//		return
+//	}
+//	t.CreateTableSQL = strings.Replace(t.CreateTableSQL, "CREATE TABLE", "CREATE TABLE IF NOT EXISTS", 1)
+//	fields := strings.Fields(t.CreateTableSQL)
+//	for i, v := range fields {
+//		if strings.Contains(v, "AUTO_INCREMENT=") {
+//			fields[i] = ""
+//			break
+//		}
+//	}
+//	t.CreateTableSQL = strings.Join(fields, " ")
+//}
 
 func (t Table) AutomaticCreateUpdateExpression(obj string) string {
 	var exp string
