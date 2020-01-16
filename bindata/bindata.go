@@ -5,6 +5,7 @@
 // example_project/.env.production
 // example_project/.gitignore
 // example_project/.realize.yaml
+// example_project/.vscode/settings.json
 // example_project/README.md
 // example_project/api.http
 // example_project/babel.config.js
@@ -26,6 +27,7 @@
 // example_project/gosrc/scope/scope.go
 // example_project/gosrc/service/service.go
 // example_project/gosrc/validator/validator.go
+// example_project/http-client.env.json
 // example_project/makefile
 // example_project/package.json
 // example_project/public/favicon.ico
@@ -212,6 +214,26 @@ func RealizeYaml() (*asset, error) {
 	return a, nil
 }
 
+var _VscodeSettingsJson = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xaa\xe6\x52\x50\x50\x4a\xcf\xd7\x2b\x2d\x4e\xf5\x49\xcc\x4b\x2f\x4d\x4c\x4f\x0d\x4e\x2d\x2a\x4b\x2d\x52\xb2\x52\x28\x29\x2a\x4d\xe5\xaa\xe5\x02\x04\x00\x00\xff\xff\x5b\x84\x05\xd4\x23\x00\x00\x00")
+
+func VscodeSettingsJsonBytes() ([]byte, error) {
+	return bindataRead(
+		_VscodeSettingsJson,
+		".vscode/settings.json",
+	)
+}
+
+func VscodeSettingsJson() (*asset, error) {
+	bytes, err := VscodeSettingsJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: ".vscode/settings.json", size: 35, mode: os.FileMode(420), modTime: time.Unix(1579157887, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 var _readmeMd = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x74\xd0\x31\x6b\xc3\x30\x10\x05\xe0\x5d\xbf\xe2\x40\x4b\x3b\xd8\xde\xb3\x66\x2f\xa5\x1d\x4b\xc1\xaa\xfd\xec\x28\x95\xee\xc4\x49\xf2\xd0\x90\xff\x5e\x88\x0a\x75\x29\x19\xf5\x40\x9f\x9e\x9e\xa5\xcb\xa5\x7f\x56\x39\x63\x2a\x4f\x2e\xe2\x7a\x35\xc6\x5a\xfa\x49\x28\xa3\xd4\x64\xcc\x38\x8e\x86\x53\x24\xcf\xb9\xb8\x10\x6e\x67\x63\xad\xa5\xa3\xc4\xe4\x03\x32\x39\x9e\xe9\x24\xa5\x53\x04\x71\x73\xa6\x45\x94\x66\x6c\x08\x92\x22\xb8\xfc\x12\x5a\x99\x32\x74\xc3\x1d\x24\x7a\xf6\x8b\x47\x13\x92\xca\x5c\xa7\xe2\x85\xff\x02\x1f\xd5\x87\x79\x07\xd4\x5c\x24\xfa\x2f\xd0\x24\xbc\xf8\xb5\xaa\x6b\x77\x5e\x01\x7a\x3b\xee\x33\x7a\xc1\x02\x05\x4f\x78\x7f\x38\x95\x92\xf2\x61\x18\xa6\xe0\xfb\xad\xe2\x9c\x7b\xd1\x75\x68\xc4\xf0\xd8\x1b\xd3\x75\xdd\x6d\x8d\x55\x82\xe3\xf5\xd0\x9e\xfd\x37\x58\xfb\x8e\xb6\x86\xd1\x7d\x62\x57\xef\x3b\x00\x00\xff\xff\x13\x88\xcb\x12\x5f\x01\x00\x00")
 
 func readmeMdBytes() ([]byte, error) {
@@ -252,7 +274,7 @@ func apiHttp() (*asset, error) {
 	return a, nil
 }
 
-var _babelConfigJs = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xca\xcd\x4f\x29\xcd\x49\xd5\x4b\xad\x28\xc8\x2f\x2a\x29\x56\xb0\x55\xa8\xe6\x52\x50\x28\x28\x4a\x2d\x4e\x2d\x29\xb6\x52\x88\xe6\x52\x50\x50\x50\x50\x77\x28\x2b\x4d\xd5\x4f\x2c\x28\x50\xe7\x52\x50\x88\xe5\xaa\xe5\x02\x04\x00\x00\xff\xff\x3d\x00\x0e\xf4\x35\x00\x00\x00")
+var _babelConfigJs = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xca\xcd\x4f\x29\xcd\x49\xd5\x4b\xad\x28\xc8\x2f\x2a\x29\x56\xb0\x55\xa8\xe6\x52\x50\x28\x28\x4a\x2d\x4e\x2d\x29\xb6\x52\x88\xe6\x52\x50\x50\x50\x50\x77\x28\x2b\x4d\xd5\x4f\x2c\x28\x50\xe7\x52\x50\x88\xe5\xaa\xb5\xe6\x02\x04\x00\x00\xff\xff\x30\x43\x16\xac\x36\x00\x00\x00")
 
 func babelConfigJsBytes() ([]byte, error) {
 	return bindataRead(
@@ -267,7 +289,7 @@ func babelConfigJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "babel.config.js", size: 53, mode: os.FileMode(420), modTime: time.Unix(1559811932, 0)}
+	info := bindataFileInfo{name: "babel.config.js", size: 54, mode: os.FileMode(420), modTime: time.Unix(1579157169, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -628,6 +650,26 @@ func gosrcValidatorValidatorGo() (*asset, error) {
 	}
 
 	info := bindataFileInfo{name: "gosrc/validator/validator.go", size: 2273, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _httpClientEnvJson = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xe2\xaa\xe6\x52\x50\x50\x4a\x49\x2d\x4b\xcd\xc9\x2f\xc8\x4d\xcd\x2b\x51\xb2\x52\x00\x09\x29\x28\x28\x65\xe4\x17\x83\x78\x4a\x19\x25\x25\x05\x56\xfa\xfa\x39\xf9\xc9\x89\x39\x20\x31\xab\xea\xa0\xc4\xbc\x94\x80\xfc\xa2\x92\x5a\x25\x1d\x88\xd2\x92\xfc\xec\xd4\x3c\x90\x5a\x25\x2e\x05\x85\x5a\xae\x5a\x40\x00\x00\x00\xff\xff\x41\xe8\xad\x1e\x56\x00\x00\x00")
+
+func httpClientEnvJsonBytes() ([]byte, error) {
+	return bindataRead(
+		_httpClientEnvJson,
+		"http-client.env.json",
+	)
+}
+
+func httpClientEnvJson() (*asset, error) {
+	bytes, err := httpClientEnvJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "http-client.env.json", size: 86, mode: os.FileMode(420), modTime: time.Unix(1579156883, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1032,7 +1074,7 @@ func srcViewsLoginVue() (*asset, error) {
 	return a, nil
 }
 
-var _vueConfigJs = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xca\xcd\x4f\x29\xcd\x49\xd5\x4b\xad\x28\xc8\x2f\x2a\x29\x56\xb0\x55\xa8\xe6\x52\x50\x50\x50\x48\x2c\x2e\x4e\x2d\x29\x76\xc9\x2c\xb2\x52\x50\x2f\x2e\x49\x2c\xc9\x4c\x56\xd7\x01\x4b\x14\x14\xe5\xa7\x94\x26\x97\x64\xe6\xe7\x05\xe7\x97\x16\x25\xa7\xfa\x26\x16\x58\x29\xa4\x25\xe6\x14\xa7\x72\xd5\x02\x02\x00\x00\xff\xff\xa5\x14\x3f\xff\x4c\x00\x00\x00")
+var _vueConfigJs = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xca\xcd\x4f\x29\xcd\x49\xd5\x4b\xad\x28\xc8\x2f\x2a\x29\x56\xb0\x55\xa8\xe6\x52\x50\x50\x50\x48\x2c\x2e\x4e\x2d\x29\x76\xc9\x2c\xb2\x52\x50\x2f\x2e\x49\x2c\xc9\x4c\x56\xd7\x01\x4b\x14\x14\xe5\xa7\x94\x26\x97\x64\xe6\xe7\x05\xe7\x97\x16\x25\xa7\xfa\x26\x16\x58\x29\xa4\x25\xe6\x14\xa7\x72\xd5\x5a\x03\x02\x00\x00\xff\xff\xda\x6e\x4a\xc5\x4d\x00\x00\x00")
 
 func vueConfigJsBytes() ([]byte, error) {
 	return bindataRead(
@@ -1047,7 +1089,7 @@ func vueConfigJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "vue.config.js", size: 76, mode: os.FileMode(420), modTime: time.Unix(1563850859, 0)}
+	info := bindataFileInfo{name: "vue.config.js", size: 77, mode: os.FileMode(420), modTime: time.Unix(1579157087, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1109,6 +1151,7 @@ var _bindata = map[string]func() (*asset, error){
 	".env.production":                 EnvProduction,
 	".gitignore":                      Gitignore,
 	".realize.yaml":                   RealizeYaml,
+	".vscode/settings.json":           VscodeSettingsJson,
 	"README.md":                       readmeMd,
 	"api.http":                        apiHttp,
 	"babel.config.js":                 babelConfigJs,
@@ -1130,6 +1173,7 @@ var _bindata = map[string]func() (*asset, error){
 	"gosrc/scope/scope.go":            gosrcScopeScopeGo,
 	"gosrc/service/service.go":        gosrcServiceServiceGo,
 	"gosrc/validator/validator.go":    gosrcValidatorValidatorGo,
+	"http-client.env.json":            httpClientEnvJson,
 	"makefile":                        makefile,
 	"package.json":                    packageJson,
 	"public/favicon.ico":              publicFaviconIco,
@@ -1194,11 +1238,14 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	".env":               &bintree{Env, map[string]*bintree{}},
-	".env.development":   &bintree{EnvDevelopment, map[string]*bintree{}},
-	".env.production":    &bintree{EnvProduction, map[string]*bintree{}},
-	".gitignore":         &bintree{Gitignore, map[string]*bintree{}},
-	".realize.yaml":      &bintree{RealizeYaml, map[string]*bintree{}},
+	".env":             &bintree{Env, map[string]*bintree{}},
+	".env.development": &bintree{EnvDevelopment, map[string]*bintree{}},
+	".env.production":  &bintree{EnvProduction, map[string]*bintree{}},
+	".gitignore":       &bintree{Gitignore, map[string]*bintree{}},
+	".realize.yaml":    &bintree{RealizeYaml, map[string]*bintree{}},
+	".vscode": &bintree{nil, map[string]*bintree{
+		"settings.json": &bintree{VscodeSettingsJson, map[string]*bintree{}},
+	}},
 	"README.md":          &bintree{readmeMd, map[string]*bintree{}},
 	"api.http":           &bintree{apiHttp, map[string]*bintree{}},
 	"babel.config.js":    &bintree{babelConfigJs, map[string]*bintree{}},
@@ -1238,8 +1285,9 @@ var _bintree = &bintree{nil, map[string]*bintree{
 			"validator.go": &bintree{gosrcValidatorValidatorGo, map[string]*bintree{}},
 		}},
 	}},
-	"makefile":     &bintree{makefile, map[string]*bintree{}},
-	"package.json": &bintree{packageJson, map[string]*bintree{}},
+	"http-client.env.json": &bintree{httpClientEnvJson, map[string]*bintree{}},
+	"makefile":             &bintree{makefile, map[string]*bintree{}},
+	"package.json":         &bintree{packageJson, map[string]*bintree{}},
 	"public": &bintree{nil, map[string]*bintree{
 		"favicon.ico": &bintree{publicFaviconIco, map[string]*bintree{}},
 		"index.html":  &bintree{publicIndexHtml, map[string]*bintree{}},

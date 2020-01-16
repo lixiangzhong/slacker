@@ -113,7 +113,7 @@ func exectemplate(name string, data []byte, tpldata interface{}) ([]byte, error)
 		b = bytes.Replace(b, []byte("{http"), []byte("{{"), -1)
 		b = bytes.Replace(b, []byte("http}"), []byte("}}"), -1)
 		b = bytes.Replace(b, []byte("{RandPort}"), []byte(RandPort()), -1)
-	case ".yaml", ".development":
+	case ".yaml", ".development", ".json":
 		b = buff.Bytes()
 		b = bytes.Replace(b, []byte("{RandPort}"), []byte(RandPort()), -1)
 	default:
