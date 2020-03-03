@@ -19,3 +19,4 @@ schema:
     - .realize
     - vendor
     - node_modules
+    - dist

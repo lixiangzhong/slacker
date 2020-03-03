@@ -8,15 +8,15 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/lixiangzhong/slacker/bindata"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 var (
 	db *sqlx.DB
 )
 
-func New() cli.Command {
-	return cli.Command{
+func New() *cli.Command {
+	return &cli.Command{
 		Name:  "new",
 		Usage: "create new project",
 		Flags: []cli.Flag{
