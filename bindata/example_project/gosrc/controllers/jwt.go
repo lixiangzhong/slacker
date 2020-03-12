@@ -34,7 +34,7 @@ func GetToken(c *gin.Context) {
 
 	{{if .HasUserTable}}
 	var user {{.UserTable.LowerName}}.{{.UserTable.CamelCaseName}}
-	user.{{.UserTable.UsernameColumn.CamelCaseName}}=t.Password
+	user.{{.UserTable.UsernameColumn.CamelCaseName}}=t.Username
 	  err := Service.Take{{.UserTable.CamelCaseName}}ByName(&user)
 	if err != nil {
 		JSON(c,nil,errcode.IncorrectUserOrPwd)
