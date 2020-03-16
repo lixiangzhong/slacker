@@ -10,7 +10,6 @@ require (
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/lixiangzhong/log v0.0.0-20181213094301-ee397d4c1a67
 	github.com/lixiangzhong/name v0.0.0-20190529073909-65c95a0783a5
-	github.com/urfave/cli v1.22.2
-	github.com/urfave/cli/v2 v2.2.0
+	github.com/urfave/cli v1.22.3
 	golang.org/x/tools v0.0.0-20200305224536-de023d59a5d1
 )

@@ -1,11 +1,11 @@
 package slacker
 
 import (
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli"
 )
 
-func Add() *cli.Command {
-	return &cli.Command{
+func Add() cli.Command {
+	return cli.Command{
 		Name:  "add",
 		Usage: "add table",
 		Flags: []cli.Flag{
