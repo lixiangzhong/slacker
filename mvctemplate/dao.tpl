@@ -28,7 +28,7 @@ func (d *Dao) Patch{{.CamelCaseName}}(id int64,update map[string]interface{}) er
   
   	var data {{.LowerName}}.{{.CamelCaseName}}
   	data.{{.PrimaryKeyColumn.CamelCaseName}}=id 
-	return d.gorm.Model(data).Updates(update).Error
+	return d.gorm.Model(data).UpdateColumns(update).Error
 }
 
 
