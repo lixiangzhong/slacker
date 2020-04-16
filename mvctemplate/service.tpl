@@ -19,6 +19,13 @@ func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}
 	{{if Contains .SwitchCase "state"}} 
 		where=append(where,scope.Where("state!=?",{{.LowerName}}.StateDel)) 
 	{{end}}
+	{{range $i,$col :=.Columns}}
+		{{if Contains $col.ColumnType "char"}}
+			if search.{{$col.CamelCaseName}} != "" {
+			where=append(where,scope.Where("{{$col.ColumnName}}!=?",search.{{$col.CamelCaseName}}))
+			}
+		{{end}}
+	{{end}}
     total,err:=s.dao.Count(search,where...)
     if err!=nil{
         return nil,0,err
