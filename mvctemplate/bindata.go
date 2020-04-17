@@ -208,7 +208,7 @@ func serviceTpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "service.tpl", size: 3270, mode: os.FileMode(420), modTime: time.Unix(1587022082, 0)}
+	info := bindataFileInfo{name: "service.tpl", size: 3270, mode: os.FileMode(420), modTime: time.Unix(1587022275, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

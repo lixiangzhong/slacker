@@ -20,3 +20,4 @@ schema:
     - vendor
     - node_modules
     - dist
+    - src

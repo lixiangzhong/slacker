@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"github.com/jinzhu/gorm"
 )
 
 type LoginForm struct {

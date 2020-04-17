@@ -1,13 +1,14 @@
 package controllers
 
 import (
-	"github.com/lixiangzhong/config"
-	"github.com/jmoiron/sqlx"
 	"net/http"
 	"strconv"
+	"time"
+
+	"github.com/jmoiron/sqlx"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket" 
+	"github.com/gorilla/websocket"
 	"{{.ProjectName}}/gosrc/service"
 )
 
@@ -63,4 +64,71 @@ func strings2int64s(s []string) []int64 {
 		result = append(result, i)
 	}
 	return result
+}
+
+const (
+	WebsocketWriteWait      = 10 * time.Second
+	WebsokcetPongWait       = 60 * time.Second
+	WebsocketPingPeriod     = (WebsokcetPongWait * 9) / 10
+	WebsocketMaxMessageSize = 512
+)
+
+/*
+go writews(conn, ch)
+	go func() {
+		for range tk.C {
+			b, err := json.Marshal(struct)
+			if err != nil {
+				continue
+			}
+			ch <- b
+		}
+	}()
+	readws(conn)
+*/
+
+func readws(c *websocket.Conn) {
+	defer func() {
+		c.Close()
+	}()
+	c.SetReadLimit(WebsocketMaxMessageSize)
+	c.SetReadDeadline(time.Now().Add(WebsokcetPongWait))
+	c.SetPongHandler(func(string) error {
+		c.SetReadDeadline(time.Now().Add(WebsokcetPongWait))
+		return nil
+	})
+	for {
+		_, _, err := c.ReadMessage()
+		if err != nil {
+			break
+		}
+	}
+}
+
+func writews(c *websocket.Conn, ch chan []byte) {
+	tk := time.NewTicker(WebsocketPingPeriod)
+	for {
+		select {
+		case b, ok := <-ch:
+			c.SetWriteDeadline(time.Now().Add(WebsocketWriteWait))
+			if !ok {
+				c.WriteMessage(websocket.CloseMessage, []byte{})
+				return
+			}
+			w, err := c.NextWriter(websocket.TextMessage)
+			if err != nil {
+				return
+			}
+			w.Write(b)
+			if err := w.Close(); err != nil {
+				return
+			}
+		case <-tk.C:
+			c.SetWriteDeadline(time.Now().Add(WebsocketWriteWait))
+			if err := c.WriteMessage(websocket.PingMessage, nil); err != nil {
+				return
+			}
+		}
+
+	}
 }

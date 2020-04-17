@@ -43,7 +43,7 @@ func (d *Dao) autoMigrate() {
 }
 
 
-func (d *Dao) Create(data interface{})(error) {
+func (d *Dao) Create(data interface{})error {
 	return d.gorm.Create(data).Error
 }
 
