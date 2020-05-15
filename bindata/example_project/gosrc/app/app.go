@@ -18,6 +18,8 @@ import (
 	_ "{{.ProjectName}}/gosrc/validator"
 	"net"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -41,10 +43,10 @@ func Init() {
 
 func initFlag() {
 	flag.StringVar(&configFileName, "c", "config.yaml", "指定配置文件")
-	var printverion bool
-	flag.BoolVar(&printverion, "v", false, "查看版本号")
+	var printversion bool
+	flag.BoolVar(&printversion, "v", false, "查看版本号")
 	flag.Parse()
-	if printverion {
+	if printversion {
 		fmt.Println("version:", Version)
 		fmt.Println("编译时间:", BuildTime)
 		fmt.Println("git rev:", GitVersion)
