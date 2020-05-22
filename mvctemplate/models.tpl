@@ -12,6 +12,8 @@ const(
 	StateOK=0
 	StateDel=1
 )
+
+func init() { models.AutoMigrate({{.CamelCaseName}}{}) }
  
 type {{.CamelCaseName}} struct{
     {{range $i,$col:=.Columns}} {{$col.CamelCaseName}} {{$col.Type}} {{$col.Tag}} {{$col.Comment}}
@@ -30,9 +32,6 @@ func ({{.Initials}} {{.CamelCaseName}}) TableName() string {
 	return "{{.Name}}"
 }
 
- 
 
- 
- 
  
   

@@ -36,10 +36,11 @@ func (d *Dao) initGorm()  {
 }
 
 func (d *Dao) autoMigrate() {
-	d.gorm.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
-		{{range $i,$table:=.Tables}}{{$table.LowerName}}.{{$table.CamelCaseName}}{},
-		{{end}}
-	)
+	db:=d.gorm.Set("gorm:table_options", "ENGINE=InnoDB")
+	models.Tables.Range(func(key, value interface{}) bool {
+		db.AutoMigrate(value)
+		return true
+	})
 }
 
 

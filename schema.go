@@ -117,14 +117,14 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 	tpl.Funcs(FuncMap)
 	_, err := tpl.Parse(string(b))
 	if err != nil {
-		log.Error(err)
+		log.Error(mvc, t.Name, err)
 		return
 	}
 	var writer = new(bytes.Buffer)
 
 	err = tpl.Execute(writer, t)
 	if err != nil {
-		log.Error(err)
+		log.Error(mvc, t.Name, err)
 		return
 	}
 	b = writer.Bytes()

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go/format"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"os"
 	"path"
@@ -87,10 +88,12 @@ func exectemplate(name string, data []byte, tpldata interface{}) ([]byte, error)
 
 	_, err := tpl.Parse(string(data))
 	if err != nil {
+		log.Println(name, err)
 		return data, err
 	}
 	err = tpl.Execute(buff, tpldata)
 	if err != nil {
+		log.Println(name, err)
 		return buff.Bytes(), err
 	}
 	ext := path.Ext(name)

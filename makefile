@@ -1,4 +1,4 @@
-
+.PHONY: all
 all:
 	@make bindata
 	@make install

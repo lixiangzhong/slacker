@@ -2,6 +2,8 @@
 package service
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"errors"
 	"{{.ProjectName}}/gosrc/dao"
 	"github.com/jmoiron/sqlx"
@@ -31,4 +33,10 @@ user:={{.UserTable.LowerName}}.{{.UserTable.CamelCaseName}}{
 } 
 s.Create{{.UserTable.CamelCaseName}}(&user)
 {{end}}
+}
+
+func MD5(s string) string {
+	m := md5.New()
+	m.Write([]byte(s))
+	return hex.EncodeToString(m.Sum(nil))
 }
