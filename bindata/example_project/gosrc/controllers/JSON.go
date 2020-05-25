@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lixiangzhong/log"
+	"{{$.ProjectName}}/gosrc/log"
 	"{{.ProjectName}}/gosrc/errcode"
 )
 

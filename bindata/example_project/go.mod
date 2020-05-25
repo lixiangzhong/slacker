@@ -16,13 +16,11 @@ require (
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/lixiangzhong/base64Captcha v0.0.0-20180706091731-d9e5bf590bec
 	github.com/lixiangzhong/config v0.0.0-20190306093417-4e79e6102839
-	github.com/lixiangzhong/log v0.0.0-20181213094301-ee397d4c1a67
-	github.com/lixiangzhong/rotatefile v0.0.0-20191018015038-6e1fe8227548
 	github.com/mattn/go-colorable v0.1.4 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
-	go.uber.org/zap v1.13.0
+	go.uber.org/zap v1.15.0
 	golang.org/x/crypto v0.0.0-20190510104115-cbcb75029529
 	golang.org/x/image v0.0.0-20191206065243-da761ea9ff43 // indirect
-	gopkg.in/go-playground/validator.v9 v9.30.2
+	github.com/go-playground/validator/v10 v10.3.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 )

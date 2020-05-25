@@ -1,14 +1,21 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"{{.ProjectName}}/gosrc/app"
 	"{{.ProjectName}}/gosrc/controllers"
-	"github.com/lixiangzhong/log"
+	"{{$.ProjectName}}/gosrc/log"
 	"github.com/lixiangzhong/config"
 	"github.com/jmoiron/sqlx"
 )
 
 func initroute() {
+	app.Engine.Static("/static", "dist/static")
+	app.Engine.LoadHTMLFiles("dist/index.html")
+	app.Engine.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+
 	app.Engine.GET("/captcha", controllers.Captcha)
 	app.Engine.POST("/token", controllers.GetToken)
 	app.Engine.GET("/meta", controllers.Meta)

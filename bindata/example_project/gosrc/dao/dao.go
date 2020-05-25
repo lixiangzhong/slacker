@@ -4,10 +4,8 @@ package dao
 import (
 	"github.com/jmoiron/sqlx"
 	"github.com/jinzhu/gorm"
-	"github.com/lixiangzhong/log"
+	"{{$.ProjectName}}/gosrc/log"
 	"{{$.ProjectName}}/gosrc/models"
-	{{range $i,$table:=.Tables}}{{$table.LowerName}} "{{$.ProjectName}}/gosrc/models/{{$table.Name}}"
-	{{end}}
 )
 
 type Dao struct {

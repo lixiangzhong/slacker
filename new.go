@@ -53,6 +53,7 @@ func New() cli.Command {
 			}
 
 			for _, table := range tables {
+				start := time.Now()
 				table.ExecTemplate("m", MVCDefaultDir)
 				table.ExecTemplate("v", MVCDefaultDir)
 				table.ExecTemplate("component", MVCDefaultDir)
@@ -61,6 +62,7 @@ func New() cli.Command {
 				table.ExecTemplate("dao", MVCDefaultDir)
 				table.ExecTemplate("md", MVCDefaultDir)
 				table.ExecTemplate("service", MVCDefaultDir)
+				fmt.Println(table.Name, time.Since(start))
 			}
 
 			fmt.Printf("\nProject %v Successfully Created !!!\n\n", projectname)

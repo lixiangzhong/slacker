@@ -7,13 +7,10 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin/binding"
-	"gopkg.in/go-playground/validator.v9"
-
 	"github.com/go-playground/locales/zh"
-
 	ut "github.com/go-playground/universal-translator"
-
-	zh_translations "gopkg.in/go-playground/validator.v9/translations/zh"
+	"github.com/go-playground/validator/v10"
+	zh_translations "github.com/go-playground/validator/v10/translations/zh"
 )
 
 var (
