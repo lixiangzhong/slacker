@@ -22,7 +22,7 @@ func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}
 	{{range $i,$col :=.Columns}}
 		{{if Contains $col.ColumnType "char"}}
 			if search.{{$col.CamelCaseName}} != "" {
-			where=append(where,scope.Where("{{$col.ColumnName}}!=?",search.{{$col.CamelCaseName}}))
+			where=append(where,scope.Where("{{$col.ColumnName}}=?",search.{{$col.CamelCaseName}}))
 			}
 		{{end}}
 	{{end}}

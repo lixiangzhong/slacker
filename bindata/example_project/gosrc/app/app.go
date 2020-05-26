@@ -148,7 +148,7 @@ func Logger() gin.HandlerFunc {
 		}
 		out = zapcore.AddSync(f)
 		enc = zapcore.NewJSONEncoder(enccfg)
-	case "stdout":
+	case "stdout","":
 		out = zapcore.Lock(os.Stdout)
 		enc = zapcore.NewConsoleEncoder(enccfg)
 	default:
