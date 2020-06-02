@@ -12,6 +12,8 @@ Content-Type: application/json
     "password":"admin"
 }
 
+> {% client.global.set("token", response.body.data.token); %}
+
 @token = {httplogin.response.body.data.tokenhttp}
 
 {{range $i,$v:=.Tables}}
