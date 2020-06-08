@@ -16,7 +16,8 @@ import (
 
 var (
 	FuncMap = template.FuncMap{
-		"Contains": func(s, sub string) bool { return strings.Contains(strings.ToLower(s), sub) },
+		"Contains":    func(s, sub string) bool { return strings.Contains(strings.ToLower(s), sub) },
+		"NotContains": func(s, sub string) bool { return !strings.Contains(strings.ToLower(s), sub) },
 	}
 )
 

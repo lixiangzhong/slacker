@@ -26,9 +26,11 @@ func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}
 			}
 		{{end}}
 		{{if Contains $col.ColumnType "int"}}
-			if search.{{$col.CamelCaseName}} >0 {
-			where=append(where,scope.Where("{{$col.ColumnName}}=?",search.{{$col.CamelCaseName}}))
-			}
+            {{if NotContains $col.ColumnName "state"}}
+				if search.{{$col.CamelCaseName}} > 0 {
+					where=append(where,scope.Where("{{$col.ColumnName}}=?",search.{{$col.CamelCaseName}}))
+				}
+            {{end}}
 		{{end}}
 	{{end}}
     total,err:=s.dao.Count(search,where...)
