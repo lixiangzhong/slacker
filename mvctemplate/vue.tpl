@@ -15,15 +15,13 @@
       <div style="clear:both"></div>
     </div>
     <el-table :data="table.data" style="width: 100%"   v-loading="table.loading">
-
-      </el-table-column>
-        {{range $i,$col:=.Columns}}
+        {{- range $i,$col:=.Columns}}
       <el-table-column label="{{$col.CamelCaseName}}">
         <template slot-scope="scope">
           <span> <<< scope.row.{{$col.ColumnName}} >>> </span>
         </template>
       </el-table-column>
-         {{end}}
+         {{- end}}
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="small" type="primary" plain @click="OnClickEdit(scope.row)" icon="el-icon-edit"> </el-button>
@@ -38,13 +36,13 @@
 
     <el-dialog title="添加" :visible.sync="create.visible" width="500px">
       <el-form :model="create.form" label-position="right" label-width="100px">
-          {{range $i,$col:=.Columns}}
-           {{if not $col.IsPrimaryKey}}
+          {{- range $i,$col:=.Columns}}
+           {{- if not $col.IsPrimaryKey }}
         <el-form-item label="{{$col.CamelCaseName}}">
           <el-input v-model.{{if Contains $col.Type "int"}}number{{else}}trim{{end}}="create.form.{{$col.ColumnName}}" auto-complete="off"></el-input>
         </el-form-item>
-            {{end}}
-          {{end}}
+            {{- end }}
+          {{- end}}
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="create.visible = false">取 消</el-button>
@@ -54,13 +52,13 @@
 
     <el-dialog title="编辑" :visible.sync="update.visible" width="500px">
       <el-form :model="update.form" label-position="right" label-width="100px">
-      {{range $i,$col:=.Columns}}
-          {{if not $col.IsPrimaryKey}}
+      {{- range $i,$col:=.Columns}}
+          {{- if not $col.IsPrimaryKey }}
         <el-form-item label="{{$col.CamelCaseName}}">
           <el-input v-model.{{if Contains $col.Type "int"}}number{{else}}trim{{end}}="update.form.{{$col.ColumnName}}" auto-complete="off"></el-input>
         </el-form-item>
-          {{end}}
-      {{end}}
+          {{- end }}
+      {{- end}}
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="update.visible = false">取 消</el-button>
