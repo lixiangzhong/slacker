@@ -14,7 +14,7 @@ func (s *Service)Take{{.CamelCaseName}}(data *{{.LowerName}}.{{.CamelCaseName}})
 	return s.dao.Take{{.CamelCaseName}}(data)
 }
 
-func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}}.{{.CamelCaseName}})([]{{.LowerName}}.{{.CamelCaseName}},int,error){ 
+func (s *Service)List{{.CamelCaseName}}(search {{.LowerName}}.Search)([]{{.LowerName}}.{{.CamelCaseName}},int,error){
 	var where scope.Wheres
 	{{if Contains .SwitchCase "state"}} 
 		where=append(where,scope.Where("state!=?",{{.LowerName}}.StateDel)) 
@@ -37,7 +37,7 @@ func (s *Service)List{{.CamelCaseName}}(offset,limit uint64,search {{.LowerName}
     if err!=nil{
         return nil,0,err
     }
-	where=append(where,scope.OffsetLimit(offset, limit))
+	where=append(where,scope.OffsetLimit(search.Offset, search.Limit))
 	where=append(where,scope.Order("{{.PrimaryKeyColumn.ColumnName}} desc")) 
 	data,err := s.dao.List{{.CamelCaseName}}(where...)
 	return data,total, err 

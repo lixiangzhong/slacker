@@ -9,10 +9,10 @@
 package {{.LowerName}}
 
 import (
-"{{"gosrc/models"| .ImportLibrary}}"
-{{if .IsUserTable}}
-	"encoding/json"
-{{end}}
+	"{{"gosrc/models"| .ImportLibrary}}"
+	{{if .IsUserTable}}
+		"encoding/json"
+	{{end}}
 )
 const(
 	StateOK=0
@@ -38,6 +38,9 @@ func ({{.Initials}} {{.CamelCaseName}}) TableName() string {
 	return "{{.Name}}"
 }
 
-
- 
+type Search struct {
+	{{.CamelCaseName}}
+	Offset uint64 `json:"offset" form:"offset"`
+	Limit uint64 `json:"limit" form:"limit"`
+}
   

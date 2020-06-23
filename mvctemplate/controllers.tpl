@@ -22,11 +22,9 @@ import(
 )
 
 func List{{.CamelCaseName}}(c *gin.Context)  {
-	var query {{.LowerName}}.{{.CamelCaseName}}
-	offset, _ := strconv.ParseUint(c.DefaultQuery("offset","0"), 10, 64)
-	limit, _ := strconv.ParseUint(c.DefaultQuery("limit","0"),10,64)
+	var query {{.LowerName}}.Search
 	c.ShouldBindQuery(&query)
-	data,total,err:= Service.List{{.CamelCaseName}}(offset,limit,query)
+	data,total,err:= Service.List{{.CamelCaseName}}(query)
 	JSON(c, gin.H{
 		"data":  data,
 		"total": total,
