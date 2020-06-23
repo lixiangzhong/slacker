@@ -31,23 +31,40 @@ func init() {
 		LocalTime:  true,
 		Compress:   false,
 	}
-	Init(infofile, errfile)
+	Init(infofile, errfile, zap.WithCaller(true), zap.AddCallerSkip(1))
 }
 
-func Init(infoWriter, errWriter io.Writer) {
-	enccfg := zap.NewProductionEncoderConfig()
-	enccfg.EncodeTime = func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-		enc.AppendString(t.Format("2006-01-02 15:04:05"))
+func Init(infoWriter, errWriter io.Writer, options ...zap.Option) {
+	enccfg := zapcore.EncoderConfig{
+		TimeKey:       "time",
+		LevelKey:      "level",
+		NameKey:       "logger",
+		CallerKey:     "caller",
+		MessageKey:    "msg",
+		StacktraceKey: "stacktrace",
+		LineEnding:    zapcore.DefaultLineEnding,
+		EncodeLevel:   zapcore.LowercaseLevelEncoder,
+		EncodeTime: func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+			enc.AppendString(t.Format("2006-01-02 15:04:05"))
+		},
+		EncodeDuration: zapcore.SecondsDurationEncoder,
+		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
-	enc := zapcore.NewConsoleEncoder(enccfg)
-	jsonenc := zapcore.NewJSONEncoder(enccfg)
+	debugenc := zapcore.NewConsoleEncoder(enccfg)
+	infoenc := enccfg
+	//infoenc.CallerKey = "" //不打印caller
+	errenc := enccfg
 	core := zapcore.NewTee(
-		zapcore.NewCore(enc, zapcore.Lock(os.Stdout), level),
-		zapcore.NewCore(jsonenc, zapcore.AddSync(infoWriter), enableLevel(level, zapcore.InfoLevel)),
-		zapcore.NewCore(jsonenc, zapcore.AddSync(errWriter), enableLevel(level, zapcore.ErrorLevel, zapcore.FatalLevel, zapcore.PanicLevel)),
+		zapcore.NewCore(debugenc, zapcore.Lock(os.Stdout), zap.LevelEnablerFunc(func(z zapcore.Level) bool {
+			if zapcore.DebugLevel == level.Level() {
+				return true
+			}
+			return false
+		})),
+		zapcore.NewCore(zapcore.NewJSONEncoder(infoenc), zapcore.AddSync(infoWriter), enableLevel(level, zapcore.InfoLevel)),
+		zapcore.NewCore(zapcore.NewJSONEncoder(errenc), zapcore.AddSync(errWriter), enableLevel(level, zapcore.ErrorLevel, zapcore.FatalLevel, zapcore.PanicLevel)),
 	)
-
-	logger = zap.New(core, zap.WithCaller(true), zap.AddCallerSkip(1))
+	logger = zap.New(core, options...)
 	sugar = logger.Sugar()
 }
 

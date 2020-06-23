@@ -4,22 +4,27 @@ package service
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"errors"
 	"{{.ProjectName}}/gosrc/dao"
-	"github.com/jmoiron/sqlx"
 	"{{.ProjectName}}/gosrc/models/{{.UserTable.Name}}"
 )
 
+type ServiceOption func(service *Service)
+
+func WithDao(d *dao.Dao)ServiceOption  {
+	d.Init()
+	return func(s *Service) {
+		s.dao = d
+	}
+}
  
 type Service struct {
 	dao *dao.Dao
 }
 
-func New(db *sqlx.DB) *Service {
-	d:=dao.New(db)
-	d.Init()
-	s:= &Service{
-		dao: d,
+func New(options ...ServiceOption) *Service {
+	s:= &Service{}
+	for _,option:=range options{
+		option(s)
 	}
 	s.init()
 	return s

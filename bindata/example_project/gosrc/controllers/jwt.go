@@ -9,10 +9,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/lixiangzhong/base64Captcha"
-	"net/http"
 	"strconv"
 	"time"
-	"github.com/jinzhu/gorm"
 )
 
 type LoginForm struct {

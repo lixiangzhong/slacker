@@ -65,14 +65,14 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 		}
 		filename = fmt.Sprintf("%v.go", t.Name)
 		b = mvctemplate.MustAsset("models.tpl")
-		formatter = gofmt
+		formatter = goimports
 	case "c", "controller":
 		if dir == MVCDefaultDir {
 			dir = "gosrc/controllers"
 		}
 		filename = fmt.Sprintf("%v.go", t.Name)
 		b = mvctemplate.MustAsset("controllers.tpl")
-		formatter = gofmt
+		formatter = goimports
 	case "v", "vue", "view":
 		if dir == MVCDefaultDir {
 			dir = "src/views"
@@ -105,14 +105,14 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 		}
 		filename = fmt.Sprintf("%v.go", t.Name)
 		b = mvctemplate.MustAsset("dao.tpl")
-		formatter = gofmt
+		formatter = goimports
 	case "service":
 		if dir == MVCDefaultDir {
 			dir = "gosrc/service"
 		}
 		filename = fmt.Sprintf("%v.go", t.Name)
 		b = mvctemplate.MustAsset("service.tpl")
-		formatter = gofmt
+		formatter = goimports
 	}
 
 	tpl.Funcs(FuncMap)
@@ -152,6 +152,10 @@ func (t Table) ExecTemplate(mvc string, dir string) {
 }
 
 func gofmt(in []byte) ([]byte, error) {
+	return format.Source(in)
+}
+
+func goimports(in []byte) ([]byte, error) {
 	b, err := imports.Process("", in, nil)
 	if err != nil {
 		return nil, err

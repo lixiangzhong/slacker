@@ -8,6 +8,12 @@
 //{{.SQLColumns}}
 package {{.LowerName}}
 
+import (
+"{{"gosrc/models"| .ImportLibrary}}"
+{{if .IsUserTable}}
+	"encoding/json"
+{{end}}
+)
 const(
 	StateOK=0
 	StateDel=1

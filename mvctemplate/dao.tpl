@@ -2,8 +2,13 @@
 package dao
 
 import ( 
-"{{"gosrc/models"| .ImportLibrary}}/{{.Name}}" 
-)
+	"{{"gosrc/models"| .ImportLibrary}}/{{.Name}}"
+	"github.com/jinzhu/gorm"
+{{if .IsUserTable}}
+	"strings"
+	"database/sql"
+{{end}}
+	)
 
 func (d *Dao) List{{.CamelCaseName}}(where  ...func(*gorm.DB)*gorm.DB) ([]{{.LowerName}}.{{.CamelCaseName}},error) {
     var data =make([]{{.LowerName}}.{{.CamelCaseName}},0)

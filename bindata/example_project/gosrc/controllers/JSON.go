@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	"github.com/lixiangzhong/config"
 	"{{$.ProjectName}}/gosrc/log"
 	"{{.ProjectName}}/gosrc/errcode"
 )
@@ -29,8 +31,12 @@ func JSON(c *gin.Context, data interface{}, err error) {
 		var ok bool
 		e, ok = err.(errcode.CodeError)
 		if !ok {
-			log.Debug(err)
-			e = errcode.Error
+			if config.Bool("debug") {
+				e = errcode.New(errcode.Error, err)
+			} else {
+				log.Debug(err)
+				e = errcode.Error
+			}
 		}
 	}
 	c.JSON(http.StatusOK, ResponseJSON{

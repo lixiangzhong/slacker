@@ -4,9 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"{{.ProjectName}}/gosrc/app"
 	"{{.ProjectName}}/gosrc/controllers"
-	"{{$.ProjectName}}/gosrc/log"
+	"{{.ProjectName}}/gosrc/log"
 	"github.com/lixiangzhong/config"
 	"github.com/jmoiron/sqlx"
+	"{{.ProjectName}}/gosrc/dao"
+	"{{.ProjectName}}/gosrc/service"
 )
 
 func initroute() {
@@ -36,6 +38,7 @@ func initroute() {
 	{{end}}
 
 }
+
 func initDB() *sqlx.DB {
 	var dbname string
 	var cfg = config.MySQLConfig("mysql")
@@ -52,12 +55,13 @@ func initDB() *sqlx.DB {
 
 func init(){
 	app.Init()
-	db:=initDB()
-	controllers.InitService(db)
+	db := initDB()
+	dao := dao.New(db)
+	srv := service.New(service.WithDao(dao))
+	controllers.Service = srv
 	initroute()
 }
 
 func main() {
-
 	app.Run()
 }

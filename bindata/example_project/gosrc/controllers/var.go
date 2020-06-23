@@ -5,8 +5,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jmoiron/sqlx"
-
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"{{.ProjectName}}/gosrc/service"
@@ -14,9 +12,6 @@ import (
 
 var Service *service.Service
 
-func InitService(db *sqlx.DB) { 
-	Service=service.New(db)
-}
 
 var WebSocket = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {

@@ -30,7 +30,7 @@ var (
 	JWTSecret            = "{{.ProjectName}}."
 	JWTExpireIn    int64 = 86400 //jwt token 过期时间,秒, 可config.ini配置
 	configFileName string
-	Version        string = "unknown"
+	Version        = "unknown"
 	BuildTime      string
 	GitVersion     string
 	GoMD5          string
@@ -40,6 +40,7 @@ var (
 func Init() {
 	initFlag()
 	initCfg()
+	initLog()
 	initEngine()
 }
 
@@ -63,6 +64,30 @@ func initCfg() {
 	JWTSecret += hostSecret()
 	config.SetDefault("meta.logo", "{{.ProjectName}}")
 	config.SetDefault("meta.title", "{{.ProjectName}}")
+}
+
+func initLog() {
+	infofile := &lumberjack.Logger{
+		Filename:   "info.log",
+		MaxSize:    100, //单位:MB
+		MaxBackups: 3,   //保留n个文件
+		LocalTime:  true,
+		Compress:   false,
+	}
+	errfile := &lumberjack.Logger{
+		Filename:   "error.log",
+		MaxSize:    100, //单位:MB
+		MaxBackups: 7,   //保留n个文件
+		LocalTime:  true,
+		Compress:   false,
+	}
+	options := make([]zap.Option, 0)
+	options = append(options, zap.WithCaller(true), zap.AddCallerSkip(1))
+	log.SetLevel(zapcore.InfoLevel)
+	if config.Bool("debug") {
+		log.SetLevel(zapcore.DebugLevel)
+	}
+	log.Init(infofile, errfile, options...)
 }
 
 func initEngine() {
@@ -111,7 +136,7 @@ func waitSignal() {
 	ctx,_ = context.WithTimeout(ctx, time.Second*10)
 	err := httpserver.Shutdown(ctx)
 	if err != nil {
-		log.Error(err)
+		log.Println(err)
 	}
 	for _, f := range onShutdownFuncs {
 		f()
@@ -138,7 +163,7 @@ func Logger() gin.HandlerFunc {
 	var enc zapcore.Encoder
 	var out zapcore.WriteSyncer
 	switch config.String("gin.log") {
-	case "file":
+	case "file","":
 		f := &lumberjack.Logger{
 			Filename:   "access.log",
 			MaxSize:    100, //100m
@@ -148,7 +173,7 @@ func Logger() gin.HandlerFunc {
 		}
 		out = zapcore.AddSync(f)
 		enc = zapcore.NewJSONEncoder(enccfg)
-	case "stdout","":
+	case "stdout":
 		out = zapcore.Lock(os.Stdout)
 		enc = zapcore.NewConsoleEncoder(enccfg)
 	default:
