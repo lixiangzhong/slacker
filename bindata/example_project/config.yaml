@@ -1,6 +1,7 @@
+debug: true
+
 gin:
   port: :{RandPort}
-  debug: true
   gzip: true
   log: stdout
 

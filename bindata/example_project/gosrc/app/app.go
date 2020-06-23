@@ -91,7 +91,7 @@ func initLog() {
 }
 
 func initEngine() {
-	if !config.Bool("gin.debug") {
+	if !config.Bool("debug") {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	Engine = gin.New()
@@ -109,6 +109,11 @@ func initEngine() {
 			MaxAge:           12 * time.Hour,
 		}))
 	}
+	Engine.Static("/static", "dist/static")
+	Engine.LoadHTMLFiles("dist/index.html")
+	Engine.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
 }
 
 func Run() {
