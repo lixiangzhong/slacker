@@ -4,6 +4,7 @@ package service
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"golang.org/x/crypto/bcrypt"
 	"{{.ProjectName}}/gosrc/dao"
 	"{{.ProjectName}}/gosrc/models/{{.UserTable.Name}}"
 )
@@ -44,4 +45,15 @@ func MD5(s string) string {
 	m := md5.New()
 	m.Write([]byte(s))
 	return hex.EncodeToString(m.Sum(nil))
+}
+
+func (*Service) EncryptPassword(password string) string {
+	password = MD5(password)
+	hashd, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hashd)
+}
+
+func (*Service) ValidPassword(password, encryptedpwd string) bool {
+	password = MD5(password)
+	return nil == bcrypt.CompareHashAndPassword([]byte(encryptedpwd), []byte(password))
 }

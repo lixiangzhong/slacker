@@ -94,14 +94,4 @@ func (s *Service) Take{{.CamelCaseName}}ByName(data *{{.LowerName}}.{{.CamelCase
 	return 	s.dao.Take{{.CamelCaseName}}ByName(data)  
 }
 
-func (_ *Service)EncryptPassword(password string) string {
-	password = MD5(password)
-	hashd, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	return string(hashd)
-}
-
-func (_ *Service)ValidPassword(password,encryptedpwd string) bool {
-	password = MD5(password)
-	return nil == bcrypt.CompareHashAndPassword([]byte(encryptedpwd), []byte(password))
-} 
 {{end}}
