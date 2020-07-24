@@ -2,6 +2,16 @@ kind: pipeline
 name: default
 type: docker
 steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - ./node_modules
+        - ./gopath
   - name: npm
     image: node
     commands:
@@ -15,5 +25,20 @@ steps:
     commands:
       - go build  -ldflags "-X {{.ProjectName}}/gosrc/app.Version=`date +"%Y%m%d"` -X {{.ProjectName}}/gosrc/app.BuildTime=`date +"%Y-%m-%d_%H:%M:%S"` -X {{.ProjectName}}/gosrc/app.GitVersion=`git rev-parse HEAD|cut -c1-8` -X {{.ProjectName}}/gosrc/app.GoMD5=`find ./ -name "*.go" -type f -print0| xargs -0 md5sum|md5sum|cut -c1-8`" -o {{.ProjectName}}_linux
       - ./{{.ProjectName}}_linux -v
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./node_modules
+        - ./gopath
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/cache
 
 
