@@ -30,10 +30,8 @@ func (d *Dao) Update{{.CamelCaseName}}(data {{.LowerName}}.{{.CamelCaseName}}) e
 }
 
 func (d *Dao) Patch{{.CamelCaseName}}(id int64,update map[string]interface{}) error {
-  
   	var data {{.LowerName}}.{{.CamelCaseName}}
-  	data.{{.PrimaryKeyColumn.CamelCaseName}}=id 
-	return d.gorm.Model(data).UpdateColumns(update).Error
+	return d.gorm.Model(data).Where("{{.PrimaryKeyColumn.ColumnName}}=?",id).UpdateColumns(update).Error
 }
 
 
