@@ -64,16 +64,16 @@ func (s *Service)Update{{.CamelCaseName}}(data {{.LowerName}}.{{.CamelCaseName}}
 
 func (s *Service)Patch{{.CamelCaseName}}(id int64,update map[string]interface{})error{ 
 	{{if .IsUserTable}}
-		var {{.Initials}} {{.LowerName}}.{{.CamelCaseName}}
-		{{.Initials}}.{{.PrimaryKeyColumn.CamelCaseName}}=id
-		err:=s.dao.Take{{.CamelCaseName}}(&{{.Initials}})
+		var data {{.LowerName}}.{{.CamelCaseName}}
+		data.{{.PrimaryKeyColumn.CamelCaseName}}=id
+		err:=s.dao.Take{{.CamelCaseName}}(&data)
 		if err!=nil{
 			return err
 		}
 		if val, ok := update["{{.PasswordColumn.ColumnName}}"]; ok {
 			password, ok := val.(string)
 			if ok {
-				if !s.ValidPassword(password, {{.Initials}}.{{.PasswordColumn.CamelCaseName}}) {
+				if !s.ValidPassword(password, data.{{.PasswordColumn.CamelCaseName}}) {
 					return errcode.IncorrectUserOrPwd
 				}
 				password, _ = update["newpassword"].(string)
