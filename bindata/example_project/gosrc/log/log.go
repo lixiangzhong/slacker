@@ -1,6 +1,7 @@
 package log
 
 import (
+	"bytes"
 	"io"
 	"os"
 	"time"
@@ -35,7 +36,7 @@ func init() {
 }
 
 func Init(infoWriter, errWriter io.Writer, options ...zap.Option) {
-	enccfg := zapcore.EncoderConfig{
+	encoder := zapcore.EncoderConfig{
 		TimeKey:       "time",
 		LevelKey:      "level",
 		NameKey:       "logger",
@@ -43,17 +44,19 @@ func Init(infoWriter, errWriter io.Writer, options ...zap.Option) {
 		MessageKey:    "msg",
 		StacktraceKey: "stacktrace",
 		LineEnding:    zapcore.DefaultLineEnding,
-		EncodeLevel:   zapcore.LowercaseLevelEncoder,
+		EncodeLevel:   zapcore.LowercaseColorLevelEncoder,
 		EncodeTime: func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 			enc.AppendString(t.Format("2006-01-02 15:04:05"))
 		},
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
-	debugenc := zapcore.NewConsoleEncoder(enccfg)
-	infoenc := enccfg
+	debugenc := zapcore.NewConsoleEncoder(encoder)
+	infoenc := encoder
+	infoenc.EncodeLevel = zapcore.LowercaseLevelEncoder
 	//infoenc.CallerKey = "" //不打印caller
-	errenc := enccfg
+	errenc := encoder
+	errenc.EncodeLevel = zapcore.LowercaseLevelEncoder
 	core := zapcore.NewTee(
 		zapcore.NewCore(debugenc, zapcore.Lock(os.Stdout), zap.LevelEnablerFunc(func(z zapcore.Level) bool {
 			if zapcore.DebugLevel == level.Level() {
@@ -84,20 +87,41 @@ func SetLevel(lv zapcore.Level) {
 	level.SetLevel(lv)
 }
 
-func Println(args ...interface{}) {
-	sugar.Info(args...)
+func Println(msg ...interface{}) {
+	buf := new(bytes.Buffer)
+	for i := range msg {
+		if i > 0 {
+			buf.WriteByte(' ')
+		}
+		buf.WriteString("%v")
+	}
+	sugar.Infof(buf.String(), msg...)
 }
 
 func Fatal(args ...interface{}) {
 	sugar.Fatal(args...)
 }
 
-func Error(args ...interface{}) {
-	sugar.Error(args...)
+func Error(msg ...interface{}) {
+	buf := new(bytes.Buffer)
+	for i := range msg {
+		if i > 0 {
+			buf.WriteByte(' ')
+		}
+		buf.WriteString("%v")
+	}
+	sugar.Errorf(buf.String(), msg...)
 }
 
-func Debug(args ...interface{}) {
-	sugar.Debug(args...)
+func Debug(msg ...interface{}) {
+	buf := new(bytes.Buffer)
+	for i := range msg {
+		if i > 0 {
+			buf.WriteByte(' ')
+		}
+		buf.WriteString("%v")
+	}
+	sugar.Debugf(buf.String(), msg...)
 }
 
 func DebugWithField(msg string, fields ...zap.Field) {
