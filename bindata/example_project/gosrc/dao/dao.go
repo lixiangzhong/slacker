@@ -8,21 +8,27 @@ import (
 	"{{$.ProjectName}}/gosrc/models"
 )
 
+type Option func(*Dao)
+
+func WithDB(db *sqlx.DB) Option {
+	return func(d *Dao) {
+		d.db = db
+		d.initGorm()
+		d.autoMigrate()
+	}
+}
+
 type Dao struct {
-	db *sqlx.DB
+	db   *sqlx.DB
 	gorm *gorm.DB
 }
 
-func New(db *sqlx.DB) *Dao {
-	d:= &Dao{
-		db: db,
+func New(options ...Option) *Dao {
+	d := &Dao{}
+	for _, op := range options {
+		op(d)
 	}
 	return d
-}
-
-func (d *Dao) Init() {
-	d.initGorm()
-	d.autoMigrate()
 }
 
 func (d *Dao) initGorm()  {

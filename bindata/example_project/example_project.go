@@ -49,7 +49,7 @@ func initDB() *sqlx.DB {
 func init(){
 	app.Init()
 	db := initDB()
-	dao := dao.New(db)
+	dao := dao.New(dao.WithDB(db))
 	srv := service.New(service.WithDao(dao))
 	controllers.Service = srv
 	initroute()

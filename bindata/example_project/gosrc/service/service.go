@@ -12,7 +12,6 @@ import (
 type ServiceOption func(service *Service)
 
 func WithDao(d *dao.Dao)ServiceOption  {
-	d.Init()
 	return func(s *Service) {
 		s.dao = d
 	}

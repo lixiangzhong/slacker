@@ -20,13 +20,17 @@ type LoginForm struct {
 	CaptchaValue string `json:"captcha_value"`
 }
 
+func VerifyCaptcha(captchaid,captchaval string) bool {
+	return base64Captcha.VerifyCaptcha(captchaid, captchaval)
+}
+
 func GetToken(c *gin.Context) {
 	var t LoginForm
 	if err := c.ShouldBindJSON(&t); err != nil {
 		JSON(c,nil,errcode.BadRequest) 
 		return
 	}
-	if !base64Captcha.VerifyCaptcha(t.CaptchaID, t.CaptchaValue) {
+	if !VerifyCaptcha(t.CaptchaID, t.CaptchaValue) {
 		JSON(c,nil,errcode.InvalidCaptcha)  
 		return
 	}
