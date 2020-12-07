@@ -1,15 +1,10 @@
 debug: true
 
 gin:
-  port: :{RandPort}
+  port: 0.0.0.0:{RandPort}
   gzip: true
   log: stdout
-
-jwt:
-  expirein: 86400 
-
-cors:
-  enable: true
+  cors: true
 
 {{if eq .HasUserTable false}}
 auth:

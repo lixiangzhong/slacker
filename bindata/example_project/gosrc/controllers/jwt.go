@@ -8,7 +8,8 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/lixiangzhong/base64Captcha"
+	"{{.ProjectName}}/gosrc/service"
+
 	"strconv"
 	"time"
 )
@@ -20,9 +21,6 @@ type LoginForm struct {
 	CaptchaValue string `json:"captcha_value"`
 }
 
-func VerifyCaptcha(captchaid,captchaval string) bool {
-	return base64Captcha.VerifyCaptcha(captchaid, captchaval)
-}
 
 func GetToken(c *gin.Context) {
 	var t LoginForm
@@ -30,11 +28,10 @@ func GetToken(c *gin.Context) {
 		JSON(c,nil,errcode.BadRequest) 
 		return
 	}
-	if !VerifyCaptcha(t.CaptchaID, t.CaptchaValue) {
+	if !service.VerifyCaptcha(t.CaptchaID, t.CaptchaValue) {
 		JSON(c,nil,errcode.InvalidCaptcha)  
 		return
 	}
-
 	{{if .HasUserTable}}
 	var user {{.UserTable.LowerName}}.{{.UserTable.CamelCaseName}}
 	user.{{.UserTable.UsernameColumn.CamelCaseName}}=t.Username

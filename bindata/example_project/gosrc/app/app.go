@@ -28,7 +28,7 @@ var (
 	Engine         *gin.Engine
 	httpserver     *http.Server
 	JWTSecret            = "{{.ProjectName}}."
-	JWTExpireIn    int64 = 86400 //jwt token 过期时间,秒, 可config.ini配置
+	JWTExpireIn    int64
 	configFileName string
 	Version        = "unknown"
 	BuildTime      string
@@ -60,10 +60,11 @@ func initFlag() {
 
 func initCfg() {
 	config.MustLoad(configFileName)
-	JWTExpireIn = config.Int64("jwt.expirein")
-	JWTSecret += hostSecret()
 	config.SetDefault("meta.logo", "{{.ProjectName}}")
 	config.SetDefault("meta.title", "{{.ProjectName}}")
+	config.SetDefault("jwt.expirein", 86400)
+	JWTExpireIn = config.Int64("jwt.expirein")
+	JWTSecret += hostSecret()
 }
 
 func initLog() {
@@ -100,7 +101,7 @@ func initEngine() {
 	if config.Bool("gin.gzip") {
 		Engine.Use(gzip.Gzip(gzip.DefaultCompression))
 	}
-	if config.Bool("cors.enable") {
+	if config.Bool("gin.cors") {
 		Engine.Use(cors.New(cors.Config{
 			AllowOriginFunc:  func(origin string) bool { return true },
 			AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH"},

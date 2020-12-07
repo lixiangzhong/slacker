@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"{{.ProjectName}}/gosrc/dao"
 	"{{.ProjectName}}/gosrc/models/{{.UserTable.Name}}"
+	"github.com/lixiangzhong/base64Captcha"
 )
 
 type ServiceOption func(service *Service)
@@ -55,4 +56,8 @@ func (*Service) EncryptPassword(password string) string {
 func (*Service) ValidPassword(password, encryptedpwd string) bool {
 	password = MD5(password)
 	return nil == bcrypt.CompareHashAndPassword([]byte(encryptedpwd), []byte(password))
+}
+
+func VerifyCaptcha(captchaid,captchaval string) bool {
+	return base64Captcha.VerifyCaptcha(captchaid, captchaval)
 }
