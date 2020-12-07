@@ -232,7 +232,10 @@ func (t Table) MethodDelete() string {
 	switch {
 	case t.HasStateColumn() && updatedfields == nil,
 		!t.HasStateColumn():
-		s += "err:=d.gorm.Delete(&data).Error\n"
+		s += fmt.Sprintf(
+			`err:=d.gorm.Delete(&data,"%v=?",id).Error
+`,
+			t.PrimaryKeyColumn().ColumnName)
 	case t.HasStateColumn() && updatedfields != nil:
 		s += "var timeNow = time.Now()\n"
 		s += "var fields =make(map[string]interface{})\n"
@@ -252,7 +255,7 @@ func (t Table) MethodDelete() string {
 		}
 		// s += fmt.Sprintf("data.%v=%v.StateDel\n",   t.StateColumn().CamelCaseName(), t.LowerName())
 		s += fmt.Sprintf(`fields["%v"]=%v.StateDel`, t.StateColumn().ColumnName, t.LowerName()) + "\n"
-		s += fmt.Sprintf("err:=d.gorm.Model(&data).UpdateColumns(fields).Error\n")
+		s += fmt.Sprintf("err:=d.gorm.Model(&data).Where(\"%v=?\",id).UpdateColumns(fields).Error\n", t.PrimaryKeyColumn().ColumnName)
 	}
 	s += fmt.Sprintf("return err\n}")
 

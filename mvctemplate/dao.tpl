@@ -26,7 +26,7 @@ func (d *Dao) Create{{.CamelCaseName}}(data *{{.LowerName}}.{{.CamelCaseName}}) 
 func (d *Dao) Update{{.CamelCaseName}}(data {{.LowerName}}.{{.CamelCaseName}}) error {
 
    // _,err := d.db.NamedExec("update {{.Name}} set {{.NamedSQL}} where {{.PrimaryKeyColumn.ColumnName}}=:{{.PrimaryKeyColumn.ColumnName}}",data)
-    return  d.gorm.Save(&data).Error
+    return  d.gorm.Where("{{.PrimaryKeyColumn.ColumnName}}=?",data.{{.PrimaryKeyColumn.CamelCaseName}}).Save(&data).Error
 }
 
 func (d *Dao) Patch{{.CamelCaseName}}(id int64,update map[string]interface{}) error {
