@@ -5,6 +5,9 @@ import store from "@/store";
 
 import * as cookie from "@/utils/cookie";
 
+import * as utils from "@/utils/utils";
+
+
 export function Take(id) {
   return http.get(`/api/{{.LowerName}}/${id}`);
 }
@@ -70,10 +73,11 @@ export function Export() {
 export function WebSocket() {
   const token = cookie.getToken();
   let host = "";
+  let scheme = utils.getProtocol() == "https" ? "wss" : "ws";
   if (process.env.VUE_APP_BaseURL == "") {
-    host = `ws://${location.host}`;
+    host = `${scheme}://${location.host}`;
   } else {
-    host = process.env.VUE_APP_BaseURL.replace("http", "ws");
+    host = process.env.VUE_APP_BaseURL.replace("http", scheme);
   }
   return `${host}/api/websocket/{{.LowerName}}?access_token=${token}`;
 }
