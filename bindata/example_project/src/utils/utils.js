@@ -114,3 +114,8 @@ export function ip2int(ip) {
   num = num >>> 0;
   return num;
 }
+
+export function getProtocol() {
+  const protocol = window.location.protocol
+  return protocol.replace(':', '')
+}
